@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from './shared/map.service';
-import { Map, LngLat } from 'mapbox-gl';
-import { FeatureCollection } from 'geojson';
+import { Map } from 'mapbox-gl';
+import { FeatureCollection, GeoJson } from './shared/map';
 
 @Component({
   selector: 'ofr-map',
@@ -11,6 +11,7 @@ import { FeatureCollection } from 'geojson';
 export class MapComponent implements OnInit {
 
   map: Map;
+  points = new FeatureCollection([]);
 
   constructor(private mapService: MapService) { }
 
@@ -50,28 +51,20 @@ export class MapComponent implements OnInit {
     });
 
     this.map.on('click', event => {
-      const coordinates = event.lngLat;
-      const features = this.constructPoint([coordinates.lng, coordinates.lat]);
-      console.log(coordinates);
-      this.map.getSource('point').setData(features);
+      const coordinates = event.lngLat.toArray();
+      const feature = new GeoJson(coordinates);
+      this.points.features.push(feature);
+      this.map.getSource('point').setData(this.points);
     });
-  }
-
-
-  drawPoint(coordinates: LngLat) {
-
   }
 
   constructPoint(coordinates) {
     return {
-      type: 'FeatureCollection',
-      features: [{
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: coordinates
-        }
-      }]
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: coordinates
+      }
     };
   }
 
