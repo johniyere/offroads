@@ -28,6 +28,8 @@
               "src/manifest.json"
             ],
             "styles": [
+              "node_modules/mapbox-gl/dist/mapbox-gl.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
             "scripts": []
