@@ -1,3 +1,5 @@
+import { Geometry, LineString } from 'geojson';
+
 export interface IGeometry {
   type: string;
   coordinates: number[];
@@ -12,12 +14,24 @@ export class GeoJson implements IGeoJson {
 type = 'Feature';
 geometry: IGeometry;
 
-constructor(coordinates) {
+constructor(type: string,  coordinates: number[]) {
     this.geometry = {
-      type: 'Point',
+      type: type,
       coordinates: coordinates
     };
   }
+}
+
+export class Line {
+    type = 'Feature';
+    geometry: LineString;
+
+    constructor(coordinates: number[][]) {
+      this.geometry = {
+        type: 'LineString',
+        coordinates: coordinates
+      };
+    }
 }
 
 export class FeatureCollection {

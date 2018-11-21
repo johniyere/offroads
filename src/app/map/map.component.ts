@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from './shared/map.service';
 import { Map } from 'mapbox-gl';
-import { FeatureCollection, GeoJson } from './shared/map';
+import { FeatureCollection, GeoJson, Line } from './shared/map';
 
 @Component({
   selector: 'ofr-map',
@@ -12,6 +12,8 @@ export class MapComponent implements OnInit {
 
   map: Map;
   points = new FeatureCollection([]);
+
+  line: number[][] = [];
 
   constructor(private mapService: MapService) { }
 
@@ -38,6 +40,32 @@ export class MapComponent implements OnInit {
         }
       });
 
+      this.map.addSource('route', {
+        'type': 'geojson',
+        'data': {
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            'type': 'LineString',
+            'coordinates': []
+          }
+        }
+      });
+
+      this.map.addLayer({
+        'id': 'route',
+        'type': 'line',
+        'source': 'route',
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+            'line-color': '#888',
+            'line-width': 8
+        }
+      });
+
       this.map.addLayer({
         'id': 'point',
         'type': 'circle',
@@ -51,9 +79,16 @@ export class MapComponent implements OnInit {
 
     this.map.on('click', event => {
       const coordinates = event.lngLat.toArray();
-      const feature = new GeoJson(coordinates);
-      this.points.features.push(feature);
-      this.map.getSource('point').setData(this.points);
+      console.log(coordinates);
+      const point = new GeoJson('Point', coordinates);
+      console.log(point);
+      this.points.features.push(point);
+      (this.map.getSource('point') as any).setData(this.points);
+
+      this.line.push(coordinates);
+      const feature = new Line(this.line);
+      console.log(feature);
+      (this.map.getSource('route') as any).setData(feature);
     });
   }
 
