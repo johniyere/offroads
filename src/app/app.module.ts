@@ -7,11 +7,13 @@ import { CoreModule } from './core/core.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MapComponent } from './map/map.component';
+import { PropPanelComponent } from './prop-panel/prop-panel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent
+    MapComponent,
+    PropPanelComponent
   ],
   imports: [
     BrowserModule,
