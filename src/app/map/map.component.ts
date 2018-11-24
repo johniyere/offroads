@@ -24,7 +24,7 @@ export class MapComponent implements OnInit {
   buildMap() {
     this.map = new Map({
       container: 'map', // container id
-      style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
+      style: 'mapbox://styles/mapbox/outdoors-v9', // stylesheet location
       center: [-122.486052, 37.830348], // starting position [lng, lat]
       zoom: 15 // starting zoom
     });
