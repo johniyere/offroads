@@ -1,4 +1,4 @@
-import { Geometry, LineString } from 'geojson';
+import { Geometry, LineString, Feature } from 'geojson';
 
 export interface IGeometry {
   type: string;
@@ -33,6 +33,7 @@ export class Line {
       };
     }
 }
+
 
 export class FeatureCollection {
   type = 'FeatureCollection';

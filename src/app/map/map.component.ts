@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from './shared/map.service';
 import { Map, LngLat } from 'mapbox-gl';
-import { FeatureCollection, GeoJson, Line } from './shared/map';
-import { LineString, Feature } from 'geojson';
+import { GeoJson, Line } from './shared/map';
+import { LineString, Feature, FeatureCollection, Point } from 'geojson';
 
 @Component({
   selector: 'ofr-map',
@@ -12,11 +12,18 @@ import { LineString, Feature } from 'geojson';
 export class MapComponent implements OnInit {
 
   map: Map;
-  points = new FeatureCollection([]);
 
   route: LngLat[] = [];
 
   line: number[][] = [];
+  points: FeatureCollection<Point> = {
+    type: 'FeatureCollection',
+    features: []
+  };
+  lines: FeatureCollection<LineString> = {
+    type: 'FeatureCollection',
+    features: []
+  };
 
   constructor(private mapService: MapService) { }
 
@@ -27,7 +34,7 @@ export class MapComponent implements OnInit {
   buildMap() {
     this.map = new Map({
       container: 'map', // container id
-      style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
+      style: 'mapbox://styles/mapbox/outdoors-v9', // stylesheet location
       center: [-122.486052, 37.830348], // starting position [lng, lat]
       zoom: 15 // starting zoom
     });
@@ -65,7 +72,7 @@ export class MapComponent implements OnInit {
         },
         'paint': {
             'line-color': '#888',
-            'line-width': 2
+            'line-width': 4
         }
       });
 
@@ -74,7 +81,7 @@ export class MapComponent implements OnInit {
         'type': 'circle',
         'source': 'point',
         'paint': {
-            'circle-radius': 10,
+            'circle-radius': 7,
             'circle-color': '#3887be'
         }
       });
@@ -82,44 +89,43 @@ export class MapComponent implements OnInit {
 
     this.map.on('click', event => {
       const coordinates = event.lngLat.toArray();
-      console.log(coordinates);
-      const point = new GeoJson('Point', coordinates);
-      console.log(point);
-      this.points.features.push(point);
+      const newPoint: Feature<Point> = {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: coordinates
+        },
+        properties: {}
+      };
+
+      const newPointsFeatures: Array<Feature<Point>> = [...this.points.features, newPoint];
+      this.points = {...this.points, features: newPointsFeatures};
+      console.log(this.points);
       (this.map.getSource('point') as any).setData(this.points);
-      this.addToRoute(event.lngLat);
 
-      // this.line.push(coordinates);
-      // const feature = new Line(this.line);
-      // console.log(feature);
-      // (this.map.getSource('route') as any).setData(feature);
+      if (this.points.features.length > 1) {
+        const pointsLength = this.points.features.length;
+
+        const [start, end] = [this.points.features[pointsLength - 1], this.points.features[pointsLength - 2]];
+
+        this.mapService.getRoute(start.geometry.coordinates, end.geometry.coordinates)
+          .subscribe((data: any) => {
+            const newLine: Feature<LineString> = {
+              type: 'Feature',
+              geometry: {
+                type: 'LineString',
+                coordinates: data.routes[0].geometry.coordinates
+              },
+              properties: {}
+            };
+
+            const newLineFeatures: Array<Feature<LineString>> = [...this.lines.features, newLine];
+            this.lines = {...this.lines, features: newLineFeatures};
+            console.log(this.lines);
+            (this.map.getSource('route') as any).setData(this.lines);
+          });
+      }
     });
-  }
-
-
-  addToRoute(coordinates: LngLat) {
-    if (this.route.length > 2) {
-      this.route = [coordinates];
-      return;
-    }
-
-    if (this.route.length === 1) {
-      this.route.push(coordinates);
-      this.mapService.getRoute(this.route[0], this.route[1])
-        .subscribe((data: any) => {
-          const routeLine: Feature<LineString> = {
-            type: 'Feature',
-            properties: {},
-            geometry: data.routes[0].geometry
-          };
-          console.log(data);
-          console.log(routeLine);
-          (this.map.getSource('route') as any).setData(routeLine);
-        });
-      return;
-    }
-
-    this.route.push(coordinates);
   }
 
 }
