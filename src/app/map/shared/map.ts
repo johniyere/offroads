@@ -46,6 +46,7 @@ export class Line {
     }
 }
 
+
 export class FeatureCollection {
   type = 'FeatureCollection';
   constructor(public features: Array<GeoJson>) {}
