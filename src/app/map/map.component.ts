@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from './shared/map.service';
 import { Map } from 'mapbox-gl';
-import { FeatureCollection, GeoJson, Line } from './shared/map';
+import { FeatureCollection, GeoJson, Line, WayPoint } from './shared/map';
 
 @Component({
   selector: 'ofr-map',
@@ -24,7 +24,7 @@ export class MapComponent implements OnInit {
   buildMap() {
     this.map = new Map({
       container: 'map', // container id
-      style: 'mapbox://styles/mapbox/streets-v9', // stylesheet location
+      style: 'mapbox://styles/mapbox/outdoors-v9', // stylesheet location
       center: [-122.486052, 37.830348], // starting position [lng, lat]
       zoom: 15 // starting zoom
     });
@@ -78,16 +78,19 @@ export class MapComponent implements OnInit {
     });
 
     this.map.on('click', event => {
+
+      this.mapService.getMapTerrainData(event.lngLat)
+        .subscribe((data) => {
+          console.log(data);
+        });
       const coordinates = event.lngLat.toArray();
-      console.log(coordinates);
-      const point = new GeoJson('Point', coordinates);
+      const point = new WayPoint(coordinates);
       console.log(point);
       this.points.features.push(point);
       (this.map.getSource('point') as any).setData(this.points);
 
       this.line.push(coordinates);
       const feature = new Line(this.line);
-      console.log(feature);
       (this.map.getSource('route') as any).setData(feature);
     });
   }
