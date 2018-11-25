@@ -26,7 +26,6 @@ geometries=geojson&access_token=pk.eyJ1Ijoiam9obml5ZXJlIiwiYSI6ImNqbXVxaHNtOTJxe
 
   getMapTerrainData(coordinates: LngLat) {
     const coordString = `${coordinates.lng},${coordinates.lat}`;
-    console.log(coordString);
     const endpoint = `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/
     ${coordString}.json?access_token=${environment.mapbox.accessToken}`;
     return this.http.get(endpoint);
