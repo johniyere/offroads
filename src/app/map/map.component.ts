@@ -83,6 +83,11 @@ export class MapComponent implements OnInit {
     });
 
     this.map.on('click', event => {
+
+      this.mapService.getMapTerrainData(event.lngLat)
+        .subscribe((data) => {
+          console.log(data);
+        });
       const coordinates = event.lngLat.toArray();
       const newPoint: Feature<Point> = {
         type: 'Feature',

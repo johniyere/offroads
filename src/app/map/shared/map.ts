@@ -1,4 +1,4 @@
-import { Geometry, LineString, Feature } from 'geojson';
+import { Geometry, LineString, Point } from 'geojson';
 
 export interface IGeometry {
   type: string;
@@ -17,6 +17,18 @@ geometry: IGeometry;
 constructor(type: string,  coordinates: number[]) {
     this.geometry = {
       type: type,
+      coordinates: coordinates
+    };
+  }
+}
+
+export class WayPoint {
+  type = 'Featire';
+  geometry: Point;
+
+  constructor(coordinates: number[]) {
+    this.geometry = {
+      type: 'Point',
       coordinates: coordinates
     };
   }
