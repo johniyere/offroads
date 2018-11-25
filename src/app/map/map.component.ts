@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from './shared/map.service';
-import { Map, LngLat } from 'mapbox-gl';
-import { GeoJson, Line } from './shared/map';
+import { Map } from 'mapbox-gl';
 import { LineString, Feature, FeatureCollection, Point } from 'geojson';
 
 @Component({
@@ -12,10 +11,6 @@ import { LineString, Feature, FeatureCollection, Point } from 'geojson';
 export class MapComponent implements OnInit {
 
   map: Map;
-
-  route: LngLat[] = [];
-
-  line: number[][] = [];
   points: FeatureCollection<Point> = {
     type: 'FeatureCollection',
     features: []
