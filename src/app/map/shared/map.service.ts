@@ -2,9 +2,12 @@ import { Injectable } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Position } from 'geojson';
+import { Position, FeatureCollection, Feature, Point } from 'geojson';
 import { LngLat } from 'mapbox-gl';
+import { filter, map } from 'rxjs/operators';
 
+export type Response =
+  FeatureCollection<Point, {ele: number, index: number, tilequery: {distance: number, geometry: string, layer: string}}>;
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +30,12 @@ geometries=geojson&access_token=pk.eyJ1Ijoiam9obml5ZXJlIiwiYSI6ImNqbXVxaHNtOTJxe
   getMapTerrainData(coordinates: LngLat) {
     const coordString = `${coordinates.lng},${coordinates.lat}`;
     const endpoint = `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/
-    ${coordString}.json?access_token=${environment.mapbox.accessToken}`;
-    return this.http.get(endpoint);
+    ${coordString}.json?layers=contour&access_token=${environment.mapbox.accessToken}`;
+    return this.http.get<Response>(endpoint).pipe(
+      map((value) => {
+        const max = value.features.sort((a, b) => b.properties.ele - a.properties.ele);
+        return max[0];
+      })
+    );
   }
 }
