@@ -3,6 +3,8 @@ import { MapService } from './shared/map.service';
 import { Map } from 'mapbox-gl';
 import { LineString, Feature, FeatureCollection, Point } from 'geojson';
 import * as turf from '@turf/turf';
+import { ChartService } from '../core/chart.service';
+
 
 @Component({
   selector: 'ofr-map',
@@ -20,10 +22,12 @@ export class MapComponent implements OnInit {
     type: 'FeatureCollection',
     features: []
   };
+  distance = 0;
 
-  constructor(private mapService: MapService) { }
+  constructor(private mapService: MapService, private chartService: ChartService) { }
 
   ngOnInit() {
+
     this.buildMap();
   }
 
@@ -31,12 +35,11 @@ export class MapComponent implements OnInit {
     this.map = new Map({
       container: 'map', // container id
       style: 'mapbox://styles/mapbox/outdoors-v9', // stylesheet location
-      center: [-1.7251674341206638, 53.31450045196712], // starting position [lng, lat]
+      center: [-1.7407674332372096, 53.32677118427142], // starting position [lng, lat]
       zoom: 15 // starting zoom
     });
 
     this.map.on('load', () => {
-
       // Register point source
       this.map.addSource('point', {
         'type': 'geojson',
@@ -87,7 +90,7 @@ export class MapComponent implements OnInit {
 
       this.mapService.getMapTerrainData(event.lngLat)
         .subscribe((data) => {
-          console.log(data);
+          this.chartService.elevationDataset$.next(data.properties.ele);
         });
       const coordinates = event.lngLat.toArray();
       this.drawPoint(coordinates);
@@ -118,7 +121,7 @@ export class MapComponent implements OnInit {
     const [start, end] = [this.points.features[pointsLength - 1], this.points.features[pointsLength - 2]];
 
     this.mapService.getRoute(start.geometry.coordinates, end.geometry.coordinates)
-      .subscribe((data: any) => {
+      .subscribe((data) => {
         const newLine: Feature<LineString> = {
           type: 'Feature',
           geometry: {
@@ -127,7 +130,8 @@ export class MapComponent implements OnInit {
           },
           properties: {}
         };
-
+        this.distance += Math.round(data.routes[0].distance);
+        this.chartService.labels$.next(`${this.distance}`);
         const newLineFeatures: Array<Feature<LineString>> = [...this.lines.features, newLine];
         this.lines = {...this.lines, features: newLineFeatures};
         (this.map.getSource('route') as any).setData(this.lines);

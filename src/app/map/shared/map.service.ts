@@ -5,8 +5,9 @@ import { HttpClient } from '@angular/common/http';
 import { Position, FeatureCollection, Feature, Point } from 'geojson';
 import { LngLat } from 'mapbox-gl';
 import { filter, map } from 'rxjs/operators';
+import { Directions } from './Directions';
 
-export type Response =
+export type ElevationData =
   FeatureCollection<Point, {ele: number, index: number, tilequery: {distance: number, geometry: string, layer: string}}>;
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class MapService {
     const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${startString};${endString}?
 geometries=geojson&access_token=pk.eyJ1Ijoiam9obml5ZXJlIiwiYSI6ImNqbXVxaHNtOTJxenUza29lZDE3MGlidncifQ.W-M8wzC7mnnXvH47GxVN4w`;
 
-    return this.http.get(url);
+    return this.http.get<Directions>(url);
 
   }
 
@@ -31,7 +32,7 @@ geometries=geojson&access_token=pk.eyJ1Ijoiam9obml5ZXJlIiwiYSI6ImNqbXVxaHNtOTJxe
     const coordString = `${coordinates.lng},${coordinates.lat}`;
     const endpoint = `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/
     ${coordString}.json?layers=contour&access_token=${environment.mapbox.accessToken}`;
-    return this.http.get<Response>(endpoint).pipe(
+    return this.http.get<ElevationData>(endpoint).pipe(
       map((value) => {
         const max = value.features.sort((a, b) => b.properties.ele - a.properties.ele);
         return max[0];

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Chart, ChartData, ChartDataSets } from 'chart.js';
+import { ChartService } from '../core/chart.service';
 @Component({
   selector: 'ofr-prop-panel',
   templateUrl: './prop-panel.component.html',
@@ -8,22 +9,22 @@ import { Chart } from 'chart.js';
 export class PropPanelComponent implements OnInit {
 
   chart: Chart;
-  constructor() { }
+  chartData: ChartData = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        borderColor: '#3cba9f',
+        fill: 'origin'
+      },
+    ]
+  };
+  constructor(private chartService: ChartService) { }
 
   ngOnInit() {
-
     this.chart = new Chart('myChart', {
       type: 'line',
-      data: {
-        labels: ['0.2', '0.4', '0.6', '0.7', '1.0', '1.2'],
-        datasets: [
-          {
-            data: [100, 110, 150, 160, 155, 135],
-            borderColor: '#3cba9f',
-            fill: 'origin'
-          },
-        ]
-      },
+      data: this.chartData,
       options: {
         legend: {
           display: false
@@ -33,12 +34,25 @@ export class PropPanelComponent implements OnInit {
             display: true
           }],
           yAxes: [{
-            display: true
+            display: true,
           }]
         }
       }
     });
 
+    this.chartService.labels$.subscribe((val) => {
+      const labels = [...this.chartData.labels, val];
+      this.chartData = {...this.chartData, labels: labels};
+      this.chart.update();
+    });
+
+    this.chartService.elevationDataset$.subscribe((val) => {
+      const data = [...this.chartData.datasets[0].data as number[], val];
+      const dataset = {...this.chartData.datasets[0], data: data};
+      this.chartData = {...this.chartData, datasets: [dataset]};
+      this.chart.data = this.chartData;
+      this.chart.update();
+    });
   }
 
 }
