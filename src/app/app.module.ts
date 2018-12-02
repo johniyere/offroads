@@ -11,7 +11,9 @@ import { environment } from '../environments/environment';
 import { MapComponent } from './map/map.component';
 import { PropPanelComponent } from './prop-panel/prop-panel.component';
 import { EditorComponent } from './editor/editor.component';
-import { LoginComponent } from './login/login.component';
+import { GraphQLModule } from './graphql.module';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -19,15 +21,16 @@ import { LoginComponent } from './login/login.component';
     MapComponent,
     PropPanelComponent,
     EditorComponent,
-    LoginComponent
   ],
   imports: [
     BrowserModule,
     CoreModule,
     HttpClientModule,
     ReactiveFormsModule,
+    AuthModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    GraphQLModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

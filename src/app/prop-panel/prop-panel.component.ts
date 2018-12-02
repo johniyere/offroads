@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, ChartData, ChartDataSets } from 'chart.js';
-import { ChartService } from '../core/chart.service';
+import { ChartService } from '../editor/chart.service';
 @Component({
   selector: 'ofr-prop-panel',
   templateUrl: './prop-panel.component.html',

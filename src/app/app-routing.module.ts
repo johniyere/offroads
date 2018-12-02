@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MapComponent } from './map/map.component';
-import { LoginComponent } from './login/login.component';
 import { EditorComponent } from './editor/editor.component';
-
+import { AuthGuard } from './auth/auth.guard';
 const routes: Routes = [
   {
     path: '',
@@ -11,12 +10,9 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
     path: 'editor',
-    component: EditorComponent
+    component: EditorComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
