@@ -3,7 +3,7 @@ import { MapService } from './shared/map.service';
 import { Map } from 'mapbox-gl';
 import { LineString, Feature, FeatureCollection, Point } from 'geojson';
 import * as turf from '@turf/turf';
-import { ChartService } from '../core/chart.service';
+import { ChartService } from '../editor/chart.service';
 
 
 @Component({
