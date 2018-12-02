@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { LoginGQL, Login } from '../generated/graphql';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private loginGql: LoginGQL) {
+  redirectUrl: string;
+
+  constructor(private loginGql: LoginGQL, private router: Router) {
   }
 
   get isAuthenticated() {
@@ -28,5 +31,6 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 }

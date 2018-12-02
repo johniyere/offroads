@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, ChartData, ChartDataSets } from 'chart.js';
 import { ChartService } from '../editor/chart.service';
+import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'ofr-prop-panel',
   templateUrl: './prop-panel.component.html',
@@ -19,7 +20,7 @@ export class PropPanelComponent implements OnInit {
       },
     ]
   };
-  constructor(private chartService: ChartService) { }
+  constructor(private chartService: ChartService, private authService: AuthService) { }
 
   ngOnInit() {
     this.chart = new Chart('myChart', {
@@ -53,6 +54,17 @@ export class PropPanelComponent implements OnInit {
       this.chart.data = this.chartData;
       this.chart.update();
     });
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  createRoute() {
+    this.chartService.createRoute('Dance Route')
+      .subscribe((route) => {
+        console.log(route);
+      });
   }
 
 }

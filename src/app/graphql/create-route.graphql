@@ -1,0 +1,9 @@
+mutation createRoute($name: String!) {
+  createRoute(name: $name) {
+    id,
+    createdBy {
+      id,
+      name
+    }
+  }
+}
