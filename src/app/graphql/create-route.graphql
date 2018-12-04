@@ -1,9 +1,26 @@
-mutation createRoute($name: String!) {
-  createRoute(name: $name) {
-    id,
-    createdBy {
-      id,
+mutation createRoute($name: String!, $points: [PointInput!]!, $lines: [LineInput!]!) {
+  createRoute(name: $name, points: $points, lines: $lines) {
+    id
+    points {
+      coordinates {
+        ...coordinatesFields
+      }
+      elevation
+      distanceFromPreviousPoint
+    }
+    lines {
+      coordinates {
+        ...coordinatesFields
+      }
+    }
+    creator {
+      id
       name
     }
   }
+}
+
+fragment coordinatesFields on Coordinates {
+  lat
+  lng
 }

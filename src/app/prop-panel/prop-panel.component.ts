@@ -23,6 +23,11 @@ export class PropPanelComponent implements OnInit {
   constructor(private chartService: ChartService, private authService: AuthService) { }
 
   ngOnInit() {
+    this.chartService.currentUserRoutes()
+      .subscribe(({data, loading}) => {
+        console.log(data.me.createdRoutes);
+      });
+
     this.chart = new Chart('myChart', {
       type: 'line',
       data: this.chartData,
@@ -61,7 +66,7 @@ export class PropPanelComponent implements OnInit {
   }
 
   createRoute() {
-    this.chartService.createRoute('Dance Route')
+    this.chartService.createRoute('Dance Route', [], [])
       .subscribe((route) => {
         console.log(route);
       });
