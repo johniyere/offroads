@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { combineLatest } from 'rxjs';
-import { CreateRouteGQL, CreateRoute, PointInput, LineInput, CurrentUserRoutes, CurrentUserRoutesGQL } from '../generated/graphql';
+import { CreateRouteGQL, CreateRoute, PointInput, LineInput, CurrentUserRoutes, CurrentUserRoutesGQL } from '../../generated/graphql';
 import { map } from 'rxjs/operators';
 
 @Injectable({
