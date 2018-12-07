@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, ChartData, ChartDataSets } from 'chart.js';
-import { ChartService } from '../editor/chart.service';
-import { AuthService } from '../auth/auth.service';
+import { EditorService } from '../shared/editor.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'ofr-prop-panel',
   templateUrl: './prop-panel.component.html',
@@ -20,7 +20,7 @@ export class PropPanelComponent implements OnInit {
       },
     ]
   };
-  constructor(private chartService: ChartService, private authService: AuthService) { }
+  constructor(private editorService: EditorService, private router: Router) { }
 
   ngOnInit() {
     this.chart = new Chart('myChart', {
@@ -41,13 +41,13 @@ export class PropPanelComponent implements OnInit {
       }
     });
 
-    this.chartService.labels$.subscribe((val) => {
+    this.editorService.labels$.subscribe((val) => {
       const labels = [...this.chartData.labels, val];
       this.chartData = {...this.chartData, labels: labels};
       this.chart.update();
     });
 
-    this.chartService.elevationDataset$.subscribe((val) => {
+    this.editorService.elevationDataset$.subscribe((val) => {
       const data = [...this.chartData.datasets[0].data as number[], val];
       const dataset = {...this.chartData.datasets[0], data: data};
       this.chartData = {...this.chartData, datasets: [dataset]};
@@ -56,15 +56,15 @@ export class PropPanelComponent implements OnInit {
     });
   }
 
-  logout() {
-    this.authService.logout();
-  }
-
   createRoute() {
-    this.chartService.createRoute('Dance Route')
+    this.editorService.createRoute('Dance Route', [], [])
       .subscribe((route) => {
         console.log(route);
       });
+  }
+
+  exit() {
+    this.router.navigate(['/dashboard']);
   }
 
 }

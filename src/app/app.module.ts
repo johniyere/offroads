@@ -8,19 +8,14 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { MapComponent } from './map/map.component';
-import { PropPanelComponent } from './prop-panel/prop-panel.component';
-import { EditorComponent } from './editor/editor.component';
 import { GraphQLModule } from './graphql.module';
-import { JwtModule } from '@auth0/angular-jwt';
 import { AuthModule } from './auth/auth.module';
+import { AccountModule } from './account/account.module';
+import { EditorModule } from './editor/editor.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent,
-    PropPanelComponent,
-    EditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +23,8 @@ import { AuthModule } from './auth/auth.module';
     HttpClientModule,
     ReactiveFormsModule,
     AuthModule,
+    AccountModule,
+    EditorModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     GraphQLModule,

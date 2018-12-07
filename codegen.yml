@@ -11,3 +11,4 @@ generates:
       - "typescript-client"
       - "typescript-apollo-angular"
 require: []
+overwrite: true

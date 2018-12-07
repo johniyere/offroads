@@ -1,0 +1,5 @@
+<ul *ngFor="let route of currentUserRoutes$ | async">
+  {{route.name}}
+</ul>
+
+<button type="button" class="btn btn-success" (click)="createRoute()">Create Route</button>
