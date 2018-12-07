@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value.email)
       .subscribe((user) => {
         console.log(user.name);
-        this.router.navigate(['/editor']);
+        this.router.navigate(['']);
       });
   }
 }

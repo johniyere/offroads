@@ -3,7 +3,7 @@ import { MapService } from './shared/map.service';
 import { Map } from 'mapbox-gl';
 import { LineString, Feature, FeatureCollection, Point } from 'geojson';
 import * as turf from '@turf/turf';
-import { ChartService } from '../shared/chart.service';
+import { EditorService } from '../shared/editor.service';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class MapComponent implements OnInit {
   };
   distance = 0;
 
-  constructor(private mapService: MapService, private chartService: ChartService) { }
+  constructor(private mapService: MapService, private editorService: EditorService) { }
 
   ngOnInit() {
 
@@ -90,7 +90,7 @@ export class MapComponent implements OnInit {
 
       this.mapService.getMapTerrainData(event.lngLat)
         .subscribe((data) => {
-          this.chartService.elevationDataset$.next(data.properties.ele);
+          this.editorService.elevationDataset$.next(data.properties.ele);
         });
       const coordinates = event.lngLat.toArray();
       this.drawPoint(coordinates);
@@ -131,7 +131,7 @@ export class MapComponent implements OnInit {
           properties: {}
         };
         this.distance += Math.round(data.routes[0].distance);
-        this.chartService.labels$.next(`${this.distance}`);
+        this.editorService.labels$.next(`${this.distance}`);
         const newLineFeatures: Array<Feature<LineString>> = [...this.lines.features, newLine];
         this.lines = {...this.lines, features: newLineFeatures};
         (this.map.getSource('route') as any).setData(this.lines);

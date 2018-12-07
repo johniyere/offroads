@@ -21,20 +21,21 @@ export interface LineInput {
 // ====================================================
 
 export namespace CreateRoute {
-  export type Variables = {
+  export interface Variables {
     name: string;
     points: PointInput[];
     lines: LineInput[];
-  };
+  }
 
-  export type Mutation = {
-    __typename?: "Mutation";
+  export interface Mutation {
+    __typename?: 'Mutation';
 
     createRoute: CreateRoute;
-  };
+  }
 
-  export type CreateRoute = {
-    __typename?: "Route";
+  // tslint:disable-next-line:no-shadowed-variable
+  export interface CreateRoute {
+    __typename?: 'Route';
 
     id: string;
 
@@ -43,105 +44,107 @@ export namespace CreateRoute {
     lines: Lines[];
 
     creator: Creator;
-  };
+  }
 
-  export type Points = {
-    __typename?: "Point";
+  export interface Points {
+    __typename?: 'Point';
 
     coordinates: Coordinates;
 
     elevation: number;
 
     distanceFromPreviousPoint: number;
-  };
+  }
 
   export type Coordinates = CoordinatesFields.Fragment;
 
-  export type Lines = {
-    __typename?: "Line";
+  export interface Lines {
+    __typename?: 'Line';
 
     coordinates: _Coordinates[];
-  };
+  }
 
   export type _Coordinates = CoordinatesFields.Fragment;
 
-  export type Creator = {
-    __typename?: "User";
+  export interface Creator {
+    __typename?: 'User';
 
     id: string;
 
     name: string;
-  };
+  }
 }
 
 export namespace CurrentUserRoutes {
-  export type Variables = {};
+  // tslint:disable-next-line:no-empty-interface
+  export interface Variables {}
 
-  export type Query = {
-    __typename?: "Query";
+  export interface Query {
+    __typename?: 'Query';
 
     me: Me | null;
-  };
+  }
 
-  export type Me = {
-    __typename?: "User";
+  export interface Me {
+    __typename?: 'User';
 
     createdRoutes: CreatedRoutes[];
-  };
+  }
 
-  export type CreatedRoutes = {
-    __typename?: "Route";
+  export interface CreatedRoutes {
+    __typename?: 'Route';
 
     name: string;
-  };
+  }
 }
 
 export namespace Login {
-  export type Variables = {
+  export interface Variables {
     email: string;
-  };
+  }
 
-  export type Mutation = {
-    __typename?: "Mutation";
+  export interface Mutation {
+    __typename?: 'Mutation';
 
     login: Login;
-  };
+  }
 
-  export type Login = {
-    __typename?: "AuthPayload";
+  // tslint:disable-next-line:no-shadowed-variable
+  export interface Login {
+    __typename?: 'AuthPayload';
 
     token: string;
 
     user: User;
-  };
+  }
 
-  export type User = {
-    __typename?: "User";
+  export interface User {
+    __typename?: 'User';
 
     id: string;
 
     name: string;
-  };
+  }
 }
 
 export namespace CoordinatesFields {
-  export type Fragment = {
-    __typename?: "Coordinates";
+  export interface Fragment {
+    __typename?: 'Coordinates';
 
     lat: number;
 
     lng: number;
-  };
+  }
 }
 
 // ====================================================
 // START: Apollo Angular template
 // ====================================================
 
-import { Injectable } from "@angular/core";
-import * as Apollo from "apollo-angular";
+import { Injectable } from '@angular/core';
+import * as Apollo from 'apollo-angular';
 
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 // ====================================================
 // GraphQL Fragments
@@ -159,7 +162,7 @@ export const CoordinatesFieldsFragment = gql`
 // ====================================================
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class CreateRouteGQL extends Apollo.Mutation<
   CreateRoute.Mutation,
@@ -196,7 +199,7 @@ export class CreateRouteGQL extends Apollo.Mutation<
   `;
 }
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class CurrentUserRoutesGQL extends Apollo.Query<
   CurrentUserRoutes.Query,
@@ -213,7 +216,7 @@ export class CurrentUserRoutesGQL extends Apollo.Query<
   `;
 }
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class LoginGQL extends Apollo.Mutation<Login.Mutation, Login.Variables> {
   document: any = gql`
