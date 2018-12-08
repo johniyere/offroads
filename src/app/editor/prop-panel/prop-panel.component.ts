@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Chart, ChartData, ChartDataSets } from 'chart.js';
 import { EditorService } from '../shared/editor.service';
 import { Router } from '@angular/router';
+import { PointInput } from 'src/app/generated/graphql';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 @Component({
   selector: 'ofr-prop-panel',
   templateUrl: './prop-panel.component.html',
@@ -20,6 +23,7 @@ export class PropPanelComponent implements OnInit {
       },
     ]
   };
+  points: PointInput[] = [];
   constructor(private editorService: EditorService, private router: Router) { }
 
   ngOnInit() {
@@ -53,6 +57,10 @@ export class PropPanelComponent implements OnInit {
       this.chartData = {...this.chartData, datasets: [dataset]};
       this.chart.data = this.chartData;
       this.chart.update();
+    });
+
+    this.editorService.points$.subscribe((point) => {
+      this.points.push(point);
     });
   }
 

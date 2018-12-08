@@ -1,5 +1,11 @@
-div {
+#prop-layout {
   height: 100%;
   width: 100%;
-  background-color: white;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between; 
+  #path-overview {
+
+  }
+
 }

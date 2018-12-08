@@ -97,6 +97,15 @@ export class MapComponent implements OnInit {
 
       if (this.points.features.length > 1) {
         this.drawLineOnPath();
+      } else {
+        this.editorService.points$.next({
+          coordinates: {
+            lng: coordinates[0],
+            lat: coordinates[1]
+          },
+          distanceFromPreviousPoint: 0,
+          elevation: 20
+        });
       }
     });
   }
@@ -130,6 +139,14 @@ export class MapComponent implements OnInit {
           },
           properties: {}
         };
+        this.editorService.points$.next({
+          coordinates: {
+            lng: end.geometry.coordinates[0],
+            lat: end.geometry.coordinates[1]
+          },
+          distanceFromPreviousPoint: data.routes[0].distance,
+          elevation: 50
+        });
         this.distance += Math.round(data.routes[0].distance);
         this.editorService.labels$.next(`${this.distance}`);
         const newLineFeatures: Array<Feature<LineString>> = [...this.lines.features, newLine];

@@ -8,10 +8,11 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class EditorService {
 
-  constructor(private createRouteGQL: CreateRouteGQL) { }
-
   labels$: BehaviorSubject<string> = new BehaviorSubject('0');
   elevationDataset$: Subject<number> = new Subject();
+  points$: Subject<PointInput> = new Subject();
+
+  constructor(private createRouteGQL: CreateRouteGQL) { }
 
   createRoute(name: string, points: PointInput[], lines: LineInput[]) {
     return this.createRouteGQL.mutate({name, points, lines}).pipe(
