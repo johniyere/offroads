@@ -4,7 +4,7 @@ import { FeedComponent } from './feed/feed.component';
 import { ExploreComponent } from './explore/explore.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountComponent } from './account.component';
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuard } from '../core/auth/auth.guard';
 
 const accountRoutes: Routes = [
   {

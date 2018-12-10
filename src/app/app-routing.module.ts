@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { EditorComponent } from './editor/editor.component';
-import { AuthGuard } from './auth/auth.guard';
+import { LoginComponent } from './core/login/login.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: '/feed',
     pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   }
 ];
 

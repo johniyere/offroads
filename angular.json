@@ -140,5 +140,8 @@
       }
     }
   },
-  "defaultProject": "offroads"
+  "defaultProject": "offroads",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

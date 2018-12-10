@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoginGQL, Login } from '../generated/graphql';
+import { LoginGQL, Login } from '../../generated/graphql';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -7,8 +7,6 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-
-  redirectUrl: string;
 
   constructor(private loginGql: LoginGQL, private router: Router) {
   }
@@ -22,12 +20,14 @@ export class AuthService {
     return this.loginGql.mutate({email}).pipe(
       map((result) => {
         const data = result.data.login as Login.Login;
-        localStorage.setItem('token', data.token);
-        return data.user;
+        return data.token;
       }),
     );
   }
 
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+  }
 
   logout() {
     localStorage.removeItem('token');

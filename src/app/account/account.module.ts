@@ -5,14 +5,12 @@ import { FeedComponent } from './feed/feed.component';
 import { ExploreComponent } from './explore/explore.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountRoutingModule } from './account-routing.module';
-import { AuthModule } from '../auth/auth.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    AuthModule,
     AccountRoutingModule,
     RouterModule,
     SharedModule

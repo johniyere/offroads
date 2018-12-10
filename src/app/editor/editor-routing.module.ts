@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EditorComponent } from './editor.component';
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuard } from '../core/auth/auth.guard';
 
 const editorRoutes: Routes = [
   {
