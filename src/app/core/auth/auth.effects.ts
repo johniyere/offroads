@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { AuthService } from './auth.service';
-import { Login, AuthActionTypes, LoginSuccess, Logout } from './auth.actions';
+import { Login, AuthActionTypes, LoginSuccess, Logout, CheckLogin, CheckLoginSuccess, CheckLoginFailure } from './auth.actions';
 import { tap, mergeMap, map } from 'rxjs/operators';
 
 
@@ -16,10 +16,8 @@ export class AuthEffects {
   @Effect()
   login$ = this.actions$.pipe(
     ofType<Login>(AuthActionTypes.Login),
-    tap((val) => console.log('val')),
     mergeMap((action) =>
       this.authService.login(action.payload).pipe(
-        tap((token) => console.log(token)),
         map((token) => new LoginSuccess(token))
       )
     )
@@ -35,5 +33,17 @@ export class AuthEffects {
   logout$ = this.actions$.pipe(
     ofType<Logout>(AuthActionTypes.Logout),
     tap(() => this.authService.logout())
+  );
+
+  @Effect()
+  checkLogin$ = this.actions$.pipe(
+    ofType<CheckLogin>(AuthActionTypes.CheckLogin),
+    map(() => {
+      if (this.authService.isAuthenticated) {
+        return new CheckLoginSuccess;
+      } else {
+        return new CheckLoginFailure;
+      }
+    })
   );
 }

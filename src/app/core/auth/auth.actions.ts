@@ -5,6 +5,9 @@ export enum AuthActionTypes {
   LoginSuccess = '[Auth] Login Success',
   LoginFailure = '[Auth] Login Failure',
   Logout = '[Auth] Logout',
+  CheckLogin = '[Auth] Check Login',
+  CheckLoginSuccess = '[Auth] Check Login Success',
+  CheckLoginFailure = '[Auth] Check Login Failure'
 }
 
 export class Login implements Action {
@@ -27,9 +30,25 @@ export class Logout implements Action {
   readonly type = AuthActionTypes.Logout;
 }
 
+export class CheckLogin implements Action {
+  readonly type = AuthActionTypes.CheckLogin;
+}
+
+export class CheckLoginSuccess implements Action {
+  readonly type = AuthActionTypes.CheckLoginSuccess;
+}
+
+export class CheckLoginFailure implements Action {
+  readonly type = AuthActionTypes.CheckLoginFailure;
+}
+
+
 export type AuthActions
   = Login
   | LoginSuccess
   | LoginFailure
   | Logout
+  | CheckLogin
+  | CheckLoginSuccess
+  | CheckLoginFailure
 ;
