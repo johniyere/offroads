@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { LoginGQL, Login } from '../../generated/graphql';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Apollo } from 'apollo-angular';
 
 const AUTH_TOKEN_KEY = 'OFR-AUTH';
 @Injectable({
@@ -9,7 +10,7 @@ const AUTH_TOKEN_KEY = 'OFR-AUTH';
 })
 export class AuthService {
 
-  constructor(private loginGql: LoginGQL, private router: Router) {
+  constructor(private loginGql: LoginGQL, private router: Router, private apollo: Apollo) {
   }
 
   get isAuthenticated() {
@@ -34,7 +35,8 @@ export class AuthService {
   }
 
   logout() {
-    this.router.navigate(['/login']);
     localStorage.removeItem(AUTH_TOKEN_KEY);
+    this.apollo.getClient().resetStore();
+    this.router.navigate(['/login']);
   }
 }
