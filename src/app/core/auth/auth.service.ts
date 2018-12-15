@@ -3,6 +3,7 @@ import { LoginGQL, Login } from '../../generated/graphql';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
+const AUTH_TOKEN_KEY = 'OFR-AUTH';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,8 +13,15 @@ export class AuthService {
   }
 
   get isAuthenticated() {
-    const token = localStorage.getItem('token');
-    return Boolean(token);
+    return Boolean(this.authToken);
+  }
+
+  get authToken() {
+    return localStorage.getItem(AUTH_TOKEN_KEY);
+  }
+
+  set authToken(token: string) {
+    localStorage.setItem(AUTH_TOKEN_KEY, token);
   }
 
   login(email: string) {
@@ -21,16 +29,12 @@ export class AuthService {
       map((result) => {
         const data = result.data.login as Login.Login;
         return data.token;
-      }),
+      })
     );
   }
 
-  setToken(token: string) {
-    localStorage.setItem('token', token);
-  }
-
   logout() {
-    localStorage.removeItem('token');
     this.router.navigate(['/login']);
+    localStorage.removeItem(AUTH_TOKEN_KEY);
   }
 }

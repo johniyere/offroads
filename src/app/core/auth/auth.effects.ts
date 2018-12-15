@@ -26,7 +26,7 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   loginSuccess$ = this.actions$.pipe(
     ofType<LoginSuccess>(AuthActionTypes.LoginSuccess),
-    tap((action) => this.authService.setToken(action.payload))
+    tap((action) => this.authService.authToken = action.payload)
   );
 
   @Effect({ dispatch: false })
@@ -38,12 +38,6 @@ export class AuthEffects {
   @Effect()
   checkLogin$ = this.actions$.pipe(
     ofType<CheckLogin>(AuthActionTypes.CheckLogin),
-    map(() => {
-      if (this.authService.isAuthenticated) {
-        return new CheckLoginSuccess;
-      } else {
-        return new CheckLoginFailure;
-      }
-    })
+    map(() => (this.authService.isAuthenticated ? new CheckLoginSuccess : new CheckLoginFailure))
   );
 }

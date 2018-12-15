@@ -9,7 +9,6 @@ import { CheckLogin } from './core/auth/auth.actions';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'offroads';
 
   constructor(private store: Store<AppState>) {}
 
