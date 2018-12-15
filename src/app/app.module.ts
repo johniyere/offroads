@@ -9,9 +9,9 @@ import { CoreModule } from './core/core.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { GraphQLModule } from './graphql.module';
-import { AuthModule } from './auth/auth.module';
 import { AccountModule } from './account/account.module';
 import { EditorModule } from './editor/editor.module';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -22,12 +22,15 @@ import { EditorModule } from './editor/editor.module';
     CoreModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AuthModule,
     AccountModule,
     EditorModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     GraphQLModule,
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,3 +1,16 @@
-<canvas id="myChart"></canvas>
-<button class="btn btn-info" (click)="createRoute()">Create Route</button>
-<button class="btn btn-warning" (click)="exit()">Exit</button>
+<div id="prop-layout">
+  <i class="fas fa-times" (click)="exit()" id="exit"></i>
+  <div id="path-overview">
+    <div>
+      <h4>Basic Route #1</h4>
+    </div>
+    
+    <h5>Points</h5>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let point of points">{{point | json}}</li>
+    </ul>
+  </div>
+  <canvas id="myChart"></canvas>
+</div>
+<!-- <button class="btn btn-info" (click)="createRoute()">Create Route</button>
+<button class="btn btn-warning" (click)="exit()">Exit</button> -->

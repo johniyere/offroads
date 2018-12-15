@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../core/auth/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../core/core.state';
+import { Logout } from '../core/auth/auth.actions';
 
 @Component({
   selector: 'ofr-account',
@@ -8,13 +11,13 @@ import { AuthService } from '../auth/auth.service';
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private store: Store<AppState>) { }
 
   ngOnInit() {
   }
 
   logout() {
-    this.authService.logout();
+    this.store.dispatch(new Logout);
   }
 
 }

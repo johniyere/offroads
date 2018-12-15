@@ -1,5 +1,15 @@
-div {
+#prop-layout {
   height: 100%;
   width: 100%;
-  background-color: white;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between; 
+
+  #exit {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px
+  }
+
 }
