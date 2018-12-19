@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MapService } from './shared/map.service';
 import { Map } from 'mapbox-gl';
 import { LineString, Feature, FeatureCollection, Point } from 'geojson';
-import * as turf from '@turf/turf';
-import { EditorService } from '../shared/editor.service';
-
+import { Store, select } from '@ngrx/store';
+import { State } from '../editor.state';
+import { GetPointElevation, GetLineToPoint } from '../editor.actions';
+import { selectPoints, selectLines } from '../editor.selectors';
+import { Observable } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
+import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'ofr-map',
@@ -22,13 +26,49 @@ export class MapComponent implements OnInit {
     type: 'FeatureCollection',
     features: []
   };
+  points$: Observable<FeatureCollection<Point>>;
+  lines$: Observable<FeatureCollection<LineString>>;
   distance = 0;
-
-  constructor(private mapService: MapService, private editorService: EditorService) { }
+  isFirstPoint = true;
+  constructor(private store: Store<State>) {
+    (mapboxgl as any).accessToken = environment.mapbox.accessToken;
+  }
 
   ngOnInit() {
+    this.points$ = this.store.pipe(
+      select(selectPoints),
+      filter(ps => ps.length > 0),
+      map((ps) =>
+        ps.map((point) => {
+          const coordinates = [point.coordinates.lng, point.coordinates.lat];
+          return this.toPointFeature(coordinates);
+        })
+      ),
+      map((pointFeatures) => this.toPointFeatureCollection(pointFeatures))
+    );
+
+    this.lines$ = this.store.pipe(
+      select(selectLines),
+      filter(ps => ps.length > 0),
+      map((ls) =>
+        ls.map((line) => {
+          const linePointsAsCooordinatesArray = line.points.map((point) => [point.coordinates.lng, point.coordinates.lat]);
+          return this.toLineFeature(linePointsAsCooordinatesArray);
+        })
+      ),
+      map((lineFeatures) => this.toLineFeatureCollection(lineFeatures))
+    );
 
     this.buildMap();
+
+    this.points$.subscribe((ps) => {
+      (this.map.getSource('point') as any).setData(ps);
+    });
+
+    this.lines$.subscribe((ls) => {
+      console.log(ls);
+      (this.map.getSource('route') as any).setData(ls);
+    });
   }
 
   buildMap() {
@@ -87,30 +127,26 @@ export class MapComponent implements OnInit {
     });
 
     this.map.on('click', event => {
+      const coordinates = event.lngLat;
 
-      this.mapService.getMapTerrainData(event.lngLat)
-        .subscribe((data) => {
-          this.editorService.elevationDataset$.next(data.properties.ele);
-        });
-      const coordinates = event.lngLat.toArray();
-      this.drawPoint(coordinates);
-
-      if (this.points.features.length > 1) {
-        this.drawLineOnPath();
+      if (this.isFirstPoint) {
+        this.store.dispatch(new GetPointElevation({
+          coordinates,
+          elevation: 0,
+          distanceFromPreviousPoint: 0
+        }));
+        this.isFirstPoint = false;
       } else {
-        this.editorService.points$.next({
-          coordinates: {
-            lng: coordinates[0],
-            lat: coordinates[1]
-          },
-          distanceFromPreviousPoint: 0,
-          elevation: 20
-        });
+        this.store.dispatch(new GetLineToPoint({
+          coordinates,
+          elevation: 0,
+          distanceFromPreviousPoint: 0
+        }));
       }
     });
   }
 
-  drawPoint(coordinates: number[]) {
+  toPointFeature(coordinates: number[]) {
     const newPoint: Feature<Point> = {
       type: 'Feature',
       geometry: {
@@ -119,40 +155,35 @@ export class MapComponent implements OnInit {
       },
       properties: {}
     };
-    const newPointsFeatures: Array<Feature<Point>> = [...this.points.features, newPoint];
-    this.points = {...this.points, features: newPointsFeatures};
-    (this.map.getSource('point') as any).setData(this.points);
+    return newPoint;
   }
 
-  drawLineOnPath() {
-    const pointsLength = this.points.features.length;
+  toPointFeatureCollection(pointFeatures: Feature<Point>[]) {
+    const pointFeatureCollection: FeatureCollection<Point> = {
+      type: 'FeatureCollection',
+      features: pointFeatures
+    };
 
-    const [start, end] = [this.points.features[pointsLength - 1], this.points.features[pointsLength - 2]];
-
-    this.mapService.getRoute(start.geometry.coordinates, end.geometry.coordinates)
-      .subscribe((data) => {
-        const newLine: Feature<LineString> = {
-          type: 'Feature',
-          geometry: {
-            type: 'LineString',
-            coordinates: data.routes[0].geometry.coordinates
-          },
-          properties: {}
-        };
-        this.editorService.points$.next({
-          coordinates: {
-            lng: end.geometry.coordinates[0],
-            lat: end.geometry.coordinates[1]
-          },
-          distanceFromPreviousPoint: data.routes[0].distance,
-          elevation: 50
-        });
-        this.distance += Math.round(data.routes[0].distance);
-        this.editorService.labels$.next(`${this.distance}`);
-        const newLineFeatures: Array<Feature<LineString>> = [...this.lines.features, newLine];
-        this.lines = {...this.lines, features: newLineFeatures};
-        (this.map.getSource('route') as any).setData(this.lines);
-      });
+    return pointFeatureCollection;
   }
 
+  toLineFeature(coordinates: number[][]) {
+    const newLine: Feature<LineString> = {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: coordinates
+      },
+      properties: {}
+    };
+    return newLine;
+  }
+
+  toLineFeatureCollection(lineFeatures: Feature<LineString>[]) {
+    const lineFeatureCollection: FeatureCollection<LineString> = {
+      type: 'FeatureCollection',
+      features: lineFeatures
+    };
+    return lineFeatureCollection;
+  }
 }

@@ -5,12 +5,18 @@ import { PropPanelComponent } from './prop-panel/prop-panel.component';
 import { EditorRoutingModule } from './editor-routing.module';
 import { EditorComponent } from './editor.component';
 import { RouterModule } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { editorReducer } from './editor.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { EditorEffects } from './editor.effects';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    EditorRoutingModule
+    EditorRoutingModule,
+    StoreModule.forFeature('editor', editorReducer),
+    EffectsModule.forFeature([EditorEffects])
   ],
   declarations: [
     EditorComponent,
