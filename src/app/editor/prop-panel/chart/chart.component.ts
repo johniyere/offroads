@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { FusionChartsComponent } from 'angular-fusioncharts';
-import { Observable, combineLatest } from 'rxjs';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Point, Line } from '../../editor.model';
 import { Store, select } from '@ngrx/store';
 import { State } from '../../editor.state';
 import { selectPoints, selectLines } from '../../editor.selectors';
-import { mergeMap, map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'ofr-chart',
