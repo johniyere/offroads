@@ -3,7 +3,7 @@ import { EditorService } from '../shared/editor.service';
 import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { State } from '../editor.state';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { selectPoints, selectLines } from '../editor.selectors';
 import { Point, Line } from '../editor.model';
 import { switchMap, map } from 'rxjs/operators';
