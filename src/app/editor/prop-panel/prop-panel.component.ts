@@ -1,74 +1,96 @@
 import { Component, OnInit } from '@angular/core';
-import { Chart, ChartData, ChartDataSets } from 'chart.js';
 import { EditorService } from '../shared/editor.service';
 import { Router } from '@angular/router';
-import { PointInput } from 'src/app/generated/graphql';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+import { State } from '../editor.state';
+import { Observable, combineLatest } from 'rxjs';
+import { selectPoints, selectLines } from '../editor.selectors';
+import { Point, Line } from '../editor.model';
+
+const data = {
+  'chart': {
+    'caption': 'Yearly sales of iPhone',
+    'yaxisname': 'Number of units sold',
+    'subcaption': '2007-2016',
+    'legendposition': 'Right',
+    'drawanchors': '0',
+    'showvalues': '0',
+    'plottooltext': '<b>$dataValue</b> iPhones sold in $label',
+    'theme': 'fusion'
+  },
+  'data': [
+    {
+      'label': '2007',
+      'value': '1380000'
+    },
+    {
+      'label': '2008',
+      'value': '1450000'
+    },
+    {
+      'label': '2009',
+      'value': '1610000'
+    },
+    {
+      'label': '2010',
+      'value': '1540000'
+    },
+    {
+      'label': '2011',
+      'value': '1480000'
+    },
+    {
+      'label': '2012',
+      'value': '1573000'
+    },
+    {
+      'label': '2013',
+      'value': '2232000'
+    },
+    {
+      'label': '2014',
+      'value': '2476000'
+    },
+    {
+      'label': '2015',
+      'value': '2832000'
+    },
+    {
+      'label': '2016',
+      'value': '3808000'
+    }
+  ]
+};
+
+
 @Component({
   selector: 'ofr-prop-panel',
   templateUrl: './prop-panel.component.html',
   styleUrls: ['./prop-panel.component.scss']
 })
 export class PropPanelComponent implements OnInit {
+  width = 500;
+  height = 300;
+  type = 'area2d';
+  dataFormat = 'json';
+  dataSource = data;
 
-  chart: Chart;
-  chartData: ChartData = {
-    labels: [],
-    datasets: [
-      {
-        data: [],
-        borderColor: '#3cba9f',
-        fill: 'origin'
-      },
-    ]
-  };
-  points: PointInput[] = [];
-  constructor(private editorService: EditorService, private router: Router) { }
+  points$: Observable<Point[]>;
+  lines$: Observable<Line[]>;
+
+  pointsLines$: Observable<[Point[], Line[]]>;
+  constructor(private editorService: EditorService, private router: Router, private store: Store<State>) { }
 
   ngOnInit() {
-    this.chart = new Chart('myChart', {
-      type: 'line',
-      data: this.chartData,
-      options: {
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            display: true
-          }],
-          yAxes: [{
-            display: true,
-          }]
-        }
-      }
-    });
+    this.points$ = this.store.pipe(
+      select(selectPoints)
+    );
 
-    this.editorService.labels$.subscribe((val) => {
-      const labels = [...this.chartData.labels, val];
-      this.chartData = {...this.chartData, labels: labels};
-      this.chart.update();
-    });
+    this.lines$ = this.store.pipe(
+      select(selectLines)
+    );
 
-    this.editorService.elevationDataset$.subscribe((val) => {
-      const data = [...this.chartData.datasets[0].data as number[], val];
-      const dataset = {...this.chartData.datasets[0], data: data};
-      this.chartData = {...this.chartData, datasets: [dataset]};
-      this.chart.data = this.chartData;
-      this.chart.update();
-    });
-
-    this.editorService.points$.subscribe((point) => {
-      this.points.push(point);
-    });
-  }
-
-  createRoute() {
-    this.editorService.createRoute('Dance Route', [], [])
-      .subscribe((route) => {
-        console.log(route);
-      });
+    this.pointsLines$ = combineLatest(this.points$, this.lines$);
   }
 
   exit() {
