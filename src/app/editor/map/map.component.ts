@@ -66,7 +66,6 @@ export class MapComponent implements OnInit {
     });
 
     this.lines$.subscribe((ls) => {
-      console.log(ls);
       (this.map.getSource('route') as any).setData(ls);
     });
   }
@@ -75,8 +74,8 @@ export class MapComponent implements OnInit {
     this.map = new Map({
       container: 'map', // container id
       style: 'mapbox://styles/mapbox/outdoors-v9', // stylesheet location
-      center: [-1.7407674332372096, 53.32677118427142], // starting position [lng, lat]
-      zoom: 15 // starting zoom
+      center: [-1.530398128907791, 54.991025881329364], // starting position [lng, lat]
+      zoom: 13 // starting zoom
     });
 
     this.map.on('load', () => {
@@ -128,7 +127,6 @@ export class MapComponent implements OnInit {
 
     this.map.on('click', event => {
       const coordinates = event.lngLat;
-
       if (this.isFirstPoint) {
         this.store.dispatch(new GetPointElevation({
           coordinates,
