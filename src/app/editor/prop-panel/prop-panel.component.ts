@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Chart, ChartData, ChartDataSets } from 'chart.js';
 import { EditorService } from '../shared/editor.service';
 import { Router } from '@angular/router';
-import { PointInput } from 'src/app/generated/graphql';
+import { Store, select } from '@ngrx/store';
+import { State } from '../editor.state';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { selectPoints, selectLines } from '../editor.selectors';
+import { Point, Line } from '../editor.model';
+import { switchMap, map } from 'rxjs/operators';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { SetRouteName, ClearRoute } from '../editor.actions';
+
 @Component({
   selector: 'ofr-prop-panel',
   templateUrl: './prop-panel.component.html',
@@ -12,67 +17,41 @@ import { tap } from 'rxjs/operators';
 })
 export class PropPanelComponent implements OnInit {
 
-  chart: Chart;
-  chartData: ChartData = {
-    labels: [],
-    datasets: [
-      {
-        data: [],
-        borderColor: '#3cba9f',
-        fill: 'origin'
-      },
-    ]
-  };
-  points: PointInput[] = [];
-  constructor(private editorService: EditorService, private router: Router) { }
+  name = new FormControl('');
+
+  points$: Observable<Point[]>;
+  lines$: Observable<Line[]>;
+  pointsLines$: Observable<[Point[], Line[]]>;
+
+  constructor(
+    private router: Router,
+    private store: Store<State>,
+  ) { }
 
   ngOnInit() {
-    this.chart = new Chart('myChart', {
-      type: 'line',
-      data: this.chartData,
-      options: {
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            display: true
-          }],
-          yAxes: [{
-            display: true,
-          }]
-        }
-      }
-    });
+    this.points$ = this.store.pipe(
+      select(selectPoints)
+    );
 
-    this.editorService.labels$.subscribe((val) => {
-      const labels = [...this.chartData.labels, val];
-      this.chartData = {...this.chartData, labels: labels};
-      this.chart.update();
-    });
+    this.lines$ = this.store.pipe(
+      select(selectLines)
+    );
 
-    this.editorService.elevationDataset$.subscribe((val) => {
-      const data = [...this.chartData.datasets[0].data as number[], val];
-      const dataset = {...this.chartData.datasets[0], data: data};
-      this.chartData = {...this.chartData, datasets: [dataset]};
-      this.chart.data = this.chartData;
-      this.chart.update();
-    });
+    this.pointsLines$ = this.points$.pipe(
+      switchMap((points) => this.lines$.pipe(
+        map((lines) => [points, lines] as [Point[], Line[]])
+      ))
+    );
 
-    this.editorService.points$.subscribe((point) => {
-      this.points.push(point);
-    });
-  }
-
-  createRoute() {
-    this.editorService.createRoute('Dance Route', [], [])
-      .subscribe((route) => {
-        console.log(route);
-      });
   }
 
   exit() {
+    this.store.dispatch(new ClearRoute);
     this.router.navigate(['/dashboard']);
+  }
+
+  setRouteName() {
+    this.store.dispatch(new SetRouteName(this.name.value));
   }
 
 }

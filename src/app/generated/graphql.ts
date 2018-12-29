@@ -13,7 +13,13 @@ export interface CoordinatesInput {
 }
 
 export interface LineInput {
-  coordinates: CoordinatesInput[];
+  points: LinePointInput[];
+}
+
+export interface LinePointInput {
+  coordinates: CoordinatesInput;
+
+  elevation: number;
 }
 
 // ====================================================
@@ -53,7 +59,7 @@ export namespace CreateRoute {
 
     elevation: number;
 
-    distanceFromPreviousPoint: number;
+    distanceFromPreviousPoint: number | null;
   }
 
   export type Coordinates = CoordinatesFields.Fragment;
@@ -61,7 +67,16 @@ export namespace CreateRoute {
   export interface Lines {
     __typename?: 'Line';
 
-    coordinates: _Coordinates[];
+    points: _Points[];
+  }
+
+  // tslint:disable-next-line:class-name
+  export interface _Points {
+    __typename?: 'Point';
+
+    coordinates: _Coordinates;
+
+    elevation: number;
   }
 
   export type _Coordinates = CoordinatesFields.Fragment;
@@ -184,8 +199,11 @@ export class CreateRouteGQL extends Apollo.Mutation<
           distanceFromPreviousPoint
         }
         lines {
-          coordinates {
-            ...coordinatesFields
+          points {
+            coordinates {
+              ...coordinatesFields
+            }
+            elevation
           }
         }
         creator {

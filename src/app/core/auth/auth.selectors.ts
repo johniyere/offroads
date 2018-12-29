@@ -10,5 +10,5 @@ export const selectAuth = createSelector(
 
 export const selectIsAuthenticated = createSelector(
   selectAuthState,
-  (state: AuthState) => state.isAuthenticated
+  (auth) => auth.isAuthenticated
 );

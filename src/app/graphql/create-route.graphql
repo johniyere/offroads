@@ -9,8 +9,11 @@ mutation createRoute($name: String!, $points: [PointInput!]!, $lines: [LineInput
       distanceFromPreviousPoint
     }
     lines {
-      coordinates {
-        ...coordinatesFields
+      points {
+        coordinates {
+          ...coordinatesFields
+        },
+        elevation
       }
     }
     creator {

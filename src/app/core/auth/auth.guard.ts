@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanActivateChild } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot,
+  Router, CanActivateChild, CanLoad, Route, UrlSegment } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
 import { Store, select } from '@ngrx/store';
 import { selectIsAuthenticated } from './auth.selectors';
 import { tap } from 'rxjs/operators';
@@ -10,8 +10,11 @@ import { AppState } from '../core.state';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private authService: AuthService, private router: Router, private store: Store<AppState>) {}
+export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
+  constructor(
+    private router: Router,
+    private store: Store<AppState>
+  ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -27,6 +30,13 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     return this.canActivate(route, state);
   }
 
+  canLoad(
+    route: Route,
+    segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
+    const url = `/${route.path}`;
+
+    return this.checkLogin(url);
+  }
 
   checkLogin(url: string) {
     return this.store.pipe(
