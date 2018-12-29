@@ -7,7 +7,6 @@ import { GetPointElevation, EditorActionTypes, AddPoint, GetLineToPoint,
 import { Store, select } from '@ngrx/store';
 import { State } from './editor.state';
 import { selectLastPoint, selectEditor } from './editor.selectors';
-import { Line, Point, LinePoint } from './editor.model';
 import { of } from 'rxjs';
 
 @Injectable()
@@ -33,29 +32,8 @@ export class EditorEffects {
     ofType<GetLineToPoint>(EditorActionTypes.GetLineToPoint),
     withLatestFrom(this.store.pipe(select(selectLastPoint))),
     switchMap(([action, lastPoint]) =>
-      this.editorService.getDirections(lastPoint.coordinates, action.payload.coordinates).pipe(
-        switchMap((route) => {
-          const path = route.geometry.coordinates.map((coordinate) => {
-            return {
-              lng: coordinate[0],
-              lat: coordinate[1]
-            };
-          });
-
-          return this.editorService.getElevationAlongPath(path).pipe(
-            map((elevationResults) => {
-              const newPointElevation = elevationResults[elevationResults.length - 1].elevation;
-              const newPoint = {...action.payload, elevation: newPointElevation, distanceFromPreviousPoint: route.distance};
-              const linePoints: LinePoint[] = path.map((point, index) => {
-                return {
-                  coordinates: {...point},
-                  elevation: elevationResults[index].elevation
-                };
-              });
-              return new AddNextPointWithLine({point: newPoint, line: { points: linePoints }});
-            })
-          );
-        })
+      this.editorService.getPath(lastPoint.coordinates, action.payload).pipe(
+        map((nextPointWithLine) => new AddNextPointWithLine(nextPointWithLine))
       )
     )
   );
