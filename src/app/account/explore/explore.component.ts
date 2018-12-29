@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ExploreService } from './shared/explore.service';
+import { Observable } from 'rxjs';
+import { ExploreRoutes } from 'src/app/generated/graphql';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'ofr-explore',
@@ -7,9 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExploreComponent implements OnInit {
 
-  constructor() { }
+  exploreRoutes$: Observable<ExploreRoutes.Routes[]>;
+  constructor(
+    private exploreService: ExploreService
+  ) { }
 
   ngOnInit() {
+    this.exploreRoutes$ = this.exploreService.routes().pipe(map(({data, loading}) => data.routes));
+
+    this.exploreRoutes$.subscribe((routes) => {
+      console.log(routes);
+    });
   }
 
 }

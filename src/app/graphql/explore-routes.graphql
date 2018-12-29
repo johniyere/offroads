@@ -1,14 +1,17 @@
-mutation createRoute($name: String!, $points: [PointInput!]!, $lines: [LineInput!]!) {
-  createRoute(name: $name, points: $points, lines: $lines) {
-    id
-    name
+query exploreRoutes {
+  routes {
+    name,
+    creator {
+      name,
+      email
+    },
     points {
       coordinates {
         ...coordinatesFields
       }
       elevation
       distanceFromPreviousPoint
-    }
+    },
     lines {
       points {
         coordinates {
@@ -17,10 +20,6 @@ mutation createRoute($name: String!, $points: [PointInput!]!, $lines: [LineInput
         elevation
       }
     }
-    creator {
-      id
-      name
-    }
   }
 }
 
@@ -28,3 +27,4 @@ fragment coordinatesFields on Coordinates {
   lat
   lng
 }
+

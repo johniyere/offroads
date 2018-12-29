@@ -45,6 +45,8 @@ export namespace CreateRoute {
 
     id: string;
 
+    name: string;
+
     points: Points[];
 
     lines: Lines[];
@@ -113,6 +115,66 @@ export namespace CurrentUserRoutes {
   }
 }
 
+export namespace ExploreRoutes {
+  // tslint:disable-next-line:no-empty-interface
+  export interface Variables {}
+
+  export interface Query {
+    __typename?: 'Query';
+
+    routes: Routes[];
+  }
+
+  export interface Routes {
+    __typename?: 'Route';
+
+    name: string;
+
+    creator: Creator;
+
+    points: Points[];
+
+    lines: Lines[];
+  }
+
+  export interface Creator {
+    __typename?: 'User';
+
+    name: string;
+
+    email: string;
+  }
+
+  export interface Points {
+    __typename?: 'Point';
+
+    coordinates: Coordinates;
+
+    elevation: number;
+
+    distanceFromPreviousPoint: number | null;
+  }
+
+  export type Coordinates = CoordinatesFields.Fragment;
+
+  export interface Lines {
+    __typename?: 'Line';
+
+    points: _Points[];
+  }
+
+  // tslint:disable-next-line:class-name
+  export interface _Points {
+    __typename?: 'Point';
+
+    coordinates: _Coordinates;
+
+    elevation: number;
+  }
+
+  export type _Coordinates = CoordinatesFields.Fragment;
+}
+
 export namespace Login {
   export interface Variables {
     email: string;
@@ -139,6 +201,16 @@ export namespace Login {
     id: string;
 
     name: string;
+  }
+}
+
+export namespace CoordinatesFields {
+  export interface Fragment {
+    __typename?: 'Coordinates';
+
+    lat: number;
+
+    lng: number;
   }
 }
 
@@ -191,6 +263,7 @@ export class CreateRouteGQL extends Apollo.Mutation<
     ) {
       createRoute(name: $name, points: $points, lines: $lines) {
         id
+        name
         points {
           coordinates {
             ...coordinatesFields
@@ -231,6 +304,42 @@ export class CurrentUserRoutesGQL extends Apollo.Query<
         }
       }
     }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class ExploreRoutesGQL extends Apollo.Query<
+  ExploreRoutes.Query,
+  ExploreRoutes.Variables
+> {
+  document: any = gql`
+    query exploreRoutes {
+      routes {
+        name
+        creator {
+          name
+          email
+        }
+        points {
+          coordinates {
+            ...coordinatesFields
+          }
+          elevation
+          distanceFromPreviousPoint
+        }
+        lines {
+          points {
+            coordinates {
+              ...coordinatesFields
+            }
+            elevation
+          }
+        }
+      }
+    }
+
+    ${CoordinatesFieldsFragment}
   `;
 }
 @Injectable({

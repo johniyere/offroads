@@ -1,13 +1,17 @@
 export interface Point {
   coordinates: Coordinates;
   elevation: number;
-  distanceFromPreviousPoint?: number;
+  distanceFromPreviousPoint: number;
 }
 
 export interface Line {
-  points: Point[];
+  points: LinePoint[];
 }
 
+export interface LinePoint {
+  coordinates: Coordinates;
+  elevation: number;
+}
 export interface Coordinates {
   lat: number;
   lng: number;

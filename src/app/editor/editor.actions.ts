@@ -7,7 +7,10 @@ export enum EditorActionTypes {
   AddPoint = '[Editor] Add point',
   AddNextPointWithLine = '[Editor] Add Next Point With Line',
   SetRouteName = '[Editor] Set Route Name',
-  ClearRoute = '[Editor] Clear Route'
+  ClearRoute = '[Editor] Clear Route',
+  CreateNewRoute = '[Editor] Create New Route',
+  CreateNewRouteSuccess = '[Editor] Create New Route Sucsess',
+  CreateNewRouteFailure = '[Editor] Create New Route Failure'
 }
 
 export class GetPointElevation implements Action {
@@ -41,7 +44,23 @@ export class SetRouteName implements Action {
 }
 
 export class ClearRoute implements Action {
-    readonly type = EditorActionTypes.ClearRoute;
+  readonly type = EditorActionTypes.ClearRoute;
+}
+
+export class CreateNewRoute implements Action {
+  readonly type = EditorActionTypes.CreateNewRoute;
+}
+
+export class CreateNewRouteSuccess implements Action {
+  readonly type = EditorActionTypes.CreateNewRouteSuccess;
+
+  constructor (public payload: {points: Point[], lines: Line[], name: string}) {}
+}
+
+export class CreateNewRouteFailure implements Action {
+  readonly type = EditorActionTypes.CreateNewRouteSuccess;
+
+  constructor (public payload: any) {}
 }
 
 export type EditorAction
@@ -51,4 +70,7 @@ export type EditorAction
  | AddNextPointWithLine
  | SetRouteName
  | ClearRoute
+ | CreateNewRoute
+ | CreateNewRouteSuccess
+ | CreateNewRouteFailure
 ;

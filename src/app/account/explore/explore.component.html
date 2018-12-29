@@ -1,3 +1,5 @@
-<p>
-  explore works!
-</p>
+<ul *ngFor="let route of exploreRoutes$ | async" class="list-group">
+  <li class="list-group-item">
+    {{route.name}}
+  </li>
+</ul>
