@@ -1,8 +1,6 @@
 import {
-  ActionReducer,
   ActionReducerMap,
   createFeatureSelector,
-  createSelector,
   MetaReducer
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
@@ -10,7 +8,6 @@ import { AuthState } from './auth/auth.state';
 import { authReducer } from './auth/auth.reducer';
 
 export interface AppState {
-
   auth: AuthState;
 }
 

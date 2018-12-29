@@ -20,6 +20,13 @@ export function editorReducer(state = initialState, action: EditorAction): Edito
         points: [...state.points, action.payload.point],
         lines: [...state.lines, action.payload.line]
       };
+    case EditorActionTypes.SetRouteName:
+      return {
+        ...state,
+        name: action.payload
+      };
+    case EditorActionTypes.ClearRoute:
+      return initialState;
     default:
       return state;
   }

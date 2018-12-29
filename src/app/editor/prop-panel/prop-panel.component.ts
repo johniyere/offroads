@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { selectPoints, selectLines } from '../editor.selectors';
 import { Point, Line } from '../editor.model';
 import { switchMap, map } from 'rxjs/operators';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { SetRouteName, ClearRoute } from '../editor.actions';
 
 @Component({
   selector: 'ofr-prop-panel',
@@ -14,11 +16,17 @@ import { switchMap, map } from 'rxjs/operators';
   styleUrls: ['./prop-panel.component.scss']
 })
 export class PropPanelComponent implements OnInit {
+
+  name = new FormControl('');
+
   points$: Observable<Point[]>;
   lines$: Observable<Line[]>;
-
   pointsLines$: Observable<[Point[], Line[]]>;
-  constructor(private editorService: EditorService, private router: Router, private store: Store<State>) { }
+
+  constructor(
+    private router: Router,
+    private store: Store<State>,
+  ) { }
 
   ngOnInit() {
     this.points$ = this.store.pipe(
@@ -38,7 +46,12 @@ export class PropPanelComponent implements OnInit {
   }
 
   exit() {
+    this.store.dispatch(new ClearRoute);
     this.router.navigate(['/dashboard']);
+  }
+
+  setRouteName() {
+    this.store.dispatch(new SetRouteName(this.name.value));
   }
 
 }

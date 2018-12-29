@@ -4,7 +4,6 @@ import { MapComponent } from './map/map.component';
 import { PropPanelComponent } from './prop-panel/prop-panel.component';
 import { EditorRoutingModule } from './editor-routing.module';
 import { EditorComponent } from './editor.component';
-import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { editorReducer } from './editor.reducer';
 import { EffectsModule } from '@ngrx/effects';
@@ -19,6 +18,7 @@ import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 
 import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -26,12 +26,11 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
-    FusionChartsModule, // Include in imports
-    EditorRoutingModule,
+    ReactiveFormsModule,
+    FusionChartsModule,
     StoreModule.forFeature('editor', editorReducer),
     EffectsModule.forFeature([EditorEffects]),
-
+    EditorRoutingModule,
   ],
   declarations: [
     EditorComponent,

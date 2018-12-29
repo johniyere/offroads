@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './core/login/login.component';
+import { AuthGuard } from './core/auth/auth.guard';
 
-const routes: Routes = [
+const appRoutes: Routes = [
   {
     path: '',
     redirectTo: '/feed',
@@ -11,11 +12,21 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'editor',
+    loadChildren: './editor/editor.module#EditorModule',
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(
+      appRoutes
+    )
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class AppRoutingModule { }

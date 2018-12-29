@@ -5,7 +5,7 @@ import { AuthGuard } from '../core/auth/auth.guard';
 
 const editorRoutes: Routes = [
   {
-    path: 'editor',
+    path: '',
     component: EditorComponent,
     canActivate: [AuthGuard]
   }
@@ -13,7 +13,7 @@ const editorRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(editorRoutes)],
-  exports: [],
+  exports: [RouterModule],
   declarations: [],
 })
 export class EditorRoutingModule { }

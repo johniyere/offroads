@@ -2,10 +2,13 @@
   <i class="fas fa-times" (click)="exit()" id="exit"></i>
   <div id="path-overview">
     <div>
-      <h4>Basic Route #1</h4>
+      <input type="text" class="form-control" placeholder="Basic Route #1" [formControl]="name" (blur)="setRouteName()">
     </div>
     
     <h5>Points</h5>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let point of points$ | async">{{ point | json }}</li>
+    </ul>
   </div>
   <ofr-chart></ofr-chart>
 </div>

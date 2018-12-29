@@ -37,9 +37,8 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     this.points$ = this.store.pipe(
       select(selectPoints),
-      filter(ps => ps.length > 0),
-      map((ps) =>
-        ps.map((point) => {
+      map((points) =>
+        points.map((point) => {
           const coordinates = [point.coordinates.lng, point.coordinates.lat];
           return this.toPointFeature(coordinates);
         })
@@ -49,9 +48,8 @@ export class MapComponent implements OnInit {
 
     this.lines$ = this.store.pipe(
       select(selectLines),
-      filter(ps => ps.length > 0),
-      map((ls) =>
-        ls.map((line) => {
+      map((lines) =>
+        lines.map((line) => {
           const linePointsAsCooordinatesArray = line.points.map((point) => [point.coordinates.lng, point.coordinates.lat]);
           return this.toLineFeature(linePointsAsCooordinatesArray);
         })
@@ -61,13 +59,7 @@ export class MapComponent implements OnInit {
 
     this.buildMap();
 
-    this.points$.subscribe((ps) => {
-      (this.map.getSource('point') as any).setData(ps);
-    });
 
-    this.lines$.subscribe((ls) => {
-      (this.map.getSource('route') as any).setData(ls);
-    });
   }
 
   buildMap() {
@@ -122,6 +114,14 @@ export class MapComponent implements OnInit {
             'circle-radius': 7,
             'circle-color': '#3887be'
         }
+      });
+
+      this.points$.subscribe((points) => {
+        (this.map.getSource('point') as any).setData(points);
+      });
+
+      this.lines$.subscribe((lines) => {
+        (this.map.getSource('route') as any).setData(lines);
       });
     });
 
