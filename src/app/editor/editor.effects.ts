@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { tap, mergeMap, map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { tap, mergeMap, map, switchMap, withLatestFrom, catchError } from 'rxjs/operators';
 import { EditorService } from './shared/editor.service';
-import { GetPointElevation, EditorActionTypes, AddPoint, GetLineToPoint, AddNextPointWithLine } from './editor.actions';
+import { GetPointElevation, EditorActionTypes, AddPoint, GetLineToPoint,
+  AddNextPointWithLine, CreateNewRoute, CreateNewRouteSuccess, CreateNewRouteFailure } from './editor.actions';
 import { Store, select } from '@ngrx/store';
 import { State } from './editor.state';
-import { selectLastPoint } from './editor.selectors';
-import { Line, Point } from './editor.model';
+import { selectLastPoint, selectEditor } from './editor.selectors';
+import { Line, Point, LinePoint } from './editor.model';
+import { of } from 'rxjs';
 
 @Injectable()
 export class EditorEffects {
@@ -45,7 +46,7 @@ export class EditorEffects {
             map((elevationResults) => {
               const newPointElevation = elevationResults[elevationResults.length - 1].elevation;
               const newPoint = {...action.payload, elevation: newPointElevation, distanceFromPreviousPoint: route.distance};
-              const linePoints: Point[] = path.map((point, index) => {
+              const linePoints: LinePoint[] = path.map((point, index) => {
                 return {
                   coordinates: {...point},
                   elevation: elevationResults[index].elevation
@@ -57,5 +58,29 @@ export class EditorEffects {
         })
       )
     )
+  );
+
+  @Effect()
+  createNewRoute$ = this.actions$.pipe(
+    ofType<CreateNewRoute>(EditorActionTypes.CreateNewRoute),
+    withLatestFrom(this.store.pipe(select(selectEditor))),
+    mergeMap(([action, editor]) =>
+      this.editorService.createRoute(editor.name, editor.points, editor.lines).pipe(
+        map((route) => new CreateNewRouteSuccess(route)),
+        catchError((err) => of(new CreateNewRouteFailure(err)))
+      )
+    )
+  );
+
+  @Effect({dispatch: false})
+  createNewRouteSuccess$ = this.actions$.pipe(
+    ofType<CreateNewRouteSuccess>(EditorActionTypes.CreateNewRouteSuccess),
+    tap((route) => console.log(route))
+  );
+
+  @Effect({dispatch: false})
+  createNewRouteFailure$ = this.actions$.pipe(
+    ofType<CreateNewRouteFailure>(EditorActionTypes.CreateNewRouteFailure),
+    tap((err) => console.log(err))
   );
 }

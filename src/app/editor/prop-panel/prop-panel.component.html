@@ -10,5 +10,8 @@
       <li class="list-group-item" *ngFor="let point of points$ | async">{{ point | json }}</li>
     </ul>
   </div>
-  <ofr-chart></ofr-chart>
+  <div>
+    <ofr-chart></ofr-chart>
+    <button class="btn btn-success btn-sm" (click)="createRoute()">SAVE</button>
+  </div>
 </div>

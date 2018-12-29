@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CreateRouteGQL, PointInput, LineInput, CreateRoute } from 'src/app/generated/graphql';
 import { map } from 'rxjs/operators';
-import { BehaviorSubject, Subject, Observable } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { ElevationResult } from './ElevationResult';
 import { HttpClient } from '@angular/common/http';
 import { Directions } from './Directions';
@@ -14,8 +14,6 @@ declare var google: any;
 export class EditorService {
 
   elevationService = new google.maps.ElevationService;
-  labels$: BehaviorSubject<string> = new BehaviorSubject('0');
-  elevationDataset$: Subject<number> = new Subject();
   points$: Subject<PointInput> = new Subject();
 
   constructor(

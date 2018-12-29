@@ -8,7 +8,7 @@ import { selectPoints, selectLines } from '../editor.selectors';
 import { Point, Line } from '../editor.model';
 import { switchMap, map } from 'rxjs/operators';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { SetRouteName, ClearRoute } from '../editor.actions';
+import { SetRouteName, ClearRoute, CreateNewRoute } from '../editor.actions';
 
 @Component({
   selector: 'ofr-prop-panel',
@@ -52,6 +52,10 @@ export class PropPanelComponent implements OnInit {
 
   setRouteName() {
     this.store.dispatch(new SetRouteName(this.name.value));
+  }
+
+  createRoute() {
+    this.store.dispatch(new CreateNewRoute);
   }
 
 }
