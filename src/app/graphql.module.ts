@@ -29,7 +29,12 @@ export class GraphQLModule {
 
     apollo.create({
       link: auth.concat(http),
-      cache: new InMemoryCache()
+      cache: new InMemoryCache(),
+      defaultOptions: {
+        watchQuery: {
+          fetchPolicy: 'network-only'
+        }
+      }
     });
   }
 }

@@ -18,10 +18,6 @@ export class ExploreComponent implements OnInit {
 
   ngOnInit() {
     this.exploreRoutes$ = this.exploreService.routes().pipe(map(({data, loading}) => data.routes));
-
-    this.exploreRoutes$.subscribe((routes) => {
-      console.log(routes);
-    });
   }
 
 }

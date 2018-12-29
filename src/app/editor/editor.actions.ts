@@ -9,7 +9,7 @@ export enum EditorActionTypes {
   SetRouteName = '[Editor] Set Route Name',
   ClearRoute = '[Editor] Clear Route',
   CreateNewRoute = '[Editor] Create New Route',
-  CreateNewRouteSuccess = '[Editor] Create New Route Sucsess',
+  CreateNewRouteSuccess = '[Editor] Create New Route Success',
   CreateNewRouteFailure = '[Editor] Create New Route Failure'
 }
 
