@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './auth/auth.effects';
+import { StoreRouterConnectingModule, NavigationActionTiming } from '@ngrx/router-store';
+import { CustomSerializer } from './router/custom-serializer';
 
 @NgModule({
   imports: [
@@ -15,6 +17,10 @@ import { AuthEffects } from './auth/auth.effects';
     ReactiveFormsModule,
     RouterModule,
     StoreModule.forRoot(reducers, { metaReducers }),
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomSerializer,
+      navigationActionTiming: NavigationActionTiming.PostActivation,
+    }),
     EffectsModule.forRoot([AuthEffects])
   ],
   declarations: [
