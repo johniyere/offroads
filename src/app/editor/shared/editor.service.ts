@@ -5,7 +5,7 @@ import { Subject, Observable } from 'rxjs';
 import { ElevationResult } from './ElevationResult';
 import { HttpClient } from '@angular/common/http';
 import { Directions } from './Directions';
-import { Point, LinePoint } from '../editor.model';
+import { environment } from 'src/environments/environment';
 
 declare var google: any;
 
@@ -32,7 +32,7 @@ export class EditorService {
     const startString = `${start.lng},${start.lat}`;
     const endString = `${end.lng},${end.lat}`;
     // tslint:disable-next-line:max-line-length
-    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${startString};${endString}?geometries=geojson&access_token=pk.eyJ1Ijoiam9obml5ZXJlIiwiYSI6ImNqbXVxaHNtOTJxenUza29lZDE3MGlidncifQ.W-M8wzC7mnnXvH47GxVN4w`;
+    const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${startString};${endString}?geometries=geojson&access_token=${environment.mapbox.accessToken}`;
     return this.http.get<Directions>(url).pipe(
       map((directions) => directions.routes[0])
     );
@@ -67,34 +67,5 @@ export class EditorService {
         observer.complete();
       });
     });
-  }
-
-  getPath(start: {lat: number, lng: number}, end: Point) {
-    return this.getDirections(start, end.coordinates).pipe(
-      map((route) => {
-        const path = route.geometry.coordinates.map((coordinate) => {
-          return {
-            lng: coordinate[0],
-            lat: coordinate[1]
-          };
-        });
-        return {path, distanceFromPreviousPoint: route.distance};
-      }),
-      switchMap((res) =>
-        this.getElevationAlongPath(res.path).pipe(
-          map((elevationResults) => {
-            const newPointElevation = elevationResults[elevationResults.length - 1].elevation;
-            const newPoint = {...end, elevation: newPointElevation, distanceFromPreviousPoint: res.distanceFromPreviousPoint};
-            const linePoints: LinePoint[] = res.path.map((point, index) => {
-              return {
-                coordinates: {...point},
-                elevation: elevationResults[index].elevation
-              };
-            });
-            return {point: newPoint, line: { points: linePoints }};
-          })
-        )
-      )
-    );
   }
 }

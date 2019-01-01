@@ -8,6 +8,7 @@ import { Store, select } from '@ngrx/store';
 import { State } from './editor.state';
 import { selectLastPoint, selectEditor } from './editor.selectors';
 import { of } from 'rxjs';
+import { Point, LinePoint } from './editor.model';
 
 @Injectable()
 export class EditorEffects {
@@ -32,7 +33,7 @@ export class EditorEffects {
     ofType<GetLineToPoint>(EditorActionTypes.GetLineToPoint),
     withLatestFrom(this.store.pipe(select(selectLastPoint))),
     switchMap(([action, lastPoint]) =>
-      this.editorService.getPath(lastPoint.coordinates, action.payload).pipe(
+      this.getPath(lastPoint.coordinates, action.payload).pipe(
         map((nextPointWithLine) => new AddNextPointWithLine(nextPointWithLine))
       )
     )
@@ -61,4 +62,33 @@ export class EditorEffects {
     ofType<CreateNewRouteFailure>(EditorActionTypes.CreateNewRouteFailure),
     tap((err) => console.log(err))
   );
+
+  getPath(start: {lat: number, lng: number}, end: Point) {
+    return this.editorService.getDirections(start, end.coordinates).pipe(
+      map((route) => {
+        const path = route.geometry.coordinates.map((coordinate) => {
+          return {
+            lng: coordinate[0],
+            lat: coordinate[1]
+          };
+        });
+        return {path, distanceFromPreviousPoint: route.distance};
+      }),
+      switchMap((res) =>
+        this.editorService.getElevationAlongPath(res.path).pipe(
+          map((elevationResults) => {
+            const newPointElevation = elevationResults[elevationResults.length - 1].elevation;
+            const newPoint = {...end, elevation: newPointElevation, distanceFromPreviousPoint: res.distanceFromPreviousPoint};
+            const linePoints: LinePoint[] = res.path.map((point, index) => {
+              return {
+                coordinates: {...point},
+                elevation: elevationResults[index].elevation
+              };
+            });
+            return {point: newPoint, line: { points: linePoints }};
+          })
+        )
+      )
+    );
+  }
 }
