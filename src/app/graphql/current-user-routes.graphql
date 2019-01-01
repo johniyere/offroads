@@ -1,6 +1,7 @@
 query CurrentUserRoutes {
   me {
     createdRoutes {
+      id
       name
     }
   }

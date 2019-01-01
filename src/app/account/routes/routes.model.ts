@@ -19,6 +19,13 @@ export interface Coordinates {
 
 export interface Route {
   id: string;
+  name: string;
   points: Point[];
   lines: Line[];
+  creator: Creator;
+}
+
+export interface Creator {
+  name: string;
+  email: string;
 }

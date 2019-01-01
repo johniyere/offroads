@@ -111,6 +111,8 @@ export namespace CurrentUserRoutes {
   export interface CreatedRoutes {
     __typename?: 'Route';
 
+    id: string;
+
     name: string;
   }
 }
@@ -127,6 +129,8 @@ export namespace ExploreRoutes {
 
   export interface Routes {
     __typename?: 'Route';
+
+    id: string;
 
     name: string;
 
@@ -300,6 +304,7 @@ export class CurrentUserRoutesGQL extends Apollo.Query<
     query CurrentUserRoutes {
       me {
         createdRoutes {
+          id
           name
         }
       }
@@ -316,6 +321,7 @@ export class ExploreRoutesGQL extends Apollo.Query<
   document: any = gql`
     query exploreRoutes {
       routes {
+        id
         name
         creator {
           name

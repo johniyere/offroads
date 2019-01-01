@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './account.state';
 import { EffectsModule } from '@ngrx/effects';
+import { RoutesEffects } from './routes/routes.effects';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { EffectsModule } from '@ngrx/effects';
     RouterModule,
     SharedModule,
     StoreModule.forFeature('account', reducers),
-    EffectsModule.forFeature([])
+    EffectsModule.forFeature([RoutesEffects])
   ],
   declarations: [AccountComponent, FeedComponent, ExploreComponent, DashboardComponent]
 })

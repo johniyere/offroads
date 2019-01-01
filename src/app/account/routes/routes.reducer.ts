@@ -12,6 +12,10 @@ export function routeReducer(state: RouteState = initialState, action: RouteActi
   switch (action.type) {
     case RouteActionTypes.DELETE_ROUTE:
       return routeAdapter.removeOne(action.payload.id, state);
+    case RouteActionTypes.LOAD_ROUTES:
+      return routeAdapter.addAll(action.payload.routes, state);
+    case RouteActionTypes.CLEAR_ROUTES:
+      return routeAdapter.removeAll({...state});
     default:
       return state;
   }
