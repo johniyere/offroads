@@ -6,6 +6,7 @@ import { RouteActions, RouteActionTypes } from './routes.actions';
 export const routeAdapter: EntityAdapter<Route> = createEntityAdapter<Route>();
 
 export const initialState: RouteState = routeAdapter.getInitialState({
+  selectedRoute: null
 });
 
 export function routeReducer(state: RouteState = initialState, action: RouteActions): RouteState {
@@ -16,6 +17,8 @@ export function routeReducer(state: RouteState = initialState, action: RouteActi
       return routeAdapter.addAll(action.payload.routes, state);
     case RouteActionTypes.CLEAR_ROUTES:
       return routeAdapter.removeAll({...state});
+    case RouteActionTypes.RETRIEVE_ROUTE_SUCCESS:
+      return { ...state, selectedRoute: action.payload.route };
     default:
       return state;
   }

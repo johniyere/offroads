@@ -208,6 +208,71 @@ export namespace Login {
   }
 }
 
+export namespace RouteDetails {
+  export interface Variables {
+    id: string;
+  }
+
+  export interface Query {
+    __typename?: 'Query';
+
+    route: Route | null;
+  }
+
+  export interface Route {
+    __typename?: 'Route';
+
+    id: string;
+
+    name: string;
+
+    creator: Creator;
+
+    points: Points[];
+
+    lines: Lines[];
+  }
+
+  export interface Creator {
+    __typename?: 'User';
+
+    id: string;
+
+    name: string;
+
+    email: string;
+  }
+
+  export interface Points {
+    __typename?: 'Point';
+
+    coordinates: Coordinates;
+
+    elevation: number;
+
+    distanceFromPreviousPoint: number | null;
+  }
+
+  export type Coordinates = CoordinatesFields.Fragment;
+
+  export interface Lines {
+    __typename?: 'Line';
+
+    points: _Points[];
+  }
+
+  // tslint:disable-next-line:class-name
+  export interface _Points {
+    __typename?: 'Point';
+
+    coordinates: _Coordinates;
+
+    elevation: number;
+  }
+
+  export type _Coordinates = CoordinatesFields.Fragment;
+}
+
 export namespace CoordinatesFields {
   export interface Fragment {
     __typename?: 'Coordinates';
@@ -362,6 +427,44 @@ export class LoginGQL extends Apollo.Mutation<Login.Mutation, Login.Variables> {
         }
       }
     }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class RouteDetailsGQL extends Apollo.Query<
+  RouteDetails.Query,
+  RouteDetails.Variables
+> {
+  document: any = gql`
+    query RouteDetails($id: ID!) {
+      route(id: $id) {
+        id
+        name
+        creator {
+          id
+          name
+          email
+        }
+        points {
+          coordinates {
+            ...coordinatesFields
+          }
+          elevation
+          distanceFromPreviousPoint
+        }
+        lines {
+          points {
+            coordinates {
+              ...coordinatesFields
+            }
+            elevation
+          }
+        }
+      }
+    }
+
+    ${CoordinatesFieldsFragment}
   `;
 }
 

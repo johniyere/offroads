@@ -32,4 +32,6 @@ export interface Creator {
   email: string;
 }
 
-export interface RouteState extends EntityState<Route> {}
+export interface RouteState extends EntityState<Route> {
+  selectedRoute: Route;
+}

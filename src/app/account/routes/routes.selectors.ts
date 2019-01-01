@@ -1,6 +1,7 @@
 import { routeAdapter } from './routes.reducer';
 import { createSelector } from '@ngrx/store';
 import { AccountState, selectAccount } from '../account.state';
+import { selectRouterState } from 'src/app/core/core.state';
 
 const { selectAll, selectEntities } = routeAdapter.getSelectors();
 
@@ -9,6 +10,7 @@ export const selectRoutes = createSelector(
   (state: AccountState) => state.routes
 );
 
+
 export const selectAllRoutes = createSelector(
   selectRoutes,
   selectAll
@@ -16,4 +18,14 @@ export const selectAllRoutes = createSelector(
 export const selectRoutesEntities = createSelector(
   selectRoutes,
   selectEntities
+);
+
+export const selectSelectedRouteId = createSelector(
+  selectRouterState,
+  (routerState) => routerState && routerState.state.params.id as string
+);
+
+export const selectSelectedRoute = createSelector(
+  selectRoutes,
+  (routes) => routes.selectedRoute
 );

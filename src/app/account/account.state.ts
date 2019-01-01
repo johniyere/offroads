@@ -3,12 +3,11 @@ import { ActionReducerMap, ActionReducer, createFeatureSelector } from '@ngrx/st
 import { routeReducer } from './routes/routes.reducer';
 import { AppState } from 'src/app/core/core.state';
 
-
 export interface AccountState {
   routes: RouteState;
 }
 
-export const reducer: ActionReducerMap<AccountState> = {
+export const reducers: ActionReducerMap<AccountState> = {
   routes: routeReducer
 };
 

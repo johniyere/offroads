@@ -1,5 +1,5 @@
 <ul *ngFor="let route of routes$ | async" class="list-group">
-  <li class="list-group-item">
+  <li class="list-group-item" [routerLink]="['/routes', route.id]" >
     {{route.name}}
   </li>
 </ul>

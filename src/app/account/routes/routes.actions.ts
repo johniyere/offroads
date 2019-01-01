@@ -8,6 +8,9 @@ export enum RouteActionTypes {
   RETRIEVE_DASHBOARD_ROUTES_FAILURE = '[Routes] Retrieve Dashboard Routes Failure',
   RETRIEVE_EXPLORE_ROUTES = '[Routes] Retrieve Explore Routes',
   RETRIEVE_EXPLORE_ROUTES_FAILURE = '[Routes] Retrieve Explore Routes Failure',
+  RETRIEVE_ROUTE = '[Route] Retrieve Route',
+  RETRIEVE_ROUTE_SUCCESS = '[Route] Retrieve Route Success',
+  RETRIEVE_ROUTE_FAILURE = '[Route] Retrieve Route Failure',
   CLEAR_ROUTES = '[Routes] Clear Routes'
 }
 
@@ -44,6 +47,22 @@ export class RetrieveExploreRoutesFailure implements Action {
   constructor (public payload: { err: any }) {}
 }
 
+export class RetrieveRoute implements Action {
+  readonly type = RouteActionTypes.RETRIEVE_ROUTE;
+}
+
+export class RetrieveRouteSuccess implements Action {
+  readonly type = RouteActionTypes.RETRIEVE_ROUTE_SUCCESS;
+
+  constructor (public payload: { route: Route}) {}
+}
+
+export class RetrieveRouteFailure implements Action {
+  readonly type = RouteActionTypes.RETRIEVE_ROUTE_FAILURE;
+
+  constructor (public payload: { err: any}) {}
+}
+
 export class ClearRoutes implements Action {
   readonly type = RouteActionTypes.CLEAR_ROUTES;
 }
@@ -55,5 +74,8 @@ export type RouteActions
   | RetrieveDashboardRoutesFailure
   | RetrieveExploreRoutes
   | RetrieveExploreRoutesFailure
+  | RetrieveRoute
+  | RetrieveRouteSuccess
+  | RetrieveRouteFailure
   | ClearRoutes
 ;

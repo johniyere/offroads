@@ -1,0 +1,26 @@
+query RouteDetails($id: ID!) {
+  route(id: $id) {
+    id,
+    name,
+    creator {
+      id,
+      name,
+      email
+    },
+    points {
+      coordinates {
+        ...coordinatesFields
+      }
+      elevation
+      distanceFromPreviousPoint
+    },
+    lines {
+      points {
+        coordinates {
+          ...coordinatesFields
+        },
+        elevation
+      }
+    }
+  }
+}

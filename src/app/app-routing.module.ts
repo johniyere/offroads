@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './core/login/login.component';
 import { AuthGuard } from './core/auth/auth.guard';
+import { RouteDetailsComponent } from './account/route-details/route-details.component';
 
 const appRoutes: Routes = [
   {
@@ -16,6 +17,10 @@ const appRoutes: Routes = [
   {
     path: 'editor',
     loadChildren: './editor/editor.module#EditorModule',
+  },
+  {
+    path: 'routes/:id',
+    component: RouteDetailsComponent
   }
 ];
 
