@@ -8,9 +8,9 @@ import { AccountRoutingModule } from './account-routing.module';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from '@ngrx/store';
-import { reducers } from './account.state';
 import { EffectsModule } from '@ngrx/effects';
 import { RoutesEffects } from './routes/routes.effects';
+import { reducer } from './account.state';
 
 @NgModule({
   imports: [
@@ -18,7 +18,7 @@ import { RoutesEffects } from './routes/routes.effects';
     AccountRoutingModule,
     RouterModule,
     SharedModule,
-    StoreModule.forFeature('account', reducers),
+    StoreModule.forFeature('account', reducer),
     EffectsModule.forFeature([RoutesEffects])
   ],
   declarations: [AccountComponent, FeedComponent, ExploreComponent, DashboardComponent]

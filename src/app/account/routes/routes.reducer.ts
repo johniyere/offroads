@@ -1,5 +1,5 @@
 import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Route } from './routes.model';
+import { Route } from './routes.state';
 import { RouteState } from './routes.state';
 import { RouteActions, RouteActionTypes } from './routes.actions';
 

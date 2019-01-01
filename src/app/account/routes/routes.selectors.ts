@@ -1,6 +1,6 @@
 import { routeAdapter } from './routes.reducer';
 import { createSelector } from '@ngrx/store';
-import { selectAccount, AccountState } from '../account.state';
+import { AccountState, selectAccount } from '../account.state';
 
 const { selectAll, selectEntities } = routeAdapter.getSelectors();
 
@@ -17,4 +17,3 @@ export const selectRoutesEntities = createSelector(
   selectRoutes,
   selectEntities
 );
-
