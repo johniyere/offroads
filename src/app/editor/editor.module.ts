@@ -19,6 +19,7 @@ import * as Charts from 'fusioncharts/fusioncharts.charts';
 
 import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -26,6 +27,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
 @NgModule({
   imports: [
     CommonModule,
+    SharedModule,
     ReactiveFormsModule,
     FusionChartsModule,
     StoreModule.forFeature('editor', editorReducer),
