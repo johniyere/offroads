@@ -144,6 +144,8 @@ export namespace ExploreRoutes {
   export interface Creator {
     __typename?: 'User';
 
+    id: string;
+
     name: string;
 
     email: string;
@@ -389,6 +391,7 @@ export class ExploreRoutesGQL extends Apollo.Query<
         id
         name
         creator {
+          id
           name
           email
         }

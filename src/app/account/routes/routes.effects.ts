@@ -44,7 +44,7 @@ export class RoutesEffects {
     mergeMap((action) =>
       this.exploreService.routes().pipe(
         map((routes) => new LoadRoutes({ routes })),
-        catchError((err) => of(new RetrieveDashboardRoutesFailure({err}))
+        catchError((err) => of(new RetrieveExploreRoutesFailure({err}))
       )
     )
   ));

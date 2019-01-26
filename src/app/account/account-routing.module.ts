@@ -5,6 +5,7 @@ import { ExploreComponent } from './explore/explore.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountComponent } from './account.component';
 import { AuthGuard } from '../core/auth/auth.guard';
+import { RouteDetailsComponent } from './route-details/route-details.component';
 
 const accountRoutes: Routes = [
   {
@@ -16,20 +17,26 @@ const accountRoutes: Routes = [
     path: '',
     component: AccountComponent,
     canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
     children: [
       {
         path: 'feed',
         component: FeedComponent,
+        canActivateChild: [AuthGuard],
+
       },
       {
         path: 'explore',
         component: ExploreComponent,
-        canActivateChild: [AuthGuard]
+        canActivateChild: [AuthGuard],
       },
       {
         path: 'dashboard',
+        canActivateChild: [AuthGuard],
         component: DashboardComponent
+      },
+      {
+        path: 'routes/:id',
+        component: RouteDetailsComponent
       }
     ]
   }

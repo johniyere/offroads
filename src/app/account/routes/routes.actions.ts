@@ -11,7 +11,8 @@ export enum RouteActionTypes {
   RETRIEVE_ROUTE = '[Route] Retrieve Route',
   RETRIEVE_ROUTE_SUCCESS = '[Route] Retrieve Route Success',
   RETRIEVE_ROUTE_FAILURE = '[Route] Retrieve Route Failure',
-  CLEAR_ROUTES = '[Routes] Clear Routes'
+  CLEAR_ROUTES = '[Routes] Clear Routes',
+  CLEAR_SELECTED_ROUTE = '[Routes] Clear Selected Route'
 }
 
 export class LoadRoutes implements Action {
@@ -67,6 +68,10 @@ export class ClearRoutes implements Action {
   readonly type = RouteActionTypes.CLEAR_ROUTES;
 }
 
+export class ClearSelectedRoute implements Action {
+  readonly type = RouteActionTypes.CLEAR_SELECTED_ROUTE;
+}
+
 export type RouteActions
   = LoadRoutes
   | DeleteRoute
@@ -78,4 +83,5 @@ export type RouteActions
   | RetrieveRouteSuccess
   | RetrieveRouteFailure
   | ClearRoutes
+  | ClearSelectedRoute
 ;

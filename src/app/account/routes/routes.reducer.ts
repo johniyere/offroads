@@ -19,6 +19,8 @@ export function routeReducer(state: RouteState = initialState, action: RouteActi
       return routeAdapter.removeAll({...state});
     case RouteActionTypes.RETRIEVE_ROUTE_SUCCESS:
       return { ...state, selectedRoute: action.payload.route };
+    case RouteActionTypes.CLEAR_SELECTED_ROUTE:
+      return { ...state, selectedRoute: null};
     default:
       return state;
   }

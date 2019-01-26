@@ -3,6 +3,7 @@ query exploreRoutes {
     id,
     name,
     creator {
+      id,
       name,
       email
     },

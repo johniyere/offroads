@@ -1,19 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Route } from '../routes/routes.state';
 import { Store, select } from '@ngrx/store';
 import { State } from '../account.state';
-import { tap } from 'rxjs/operators';
-import { selectRouterState } from 'src/app/core/core.state';
 import { selectSelectedRoute } from '../routes/routes.selectors';
-import { RetrieveRoute } from '../routes/routes.actions';
+import { RetrieveRoute, ClearSelectedRoute } from '../routes/routes.actions';
 
 @Component({
   selector: 'ofr-route-details',
   templateUrl: './route-details.component.html',
   styleUrls: ['./route-details.component.css']
 })
-export class RouteDetailsComponent implements OnInit {
+export class RouteDetailsComponent implements OnInit, OnDestroy {
 
   selectedRoute$: Observable<Route>;
   constructor(
@@ -25,6 +23,10 @@ export class RouteDetailsComponent implements OnInit {
     this.selectedRoute$ = this.store.pipe(
       select(selectSelectedRoute)
     );
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new ClearSelectedRoute);
   }
 
 }
