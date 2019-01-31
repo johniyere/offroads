@@ -18,7 +18,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
   dataFormat = 'json';
   dataSource = {
     'chart': {
-      'caption': 'Elevation Gain',
+      'caption': 'Elevation',
       'legendposition': 'Right',
       'drawanchors': '0',
       'showvalues': '0',

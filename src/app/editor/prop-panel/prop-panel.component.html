@@ -1,17 +1,39 @@
 <div id="prop-layout">
   <i class="fas fa-times" (click)="exit()" id="exit"></i>
-  <div id="path-overview">
-    <div>
-      <input type="text" class="form-control" placeholder="Basic Route #1" [formControl]="name" (blur)="setRouteName()">
-    </div>
-    
-    <h5>Points</h5>
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let point of points$ | async">{{ point | json }}</li>
-    </ul>
-  </div>
-  <div>
-    <ofr-chart></ofr-chart>
-    <button class="btn btn-success btn-sm" (click)="createRoute()" id="save">SAVE</button>
-  </div>
+  <button class="btn btn-success btn-sm" (click)="createRoute()" id="save">SAVE</button>
+  <input type="text" class="form-control" placeholder="Basic Route #1" [formControl]="name" (blur)="setRouteName()">
+  <ngb-tabset justify="justified">
+    <ngb-tab>
+      <ng-template ngbTabTitle>Path</ng-template>
+      <ng-template ngbTabContent>
+        <div id="path-overview">
+          <h5>Points</h5>
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let point of points$ | async">{{ point | json }}</li>
+          </ul>
+        </div>
+        <div>
+          <ofr-chart></ofr-chart>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle>Segments</ng-template>
+      <ng-template ngbTabContent>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.
+        <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
+        craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl
+        cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia
+        yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean
+        shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero
+        sint qui sapiente accusamus tattooed echo park.</p>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle>Details</ng-template>
+      <ng-template ngbTabContent>
+        <ofr-details></ofr-details>
+      </ng-template>
+    </ngb-tab>
+
+  </ngb-tabset>
 </div>
