@@ -12,6 +12,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { RoutesEffects } from './routes/routes.effects';
 import { reducers } from './account.state';
 import { RouteDetailsComponent } from './route-details/route-details.component';
+import { UploadRunComponent } from './upload-run/upload-run.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { RouteDetailsComponent } from './route-details/route-details.component';
     StoreModule.forFeature('account', reducers),
     EffectsModule.forFeature([RoutesEffects])
   ],
-  declarations: [AccountComponent, FeedComponent, ExploreComponent, DashboardComponent, RouteDetailsComponent]
+  declarations: [AccountComponent, FeedComponent, ExploreComponent, DashboardComponent, RouteDetailsComponent, UploadRunComponent],
+  entryComponents: [UploadRunComponent]
 })
 export class AccountModule { }

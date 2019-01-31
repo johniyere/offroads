@@ -5,6 +5,8 @@ import { Store, select } from '@ngrx/store';
 import { State } from '../account.state';
 import { selectSelectedRoute } from '../routes/routes.selectors';
 import { RetrieveRoute, ClearSelectedRoute } from '../routes/routes.actions';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UploadRunComponent } from '../upload-run/upload-run.component';
 
 @Component({
   selector: 'ofr-route-details',
@@ -15,7 +17,8 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
 
   selectedRoute$: Observable<Route>;
   constructor(
-    private store: Store<State>
+    private store: Store<State>,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -27,6 +30,11 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.store.dispatch(new ClearSelectedRoute);
+  }
+
+  open() {
+    const modalRef = this.modalService.open(UploadRunComponent);
+    modalRef.componentInstance.name = 'World';
   }
 
 }

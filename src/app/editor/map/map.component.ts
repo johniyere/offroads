@@ -3,12 +3,13 @@ import { Map } from 'mapbox-gl';
 import { LineString, Feature, FeatureCollection, Point } from 'geojson';
 import { Store, select } from '@ngrx/store';
 import { State } from '../editor.state';
-import { GetPointElevation, GetLineToPoint } from '../editor.actions';
+import { GetPointElevation, GetLineToPoint, SetElevationGain } from '../editor.actions';
 import { selectPoints, selectLines } from '../editor.selectors';
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { EditorService } from '../shared/editor.service';
 
 @Component({
   selector: 'ofr-map',
@@ -30,7 +31,7 @@ export class MapComponent implements OnInit {
   lines$: Observable<FeatureCollection<LineString>>;
   distance = 0;
   isFirstPoint = true;
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<State>, private editorService: EditorService) {
     (mapboxgl as any).accessToken = environment.mapbox.accessToken;
   }
 
@@ -48,6 +49,10 @@ export class MapComponent implements OnInit {
 
     this.lines$ = this.store.pipe(
       select(selectLines),
+      tap((lines) => {
+        const elevationGain = this.editorService.calculateElevationGain(lines);
+        this.store.dispatch(new SetElevationGain({ elevationGain }));
+      }),
       map((lines) =>
         lines.map((line) => {
           const linePointsAsCooordinatesArray = line.points.map((point) => [point.coordinates.lng, point.coordinates.lat]);

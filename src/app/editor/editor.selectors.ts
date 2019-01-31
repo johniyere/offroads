@@ -29,3 +29,8 @@ export const selectName = createSelector(
   selectEditor,
   (editor) => editor.name
 );
+
+export const selectElevationGain = createSelector(
+  selectEditor,
+  (editor) => editor.elevationGain
+);

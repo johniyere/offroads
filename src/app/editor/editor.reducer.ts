@@ -4,7 +4,11 @@ import { EditorAction, EditorActionTypes } from './editor.actions';
 export const initialState: EditorState = {
   name: '',
   points: [],
-  lines: []
+  lines: [],
+  elevationGain: 0,
+  scenary: 1,
+  description: '',
+  difficulty: 1
 };
 
 export function editorReducer(state = initialState, action: EditorAction): EditorState {
@@ -24,6 +28,26 @@ export function editorReducer(state = initialState, action: EditorAction): Edito
       return {
         ...state,
         name: action.payload
+      };
+    case EditorActionTypes.SetElevationGain:
+      return {
+        ...state,
+        elevationGain: action.payload.elevationGain
+      };
+    case EditorActionTypes.SetDifficulty:
+      return {
+        ...state,
+        difficulty: action.payload.difficulty
+      };
+    case EditorActionTypes.SetScenary:
+      return {
+        ...state,
+        scenary: action.payload.scenary
+      };
+    case EditorActionTypes.SetDescription:
+      return {
+        ...state,
+        description: action.payload.description
       };
     case EditorActionTypes.ClearRoute:
       return initialState;

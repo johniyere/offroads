@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountComponent } from './account.component';
 import { AuthGuard } from '../core/auth/auth.guard';
 import { RouteDetailsComponent } from './route-details/route-details.component';
+import { UploadRunComponent } from './upload-run/upload-run.component';
 
 const accountRoutes: Routes = [
   {
