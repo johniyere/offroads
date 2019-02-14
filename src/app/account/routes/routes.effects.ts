@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { RouteActionTypes, LoadRoutes, RetrieveDashboardRoutes, RetrieveDashboardRoutesFailure,
-  RetrieveExploreRoutes, RetrieveExploreRoutesFailure, RetrieveRoute, RetrieveRouteSuccess, RetrieveRouteFailure } from './routes.actions';
+  RetrieveExploreRoutes, RetrieveExploreRoutesFailure, RetrieveRoute,
+  RetrieveRouteSuccess, RetrieveRouteFailure, UploadRun, UploadRunSuccess, UploadRunFailure } from './routes.actions';
 import { mergeMap, map, catchError, tap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { DashboardService } from '../dashboard/shared/dashboard.service';
@@ -10,6 +11,7 @@ import { State } from '../account.state';
 import { ExploreService } from '../explore/shared/explore.service';
 import { selectSelectedRouteId } from './routes.selectors';
 import { RouteDetailsService } from '../route-details/shared/route-details.service';
+import { UploadRunService } from '../upload-run/shared/upload-run.service';
 
 @Injectable()
 export class RoutesEffects {
@@ -18,7 +20,8 @@ export class RoutesEffects {
     private store: Store<State>,
     private dashboardService: DashboardService,
     private exploreService: ExploreService,
-    private routeDetailsService: RouteDetailsService
+    private routeDetailsService: RouteDetailsService,
+    private uploadRunService: UploadRunService
   ) {}
 
   @Effect()
@@ -70,6 +73,30 @@ export class RoutesEffects {
   @Effect({ dispatch: false })
   retrieveRouteFailure$ = this.actions$.pipe(
     ofType<RetrieveRouteFailure>(RouteActionTypes.RETRIEVE_ROUTE_FAILURE),
+    tap((action) => console.log(action.payload.err))
+  );
+
+  @Effect()
+  uploadRun$ = this.actions$.pipe(
+    ofType<UploadRun>(RouteActionTypes.UPLOAD_RUN),
+    withLatestFrom(this.store.select(selectSelectedRouteId)),
+    mergeMap(([action, routeId]) =>
+      this.uploadRunService.uploadRun(action.payload.title, action.payload.comment, routeId).pipe(
+        map((run) => new UploadRunSuccess({ run })),
+        catchError((err) => of(new UploadRunFailure({err})))
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  uploadRunSuccess$ = this.actions$.pipe(
+    ofType<UploadRunSuccess>(RouteActionTypes.UPLOAD_RUN_SUCCESS),
+    tap((action) => console.log(action.payload.run))
+  );
+
+  @Effect({ dispatch: false })
+  uploadRunFailure$ = this.actions$.pipe(
+    ofType<UploadRunFailure>(RouteActionTypes.UPLOAD_RUN_FAILURE),
     tap((action) => console.log(action.payload.err))
   );
 }

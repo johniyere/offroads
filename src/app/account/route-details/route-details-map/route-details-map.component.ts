@@ -1,35 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { Map } from 'mapbox-gl';
-import { LineString, Feature, FeatureCollection, Point } from 'geojson';
-import { Store, select } from '@ngrx/store';
-import { State } from '../editor.state';
-import { GetPointElevation, GetLineToPoint, SetElevationGain } from '../editor.actions';
-import { selectPoints, selectLines } from '../editor.selectors';
-import { Observable } from 'rxjs';
-import { map, filter, tap } from 'rxjs/operators';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
-import { EditorService } from '../shared/editor.service';
+import { Store, select } from '@ngrx/store';
+import { State } from '../../account.state';
+import { Observable } from 'rxjs';
+import { Route } from '../../routes/routes.state';
+import { selectSelectedRoute } from '../../routes/routes.selectors';
+import { Feature, Point, FeatureCollection, LineString } from 'geojson';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'ofr-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  selector: 'ofr-route-details-map',
+  templateUrl: './route-details-map.component.html',
+  styleUrls: ['./route-details-map.component.scss']
 })
-export class MapComponent implements OnInit {
-
+export class RouteDetailsMapComponent implements OnInit {
   map: Map;
+  selectedRoute$: Observable<Route>;
+
   points$: Observable<FeatureCollection<Point>>;
   lines$: Observable<FeatureCollection<LineString>>;
-  distance = 0;
-  isFirstPoint = true;
-  constructor(private store: Store<State>, private editorService: EditorService) {
+
+  constructor(private store: Store<State>) {
     (mapboxgl as any).accessToken = environment.mapbox.accessToken;
   }
 
   ngOnInit() {
-    this.points$ = this.store.pipe(
-      select(selectPoints),
+    this.buildMap();
+    this.selectedRoute$ = this.store.pipe(
+      select(selectSelectedRoute),
+      filter((route) => route != null)
+    );
+
+    this.points$ = this.selectedRoute$.pipe(
+      map((route) => route.points),
       map((points) =>
         points.map((point) => {
           const coordinates = [point.coordinates.lng, point.coordinates.lat];
@@ -39,12 +44,8 @@ export class MapComponent implements OnInit {
       map((pointFeatures) => this.toPointFeatureCollection(pointFeatures))
     );
 
-    this.lines$ = this.store.pipe(
-      select(selectLines),
-      tap((lines) => {
-        const elevationGain = this.editorService.calculateElevationGain(lines);
-        this.store.dispatch(new SetElevationGain({ elevationGain }));
-      }),
+    this.lines$ = this.selectedRoute$.pipe(
+      map((route) => route.lines),
       map((lines) =>
         lines.map((line) => {
           const linePointsAsCooordinatesArray = line.points.map((point) => [point.coordinates.lng, point.coordinates.lat]);
@@ -53,10 +54,6 @@ export class MapComponent implements OnInit {
       ),
       map((lineFeatures) => this.toLineFeatureCollection(lineFeatures))
     );
-
-    this.buildMap();
-
-
   }
 
   buildMap() {
@@ -114,30 +111,13 @@ export class MapComponent implements OnInit {
       });
 
       this.points$.subscribe((points) => {
+        console.log(points);
         (this.map.getSource('point') as any).setData(points);
       });
 
       this.lines$.subscribe((lines) => {
         (this.map.getSource('route') as any).setData(lines);
       });
-    });
-
-    this.map.on('click', event => {
-      const coordinates = event.lngLat;
-      if (this.isFirstPoint) {
-        this.store.dispatch(new GetPointElevation({
-          coordinates,
-          elevation: 0,
-          distanceFromPreviousPoint: 0
-        }));
-        this.isFirstPoint = false;
-      } else {
-        this.store.dispatch(new GetLineToPoint({
-          coordinates,
-          elevation: 0,
-          distanceFromPreviousPoint: 0
-        }));
-      }
     });
   }
 
@@ -181,4 +161,5 @@ export class MapComponent implements OnInit {
     };
     return lineFeatureCollection;
   }
+
 }

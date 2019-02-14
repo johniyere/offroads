@@ -1,0 +1,13 @@
+mutation uploadRun($title: String, $comment: String, $routeId: ID!) {
+  uploadRun(title: $title, comment: $comment, routeId: $routeId) {
+    id
+    uploader {
+      id
+      name
+    },
+    route { 
+      id
+      name
+    }
+  }
+}

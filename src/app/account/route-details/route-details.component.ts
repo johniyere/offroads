@@ -11,7 +11,7 @@ import { UploadRunComponent } from '../upload-run/upload-run.component';
 @Component({
   selector: 'ofr-route-details',
   templateUrl: './route-details.component.html',
-  styleUrls: ['./route-details.component.css']
+  styleUrls: ['./route-details.component.scss']
 })
 export class RouteDetailsComponent implements OnInit, OnDestroy {
 
@@ -34,7 +34,6 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
 
   open() {
     const modalRef = this.modalService.open(UploadRunComponent);
-    modalRef.componentInstance.name = 'World';
   }
 
 }

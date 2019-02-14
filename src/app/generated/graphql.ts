@@ -275,6 +275,47 @@ export namespace RouteDetails {
   export type _Coordinates = CoordinatesFields.Fragment;
 }
 
+export namespace UploadRun {
+  export interface Variables {
+    title?: string | null;
+    comment?: string | null;
+    routeId: string;
+  }
+
+  export interface Mutation {
+    __typename?: 'Mutation';
+
+    uploadRun: UploadRun;
+  }
+
+  // tslint:disable-next-line:no-shadowed-variable
+  export interface UploadRun {
+    __typename?: 'Run';
+
+    id: string;
+
+    uploader: Uploader;
+
+    route: Route;
+  }
+
+  export interface Uploader {
+    __typename?: 'User';
+
+    id: string;
+
+    name: string;
+  }
+
+  export interface Route {
+    __typename?: 'Route';
+
+    id: string;
+
+    name: string;
+  }
+}
+
 export namespace CoordinatesFields {
   export interface Fragment {
     __typename?: 'Coordinates';
@@ -468,6 +509,29 @@ export class RouteDetailsGQL extends Apollo.Query<
     }
 
     ${CoordinatesFieldsFragment}
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UploadRunGQL extends Apollo.Mutation<
+  UploadRun.Mutation,
+  UploadRun.Variables
+> {
+  document: any = gql`
+    mutation uploadRun($title: String, $comment: String, $routeId: ID!) {
+      uploadRun(title: $title, comment: $comment, routeId: $routeId) {
+        id
+        uploader {
+          id
+          name
+        }
+        route {
+          id
+          name
+        }
+      }
+    }
   `;
 }
 

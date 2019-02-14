@@ -1,2 +1,14 @@
-<button class="btn btn-primary" (click)="open()">Add a run</button>
-<pre>{{ selectedRoute$ | async | json}}</pre>
+<!-- <button class="btn btn-primary" (click)="open()">Add a run</button>
+<pre>{{ selectedRoute$ | async | json}}</pre> -->
+<div class="container mt-5" *ngIf="(selectedRoute$ | async) as route">
+  <div class="row align-items-center">
+    <h4>{{route.name}}</h4>
+    <button class="btn btn-primary" (click)="open()">Add a run</button>
+  </div>
+  <div class="row">
+    <ofr-route-details-map></ofr-route-details-map>
+  </div>
+  <div class="row">
+    <ofr-route-elevation-chart></ofr-route-elevation-chart>
+  </div>
+</div>
