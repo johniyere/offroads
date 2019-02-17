@@ -3,7 +3,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { RouteActionTypes, LoadRoutes, RetrieveDashboardRoutes, RetrieveDashboardRoutesFailure,
   RetrieveExploreRoutes, RetrieveExploreRoutesFailure, RetrieveRoute,
-  RetrieveRouteSuccess, RetrieveRouteFailure, UploadRun, UploadRunSuccess, UploadRunFailure } from './routes.actions';
+  RetrieveRouteSuccess, RetrieveRouteFailure, UploadRun, UploadRunSuccess,
+  UploadRunFailure, RetrieveRecommendedUserRoutes, RetrieveRecommendedUserRoutesFailure } from './routes.actions';
 import { mergeMap, map, catchError, tap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { DashboardService } from '../dashboard/shared/dashboard.service';
@@ -97,6 +98,23 @@ export class RoutesEffects {
   @Effect({ dispatch: false })
   uploadRunFailure$ = this.actions$.pipe(
     ofType<UploadRunFailure>(RouteActionTypes.UPLOAD_RUN_FAILURE),
+    tap((action) => console.log(action.payload.err))
+  );
+
+  @Effect({})
+  retrieveRecommendedUserRoutes$ = this.actions$.pipe(
+    ofType<RetrieveRecommendedUserRoutes>(RouteActionTypes.RETRIEVE_RECOMMENDED_USER_ROUTES),
+    mergeMap((action) =>
+      this.exploreService.recommendedUserRoutes().pipe(
+        map((routes) => new LoadRoutes({routes})),
+        catchError((err) => of(new RetrieveRecommendedUserRoutesFailure({err})))
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  retrieveRecommendedUserRoutesFailure$ = this.actions$.pipe(
+    ofType<RetrieveRecommendedUserRoutesFailure>(RouteActionTypes.RETRIEVE_RECOMMENDED_USER_ROUTES_FAILURE),
     tap((action) => console.log(action.payload.err))
   );
 }

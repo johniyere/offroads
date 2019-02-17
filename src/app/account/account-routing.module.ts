@@ -7,6 +7,8 @@ import { AccountComponent } from './account.component';
 import { AuthGuard } from '../core/auth/auth.guard';
 import { RouteDetailsComponent } from './route-details/route-details.component';
 import { UploadRunComponent } from './upload-run/upload-run.component';
+import { RecommendedComponent } from './explore/recommended/recommended.component';
+import { AllTrailsComponent } from './explore/all-trails/all-trails.component';
 
 const accountRoutes: Routes = [
   {
@@ -29,6 +31,16 @@ const accountRoutes: Routes = [
         path: 'explore',
         component: ExploreComponent,
         canActivateChild: [AuthGuard],
+        children: [
+          {
+            path: 'recommended',
+            component: RecommendedComponent
+          },
+          {
+            path: 'all-trails',
+            component: AllTrailsComponent
+          }
+        ]
       },
       {
         path: 'dashboard',

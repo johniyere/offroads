@@ -92,6 +92,76 @@ export namespace CreateRoute {
   }
 }
 
+export namespace Login {
+  export interface Variables {
+    email: string;
+  }
+
+  export interface Mutation {
+    __typename?: 'Mutation';
+
+    login: Login;
+  }
+
+  // tslint:disable-next-line:no-shadowed-variable
+  export interface Login {
+    __typename?: 'AuthPayload';
+
+    token: string;
+
+    user: User;
+  }
+
+  export interface User {
+    __typename?: 'User';
+
+    id: string;
+
+    name: string;
+  }
+}
+
+export namespace UploadRun {
+  export interface Variables {
+    title?: string | null;
+    comment?: string | null;
+    routeId: string;
+  }
+
+  export interface Mutation {
+    __typename?: 'Mutation';
+
+    uploadRun: UploadRun;
+  }
+
+  // tslint:disable-next-line:no-shadowed-variable
+  export interface UploadRun {
+    __typename?: 'Run';
+
+    id: string;
+
+    uploader: Uploader;
+
+    route: Route;
+  }
+
+  export interface Uploader {
+    __typename?: 'User';
+
+    id: string;
+
+    name: string;
+  }
+
+  export interface Route {
+    __typename?: 'Route';
+
+    id: string;
+
+    name: string;
+  }
+}
+
 export namespace CurrentUserRoutes {
   // tslint:disable-next-line:no-empty-interface
   export interface Variables {}
@@ -181,32 +251,34 @@ export namespace ExploreRoutes {
   export type _Coordinates = CoordinatesFields.Fragment;
 }
 
-export namespace Login {
-  export interface Variables {
-    email: string;
+export namespace RecommendUserRoutes {
+  // tslint:disable-next-line:no-empty-interface
+  export interface Variables {}
+
+  export interface Query {
+    __typename?: 'Query';
+
+    routes: Routes[];
   }
 
-  export interface Mutation {
-    __typename?: 'Mutation';
+  export interface Routes {
+    __typename?: 'Route';
 
-    login: Login;
+    id: string;
+
+    name: string;
+
+    creator: Creator;
   }
 
-  // tslint:disable-next-line:no-shadowed-variable
-  export interface Login {
-    __typename?: 'AuthPayload';
-
-    token: string;
-
-    user: User;
-  }
-
-  export interface User {
+  export interface Creator {
     __typename?: 'User';
 
     id: string;
 
     name: string;
+
+    email: string;
   }
 }
 
@@ -218,7 +290,7 @@ export namespace RouteDetails {
   export interface Query {
     __typename?: 'Query';
 
-    route: Route | null;
+    route: Route;
   }
 
   export interface Route {
@@ -275,44 +347,13 @@ export namespace RouteDetails {
   export type _Coordinates = CoordinatesFields.Fragment;
 }
 
-export namespace UploadRun {
-  export interface Variables {
-    title?: string | null;
-    comment?: string | null;
-    routeId: string;
-  }
+export namespace CoordinatesFields {
+  export interface Fragment {
+    __typename?: 'Coordinates';
 
-  export interface Mutation {
-    __typename?: 'Mutation';
+    lat: number;
 
-    uploadRun: UploadRun;
-  }
-
-  // tslint:disable-next-line:no-shadowed-variable
-  export interface UploadRun {
-    __typename?: 'Run';
-
-    id: string;
-
-    uploader: Uploader;
-
-    route: Route;
-  }
-
-  export interface Uploader {
-    __typename?: 'User';
-
-    id: string;
-
-    name: string;
-  }
-
-  export interface Route {
-    __typename?: 'Route';
-
-    id: string;
-
-    name: string;
+    lng: number;
   }
 }
 
@@ -404,6 +445,45 @@ export class CreateRouteGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: 'root'
 })
+export class LoginGQL extends Apollo.Mutation<Login.Mutation, Login.Variables> {
+  document: any = gql`
+    mutation login($email: String!) {
+      login(email: $email) {
+        token
+        user {
+          id
+          name
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
+export class UploadRunGQL extends Apollo.Mutation<
+  UploadRun.Mutation,
+  UploadRun.Variables
+> {
+  document: any = gql`
+    mutation uploadRun($title: String, $comment: String, $routeId: ID!) {
+      uploadRun(title: $title, comment: $comment, routeId: $routeId) {
+        id
+        uploader {
+          id
+          name
+        }
+        route {
+          id
+          name
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: 'root'
+})
 export class CurrentUserRoutesGQL extends Apollo.Query<
   CurrentUserRoutes.Query,
   CurrentUserRoutes.Variables
@@ -460,14 +540,19 @@ export class ExploreRoutesGQL extends Apollo.Query<
 @Injectable({
   providedIn: 'root'
 })
-export class LoginGQL extends Apollo.Mutation<Login.Mutation, Login.Variables> {
+export class RecommendUserRoutesGQL extends Apollo.Query<
+  RecommendUserRoutes.Query,
+  RecommendUserRoutes.Variables
+> {
   document: any = gql`
-    mutation login($email: String!) {
-      login(email: $email) {
-        token
-        user {
+    query recommendUserRoutes {
+      routes {
+        id
+        name
+        creator {
           id
           name
+          email
         }
       }
     }
@@ -509,29 +594,6 @@ export class RouteDetailsGQL extends Apollo.Query<
     }
 
     ${CoordinatesFieldsFragment}
-  `;
-}
-@Injectable({
-  providedIn: 'root'
-})
-export class UploadRunGQL extends Apollo.Mutation<
-  UploadRun.Mutation,
-  UploadRun.Variables
-> {
-  document: any = gql`
-    mutation uploadRun($title: String, $comment: String, $routeId: ID!) {
-      uploadRun(title: $title, comment: $comment, routeId: $routeId) {
-        id
-        uploader {
-          id
-          name
-        }
-        route {
-          id
-          name
-        }
-      }
-    }
   `;
 }
 

@@ -13,7 +13,7 @@ import { RoutesEffects } from './routes/routes.effects';
 import { reducers } from './account.state';
 import { RouteDetailsComponent } from './route-details/route-details.component';
 import { UploadRunComponent } from './upload-run/upload-run.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouteDetailsMapComponent } from './route-details/route-details-map/route-details-map.component';
 import { RouteElevationChartComponent } from './route-details/route-elevation-chart/route-elevation-chart.component';
 import { FusionChartsModule } from 'angular-fusioncharts';
@@ -25,6 +25,9 @@ import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 
 import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+import { RecommendedComponent } from './explore/recommended/recommended.component';
+import { AllTrailsComponent } from './explore/all-trails/all-trails.component';
+import { ListViewComponent } from './explore/shared/list-view/list-view.component';
 
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -33,6 +36,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
   imports: [
     CommonModule,
     AccountRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     FusionChartsModule,
     RouterModule,
@@ -48,7 +52,10 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     RouteDetailsComponent,
     UploadRunComponent,
     RouteDetailsMapComponent,
-    RouteElevationChartComponent
+    RouteElevationChartComponent,
+    RecommendedComponent,
+    AllTrailsComponent,
+    ListViewComponent
   ],
   entryComponents: [UploadRunComponent]
 })

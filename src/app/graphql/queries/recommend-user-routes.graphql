@@ -1,0 +1,16 @@
+query recommendUserRoutes {
+  routes {
+    id,
+    name,
+    creator {
+      id,
+      name,
+      email
+    },
+  }
+}
+
+fragment coordinatesFields on Coordinates {
+  lat
+  lng
+}
