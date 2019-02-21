@@ -20,7 +20,7 @@
           <div class="media-body d-flex flex-column">
             <h5 class="mt-0 mb-0" [routerLink]="['/routes', route.id]">{{route.name}}</h5>
             <small class="text-muted">{{route.creator.name}}</small>
-            <small class="text-muted">{{ route.createdAt | date:'mediumDate'}}</small>
+            <ngb-rating [readonly]="true" [rate]="route.avgRating" [max]="5"></ngb-rating>
           </div>
         </div>
         <button class="btn btn-outline-secondary">

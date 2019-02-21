@@ -6,6 +6,7 @@ query recommendedUserRoutes {
       id,
       name,
     },
-    createdAt
+    createdAt,
+    avgRating
   }
 }

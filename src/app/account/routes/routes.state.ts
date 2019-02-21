@@ -26,6 +26,7 @@ export interface Route {
   lines?: Line[];
   creator?: Creator;
   createdAt?: Date;
+  avgRating?: number;
 }
 
 export interface Creator {

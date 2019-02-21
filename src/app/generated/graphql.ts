@@ -203,6 +203,8 @@ export namespace ExploreRoutes {
     creator: Creator;
 
     createdAt: DateTime;
+
+    avgRating: number | null;
   };
 
   export type Creator = {
@@ -233,6 +235,8 @@ export namespace PopularRoutes {
     creator: Creator;
 
     createdAt: DateTime;
+
+    avgRating: number | null;
   };
 
   export type Creator = {
@@ -263,6 +267,8 @@ export namespace RecommendedUserRoutes {
     creator: Creator;
 
     createdAt: DateTime;
+
+    avgRating: number | null;
   };
 
   export type Creator = {
@@ -299,6 +305,8 @@ export namespace RouteDetails {
     lines: Lines[];
 
     createdAt: DateTime;
+
+    avgRating: number | null;
   };
 
   export type Creator = {
@@ -489,6 +497,7 @@ export class ExploreRoutesGQL extends Apollo.Query<
           name
         }
         createdAt
+        avgRating
       }
     }
   `;
@@ -510,6 +519,7 @@ export class PopularRoutesGQL extends Apollo.Query<
           name
         }
         createdAt
+        avgRating
       }
     }
   `;
@@ -531,6 +541,7 @@ export class RecommendedUserRoutesGQL extends Apollo.Query<
           name
         }
         createdAt
+        avgRating
       }
     }
   `;
@@ -568,6 +579,7 @@ export class RouteDetailsGQL extends Apollo.Query<
           }
         }
         createdAt
+        avgRating
       }
     }
 
