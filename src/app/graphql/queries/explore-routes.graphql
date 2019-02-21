@@ -5,28 +5,7 @@ query exploreRoutes {
     creator {
       id,
       name,
-      email
     },
-    points {
-      coordinates {
-        ...coordinatesFields
-      }
-      elevation
-      distanceFromPreviousPoint
-    },
-    lines {
-      points {
-        coordinates {
-          ...coordinatesFields
-        },
-        elevation
-      }
-    }
+    createdAt
   }
 }
-
-fragment coordinatesFields on Coordinates {
-  lat
-  lng
-}
-

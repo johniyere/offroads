@@ -9,7 +9,7 @@ import { RetrieveExploreRoutes, ClearRoutes } from '../../routes/routes.actions'
 @Component({
   selector: 'ofr-all-trails',
   templateUrl: './all-trails.component.html',
-  styleUrls: ['./all-trails.component.css']
+  styleUrls: ['./all-trails.component.scss']
 })
 export class AllTrailsComponent implements OnInit, OnDestroy {
 

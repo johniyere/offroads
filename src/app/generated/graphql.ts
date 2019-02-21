@@ -22,26 +22,27 @@ export interface LinePointInput {
   elevation: number;
 }
 
+export type DateTime = any;
+
 // ====================================================
 // Documents
 // ====================================================
 
 export namespace CreateRoute {
-  export interface Variables {
+  export type Variables = {
     name: string;
     points: PointInput[];
     lines: LineInput[];
-  }
+  };
 
-  export interface Mutation {
-    __typename?: 'Mutation';
+  export type Mutation = {
+    __typename?: "Mutation";
 
     createRoute: CreateRoute;
-  }
+  };
 
-  // tslint:disable-next-line:no-shadowed-variable
-  export interface CreateRoute {
-    __typename?: 'Route';
+  export type CreateRoute = {
+    __typename?: "Route";
 
     id: string;
 
@@ -52,153 +53,148 @@ export namespace CreateRoute {
     lines: Lines[];
 
     creator: Creator;
-  }
+  };
 
-  export interface Points {
-    __typename?: 'Point';
+  export type Points = {
+    __typename?: "Point";
 
     coordinates: Coordinates;
 
     elevation: number;
 
     distanceFromPreviousPoint: number | null;
-  }
+  };
 
   export type Coordinates = CoordinatesFields.Fragment;
 
-  export interface Lines {
-    __typename?: 'Line';
+  export type Lines = {
+    __typename?: "Line";
 
     points: _Points[];
-  }
+  };
 
-  // tslint:disable-next-line:class-name
-  export interface _Points {
-    __typename?: 'Point';
+  export type _Points = {
+    __typename?: "Point";
 
     coordinates: _Coordinates;
 
     elevation: number;
-  }
+  };
 
   export type _Coordinates = CoordinatesFields.Fragment;
 
-  export interface Creator {
-    __typename?: 'User';
+  export type Creator = {
+    __typename?: "User";
 
     id: string;
 
     name: string;
-  }
+  };
 }
 
 export namespace Login {
-  export interface Variables {
+  export type Variables = {
     email: string;
-  }
+  };
 
-  export interface Mutation {
-    __typename?: 'Mutation';
+  export type Mutation = {
+    __typename?: "Mutation";
 
     login: Login;
-  }
+  };
 
-  // tslint:disable-next-line:no-shadowed-variable
-  export interface Login {
-    __typename?: 'AuthPayload';
+  export type Login = {
+    __typename?: "AuthPayload";
 
     token: string;
 
     user: User;
-  }
+  };
 
-  export interface User {
-    __typename?: 'User';
+  export type User = {
+    __typename?: "User";
 
     id: string;
 
     name: string;
-  }
+  };
 }
 
 export namespace UploadRun {
-  export interface Variables {
+  export type Variables = {
     title?: string | null;
     comment?: string | null;
     routeId: string;
-  }
+  };
 
-  export interface Mutation {
-    __typename?: 'Mutation';
+  export type Mutation = {
+    __typename?: "Mutation";
 
     uploadRun: UploadRun;
-  }
+  };
 
-  // tslint:disable-next-line:no-shadowed-variable
-  export interface UploadRun {
-    __typename?: 'Run';
+  export type UploadRun = {
+    __typename?: "Run";
 
     id: string;
 
     uploader: Uploader;
 
     route: Route;
-  }
+  };
 
-  export interface Uploader {
-    __typename?: 'User';
-
-    id: string;
-
-    name: string;
-  }
-
-  export interface Route {
-    __typename?: 'Route';
+  export type Uploader = {
+    __typename?: "User";
 
     id: string;
 
     name: string;
-  }
+  };
+
+  export type Route = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+  };
 }
 
 export namespace CurrentUserRoutes {
-  // tslint:disable-next-line:no-empty-interface
-  export interface Variables {}
+  export type Variables = {};
 
-  export interface Query {
-    __typename?: 'Query';
+  export type Query = {
+    __typename?: "Query";
 
     me: Me | null;
-  }
+  };
 
-  export interface Me {
-    __typename?: 'User';
+  export type Me = {
+    __typename?: "User";
 
     createdRoutes: CreatedRoutes[];
-  }
+  };
 
-  export interface CreatedRoutes {
-    __typename?: 'Route';
+  export type CreatedRoutes = {
+    __typename?: "Route";
 
     id: string;
 
     name: string;
-  }
+  };
 }
 
 export namespace ExploreRoutes {
-  // tslint:disable-next-line:no-empty-interface
-  export interface Variables {}
+  export type Variables = {};
 
-  export interface Query {
-    __typename?: 'Query';
+  export type Query = {
+    __typename?: "Query";
 
     routes: Routes[];
-  }
+  };
 
-  export interface Routes {
-    __typename?: 'Route';
+  export type Routes = {
+    __typename?: "Route";
 
     id: string;
 
@@ -206,95 +202,91 @@ export namespace ExploreRoutes {
 
     creator: Creator;
 
-    points: Points[];
+    createdAt: DateTime;
+  };
 
-    lines: Lines[];
-  }
-
-  export interface Creator {
-    __typename?: 'User';
+  export type Creator = {
+    __typename?: "User";
 
     id: string;
 
     name: string;
-
-    email: string;
-  }
-
-  export interface Points {
-    __typename?: 'Point';
-
-    coordinates: Coordinates;
-
-    elevation: number;
-
-    distanceFromPreviousPoint: number | null;
-  }
-
-  export type Coordinates = CoordinatesFields.Fragment;
-
-  export interface Lines {
-    __typename?: 'Line';
-
-    points: _Points[];
-  }
-
-  // tslint:disable-next-line:class-name
-  export interface _Points {
-    __typename?: 'Point';
-
-    coordinates: _Coordinates;
-
-    elevation: number;
-  }
-
-  export type _Coordinates = CoordinatesFields.Fragment;
+  };
 }
 
-export namespace RecommendUserRoutes {
-  // tslint:disable-next-line:no-empty-interface
-  export interface Variables {}
+export namespace PopularRoutes {
+  export type Variables = {};
 
-  export interface Query {
-    __typename?: 'Query';
+  export type Query = {
+    __typename?: "Query";
 
-    routes: Routes[];
-  }
+    popularRoutes: PopularRoutes[];
+  };
 
-  export interface Routes {
-    __typename?: 'Route';
+  export type PopularRoutes = {
+    __typename?: "Route";
 
     id: string;
 
     name: string;
 
     creator: Creator;
-  }
 
-  export interface Creator {
-    __typename?: 'User';
+    createdAt: DateTime;
+  };
+
+  export type Creator = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
+}
+
+export namespace RecommendedUserRoutes {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: "Query";
+
+    recommendedUserRoutes: RecommendedUserRoutes[];
+  };
+
+  export type RecommendedUserRoutes = {
+    __typename?: "Route";
 
     id: string;
 
     name: string;
 
-    email: string;
-  }
+    creator: Creator;
+
+    createdAt: DateTime;
+  };
+
+  export type Creator = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
 }
 
 export namespace RouteDetails {
-  export interface Variables {
+  export type Variables = {
     id: string;
-  }
+  };
 
-  export interface Query {
-    __typename?: 'Query';
+  export type Query = {
+    __typename?: "Query";
 
     route: Route;
-  }
+  };
 
-  export interface Route {
-    __typename?: 'Route';
+  export type Route = {
+    __typename?: "Route";
 
     id: string;
 
@@ -305,86 +297,67 @@ export namespace RouteDetails {
     points: Points[];
 
     lines: Lines[];
-  }
 
-  export interface Creator {
-    __typename?: 'User';
+    createdAt: DateTime;
+  };
+
+  export type Creator = {
+    __typename?: "User";
 
     id: string;
 
     name: string;
 
     email: string;
-  }
+  };
 
-  export interface Points {
-    __typename?: 'Point';
+  export type Points = {
+    __typename?: "Point";
 
     coordinates: Coordinates;
 
     elevation: number;
 
     distanceFromPreviousPoint: number | null;
-  }
+  };
 
   export type Coordinates = CoordinatesFields.Fragment;
 
-  export interface Lines {
-    __typename?: 'Line';
+  export type Lines = {
+    __typename?: "Line";
 
     points: _Points[];
-  }
+  };
 
-  // tslint:disable-next-line:class-name
-  export interface _Points {
-    __typename?: 'Point';
+  export type _Points = {
+    __typename?: "Point";
 
     coordinates: _Coordinates;
 
     elevation: number;
-  }
+  };
 
   export type _Coordinates = CoordinatesFields.Fragment;
 }
 
 export namespace CoordinatesFields {
-  export interface Fragment {
-    __typename?: 'Coordinates';
+  export type Fragment = {
+    __typename?: "Coordinates";
 
     lat: number;
 
     lng: number;
-  }
-}
-
-export namespace CoordinatesFields {
-  export interface Fragment {
-    __typename?: 'Coordinates';
-
-    lat: number;
-
-    lng: number;
-  }
-}
-
-export namespace CoordinatesFields {
-  export interface Fragment {
-    __typename?: 'Coordinates';
-
-    lat: number;
-
-    lng: number;
-  }
+  };
 }
 
 // ====================================================
 // START: Apollo Angular template
 // ====================================================
 
-import { Injectable } from '@angular/core';
-import * as Apollo from 'apollo-angular';
+import { Injectable } from "@angular/core";
+import * as Apollo from "apollo-angular";
 
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 // ====================================================
 // GraphQL Fragments
@@ -402,7 +375,7 @@ export const CoordinatesFieldsFragment = gql`
 // ====================================================
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class CreateRouteGQL extends Apollo.Mutation<
   CreateRoute.Mutation,
@@ -443,7 +416,7 @@ export class CreateRouteGQL extends Apollo.Mutation<
   `;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class LoginGQL extends Apollo.Mutation<Login.Mutation, Login.Variables> {
   document: any = gql`
@@ -459,7 +432,7 @@ export class LoginGQL extends Apollo.Mutation<Login.Mutation, Login.Variables> {
   `;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class UploadRunGQL extends Apollo.Mutation<
   UploadRun.Mutation,
@@ -482,7 +455,7 @@ export class UploadRunGQL extends Apollo.Mutation<
   `;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class CurrentUserRoutesGQL extends Apollo.Query<
   CurrentUserRoutes.Query,
@@ -500,7 +473,7 @@ export class CurrentUserRoutesGQL extends Apollo.Query<
   `;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class ExploreRoutesGQL extends Apollo.Query<
   ExploreRoutes.Query,
@@ -514,52 +487,56 @@ export class ExploreRoutesGQL extends Apollo.Query<
         creator {
           id
           name
-          email
         }
-        points {
-          coordinates {
-            ...coordinatesFields
-          }
-          elevation
-          distanceFromPreviousPoint
-        }
-        lines {
-          points {
-            coordinates {
-              ...coordinatesFields
-            }
-            elevation
-          }
-        }
+        createdAt
       }
     }
-
-    ${CoordinatesFieldsFragment}
   `;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
-export class RecommendUserRoutesGQL extends Apollo.Query<
-  RecommendUserRoutes.Query,
-  RecommendUserRoutes.Variables
+export class PopularRoutesGQL extends Apollo.Query<
+  PopularRoutes.Query,
+  PopularRoutes.Variables
 > {
   document: any = gql`
-    query recommendUserRoutes {
-      routes {
+    query popularRoutes {
+      popularRoutes {
         id
         name
         creator {
           id
           name
-          email
         }
+        createdAt
       }
     }
   `;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
+})
+export class RecommendedUserRoutesGQL extends Apollo.Query<
+  RecommendedUserRoutes.Query,
+  RecommendedUserRoutes.Variables
+> {
+  document: any = gql`
+    query recommendedUserRoutes {
+      recommendedUserRoutes {
+        id
+        name
+        creator {
+          id
+          name
+        }
+        createdAt
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
 })
 export class RouteDetailsGQL extends Apollo.Query<
   RouteDetails.Query,
@@ -590,6 +567,7 @@ export class RouteDetailsGQL extends Apollo.Query<
             elevation
           }
         }
+        createdAt
       }
     }
 

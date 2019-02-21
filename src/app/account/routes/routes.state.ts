@@ -25,11 +25,12 @@ export interface Route {
   points?: Point[];
   lines?: Line[];
   creator?: Creator;
+  createdAt?: Date;
 }
 
 export interface Creator {
   name: string;
-  email: string;
+  email?: string;
 }
 
 export interface RouteState extends EntityState<Route> {

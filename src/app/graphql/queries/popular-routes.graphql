@@ -1,5 +1,5 @@
-query recommendedUserRoutes {
-  recommendedUserRoutes {
+query popularRoutes {
+  popularRoutes {
     id,
     name,
     creator {

@@ -27,7 +27,8 @@ import * as Charts from 'fusioncharts/fusioncharts.charts';
 import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import { RecommendedComponent } from './explore/recommended/recommended.component';
 import { AllTrailsComponent } from './explore/all-trails/all-trails.component';
-import { ListViewComponent } from './explore/shared/list-view/list-view.component';
+import { DisplayRoutesComponent } from './explore/shared/display-routes/display-routes.component';
+import { PopularComponent } from './explore/popular/popular.component';
 
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -55,7 +56,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     RouteElevationChartComponent,
     RecommendedComponent,
     AllTrailsComponent,
-    ListViewComponent
+    DisplayRoutesComponent,
+    PopularComponent
   ],
   entryComponents: [UploadRunComponent]
 })

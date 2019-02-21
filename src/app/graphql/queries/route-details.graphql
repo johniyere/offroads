@@ -21,6 +21,7 @@ query RouteDetails($id: ID!) {
         },
         elevation
       }
-    }
+    },
+    createdAt
   }
 }

@@ -6,9 +6,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountComponent } from './account.component';
 import { AuthGuard } from '../core/auth/auth.guard';
 import { RouteDetailsComponent } from './route-details/route-details.component';
-import { UploadRunComponent } from './upload-run/upload-run.component';
 import { RecommendedComponent } from './explore/recommended/recommended.component';
 import { AllTrailsComponent } from './explore/all-trails/all-trails.component';
+import { PopularComponent } from './explore/popular/popular.component';
 
 const accountRoutes: Routes = [
   {
@@ -33,12 +33,21 @@ const accountRoutes: Routes = [
         canActivateChild: [AuthGuard],
         children: [
           {
+            path: '',
+            redirectTo: 'recommended',
+            pathMatch: 'full'
+          },
+          {
             path: 'recommended',
             component: RecommendedComponent
           },
           {
             path: 'all-trails',
             component: AllTrailsComponent
+          },
+          {
+            path: 'popular-trails',
+            component: PopularComponent
           }
         ]
       },

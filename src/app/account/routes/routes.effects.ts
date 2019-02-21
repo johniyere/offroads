@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { RouteActionTypes, LoadRoutes, RetrieveDashboardRoutes, RetrieveDashboardRoutesFailure,
+import {
+  RouteActionTypes, LoadRoutes, RetrieveDashboardRoutes, RetrieveDashboardRoutesFailure,
   RetrieveExploreRoutes, RetrieveExploreRoutesFailure, RetrieveRoute,
   RetrieveRouteSuccess, RetrieveRouteFailure, UploadRun, UploadRunSuccess,
-  UploadRunFailure, RetrieveRecommendedUserRoutes, RetrieveRecommendedUserRoutesFailure } from './routes.actions';
+  UploadRunFailure, RetrieveRecommendedUserRoutes, RetrieveRecommendedUserRoutesFailure,
+  RetrievePopularRoutes, RetrievePopularRoutesFailure
+} from './routes.actions';
 import { mergeMap, map, catchError, tap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { DashboardService } from '../dashboard/shared/dashboard.service';
@@ -115,6 +118,23 @@ export class RoutesEffects {
   @Effect({ dispatch: false })
   retrieveRecommendedUserRoutesFailure$ = this.actions$.pipe(
     ofType<RetrieveRecommendedUserRoutesFailure>(RouteActionTypes.RETRIEVE_RECOMMENDED_USER_ROUTES_FAILURE),
+    tap((action) => console.log(action.payload.err))
+  );
+
+  @Effect({})
+  retrievePopularRoutes$ = this.actions$.pipe(
+    ofType<RetrievePopularRoutes>(RouteActionTypes.RETRIEVE_POPULAR_ROUTES),
+    mergeMap((action) =>
+      this.exploreService.popularRoutes().pipe(
+        map((routes) => new LoadRoutes({routes})),
+        catchError((err) => of(new RetrievePopularRoutesFailure({err})))
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  retrievePopularRoutesFailure$ = this.actions$.pipe(
+    ofType<RetrievePopularRoutesFailure>(RouteActionTypes.RETRIEVE_POPULAR_ROUTES_FAILURE),
     tap((action) => console.log(action.payload.err))
   );
 }
