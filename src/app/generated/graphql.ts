@@ -125,6 +125,7 @@ export namespace UploadRun {
     title?: string | null;
     comment?: string | null;
     routeId: string;
+    time?: number | null;
   };
 
   export type Mutation = {
@@ -140,19 +141,11 @@ export namespace UploadRun {
 
     uploader: Uploader;
 
-    route: Route;
+    time: number | null;
   };
 
   export type Uploader = {
     __typename?: "User";
-
-    id: string;
-
-    name: string;
-  };
-
-  export type Route = {
-    __typename?: "Route";
 
     id: string;
 
@@ -348,6 +341,38 @@ export namespace RouteDetails {
   export type _Coordinates = CoordinatesFields.Fragment;
 }
 
+export namespace TopRatedRoutes {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: "Query";
+
+    topRatedRoutes: TopRatedRoutes[];
+  };
+
+  export type TopRatedRoutes = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+
+    creator: Creator;
+
+    createdAt: DateTime;
+
+    avgRating: number | null;
+  };
+
+  export type Creator = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
+}
+
 export namespace CoordinatesFields {
   export type Fragment = {
     __typename?: "Coordinates";
@@ -447,17 +472,24 @@ export class UploadRunGQL extends Apollo.Mutation<
   UploadRun.Variables
 > {
   document: any = gql`
-    mutation uploadRun($title: String, $comment: String, $routeId: ID!) {
-      uploadRun(title: $title, comment: $comment, routeId: $routeId) {
+    mutation uploadRun(
+      $title: String
+      $comment: String
+      $routeId: ID!
+      $time: Int
+    ) {
+      uploadRun(
+        title: $title
+        comment: $comment
+        routeId: $routeId
+        time: $time
+      ) {
         id
         uploader {
           id
           name
         }
-        route {
-          id
-          name
-        }
+        time
       }
     }
   `;
@@ -584,6 +616,28 @@ export class RouteDetailsGQL extends Apollo.Query<
     }
 
     ${CoordinatesFieldsFragment}
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
+export class TopRatedRoutesGQL extends Apollo.Query<
+  TopRatedRoutes.Query,
+  TopRatedRoutes.Variables
+> {
+  document: any = gql`
+    query topRatedRoutes {
+      topRatedRoutes {
+        id
+        name
+        creator {
+          id
+          name
+        }
+        createdAt
+        avgRating
+      }
+    }
   `;
 }
 

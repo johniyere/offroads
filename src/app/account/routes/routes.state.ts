@@ -24,14 +24,34 @@ export interface Route {
   name: string;
   points?: Point[];
   lines?: Line[];
-  creator?: Creator;
+  creator?: User;
   createdAt?: Date;
   avgRating?: number;
+  runs?: Run[];
 }
 
-export interface Creator {
+export interface User {
+  id: string;
   name: string;
   email?: string;
+}
+
+export interface Run {
+  id: string;
+  title?: string;
+  comment?: string;
+  route?: Route;
+  uploader?: User;
+  createdAt?: Date;
+}
+
+export interface Review {
+  id: string;
+  rating?: number;
+  reviewer?: User;
+  route?: Route;
+  createdAt?: Date;
+  comment?: string;
 }
 
 export interface RouteState extends EntityState<Route> {

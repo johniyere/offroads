@@ -9,8 +9,8 @@ export class UploadRunService {
 
   constructor(private uploadRunGQL: UploadRunGQL) { }
 
-  uploadRun(title: string, comment: string, routeId: string) {
-    return this.uploadRunGQL.mutate({title, comment, routeId}).pipe(
+  uploadRun(title: string, comment: string, time: number, routeId: string) {
+    return this.uploadRunGQL.mutate({title, comment, routeId, time}).pipe(
       map((result) => result.data.uploadRun as UploadRun.UploadRun)
     );
   }

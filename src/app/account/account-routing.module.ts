@@ -9,6 +9,7 @@ import { RouteDetailsComponent } from './route-details/route-details.component';
 import { RecommendedComponent } from './explore/recommended/recommended.component';
 import { AllTrailsComponent } from './explore/all-trails/all-trails.component';
 import { PopularComponent } from './explore/popular/popular.component';
+import { TopRatedComponent } from './explore/top-rated/top-rated.component';
 
 const accountRoutes: Routes = [
   {
@@ -48,6 +49,10 @@ const accountRoutes: Routes = [
           {
             path: 'popular-trails',
             component: PopularComponent
+          },
+          {
+            path: 'top-rated-trails',
+            component: TopRatedComponent
           }
         ]
       },

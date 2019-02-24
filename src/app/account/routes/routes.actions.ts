@@ -19,7 +19,9 @@ export enum RouteActionTypes {
   RETRIEVE_RECOMMENDED_USER_ROUTES = '[Routes] Retrieve Recommended User Routes',
   RETRIEVE_RECOMMENDED_USER_ROUTES_FAILURE = '[Routes] Retrieve Recommended User Routes Failure',
   RETRIEVE_POPULAR_ROUTES = '[Routes] Retrieve Popular Routes',
-  RETRIEVE_POPULAR_ROUTES_FAILURE = '[Routes] Retrieve Popular Routes Failure'
+  RETRIEVE_POPULAR_ROUTES_FAILURE = '[Routes] Retrieve Popular Routes Failure',
+  RETRIEVE_TOP_RATED_ROUTES = '[Routes] Retrieve Top Rated Routes',
+  RETRIEVE_TOP_RATED_ROUTES_FAILURE = '[Routes] Retrieve Top Rated Routes Failure'
 }
 
 export class LoadRoutes implements Action {
@@ -82,7 +84,7 @@ export class ClearSelectedRoute implements Action {
 export class UploadRun implements Action {
   readonly type = RouteActionTypes.UPLOAD_RUN;
 
-  constructor(public payload: { title?: string, comment?: string}) {}
+  constructor(public payload: { title?: string, comment?: string, time: number}) {}
 }
 
 export class UploadRunSuccess implements Action {
@@ -117,6 +119,16 @@ export class RetrievePopularRoutesFailure implements Action {
   constructor (public payload: { err: any }) {}
 }
 
+export class RetrieveTopRatedRoutes implements Action {
+  readonly type = RouteActionTypes.RETRIEVE_TOP_RATED_ROUTES;
+}
+
+export class RetrieveTopRatedRoutesFailure implements Action {
+  readonly type = RouteActionTypes.RETRIEVE_TOP_RATED_ROUTES_FAILURE;
+
+  constructor (public payload: { err: any }) {}
+}
+
 
 export type RouteActions
   = LoadRoutes
@@ -137,4 +149,6 @@ export type RouteActions
   | RetrieveRecommendedUserRoutesFailure
   | RetrievePopularRoutes
   | RetrievePopularRoutesFailure
+  | RetrieveTopRatedRoutes
+  | RetrieveTopRatedRoutesFailure
 ;

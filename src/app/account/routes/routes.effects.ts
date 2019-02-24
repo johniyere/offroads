@@ -6,7 +6,7 @@ import {
   RetrieveExploreRoutes, RetrieveExploreRoutesFailure, RetrieveRoute,
   RetrieveRouteSuccess, RetrieveRouteFailure, UploadRun, UploadRunSuccess,
   UploadRunFailure, RetrieveRecommendedUserRoutes, RetrieveRecommendedUserRoutesFailure,
-  RetrievePopularRoutes, RetrievePopularRoutesFailure
+  RetrievePopularRoutes, RetrievePopularRoutesFailure, RetrieveTopRatedRoutes, RetrieveTopRatedRoutesFailure
 } from './routes.actions';
 import { mergeMap, map, catchError, tap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -85,7 +85,7 @@ export class RoutesEffects {
     ofType<UploadRun>(RouteActionTypes.UPLOAD_RUN),
     withLatestFrom(this.store.select(selectSelectedRouteId)),
     mergeMap(([action, routeId]) =>
-      this.uploadRunService.uploadRun(action.payload.title, action.payload.comment, routeId).pipe(
+      this.uploadRunService.uploadRun(action.payload.title, action.payload.comment, action.payload.time, routeId).pipe(
         map((run) => new UploadRunSuccess({ run })),
         catchError((err) => of(new UploadRunFailure({err})))
       )
@@ -135,6 +135,23 @@ export class RoutesEffects {
   @Effect({ dispatch: false })
   retrievePopularRoutesFailure$ = this.actions$.pipe(
     ofType<RetrievePopularRoutesFailure>(RouteActionTypes.RETRIEVE_POPULAR_ROUTES_FAILURE),
+    tap((action) => console.log(action.payload.err))
+  );
+
+  @Effect({})
+  retrieveTopRatedRoutes$ = this.actions$.pipe(
+    ofType<RetrieveTopRatedRoutes>(RouteActionTypes.RETRIEVE_TOP_RATED_ROUTES),
+    mergeMap((action) =>
+      this.exploreService.topRatedRoutes().pipe(
+        map((routes) => new LoadRoutes({routes})),
+        catchError((err) => of(new RetrieveTopRatedRoutesFailure({err})))
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  retrieveTopRatedRoutesFailure$ = this.actions$.pipe(
+    ofType<RetrieveTopRatedRoutesFailure>(RouteActionTypes.RETRIEVE_TOP_RATED_ROUTES_FAILURE),
     tap((action) => console.log(action.payload.err))
   );
 }

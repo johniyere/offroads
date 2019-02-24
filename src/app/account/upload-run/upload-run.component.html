@@ -14,9 +14,12 @@
         <label for="exampleInputPassword1">Comment</label>
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="comment"></textarea>
       </div>
+      <div class="form-group">
+        <ngb-timepicker formControlName="time" [seconds]="true"></ngb-timepicker>
+      </div>
     </form>
 </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
-    <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
 </div>

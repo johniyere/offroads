@@ -1,14 +1,22 @@
-<!-- <button class="btn btn-primary" (click)="open()">Add a run</button>
-<pre>{{ selectedRoute$ | async | json}}</pre> -->
-<div class="container mt-5" *ngIf="(selectedRoute$ | async) as route">
-  <div class="row align-items-center">
-    <h4>{{route.name}}</h4>
-    <button class="btn btn-primary" (click)="open()">Add a run</button>
+<div class="container mt-5 mb-5" *ngIf="(selectedRoute$ | async) as route">
+  <div class="row mb-3">
+    <i class="fas fa-arrow-left" style="font-size: 25px"></i>
   </div>
-  <div class="row">
+  <div class="row justify-content-between mb-4">
+    <div class="d-flex flex-column">
+      <h3 class="mb-0">{{route.name}}</h3>
+      <ngb-rating [rate]="route.avgRating" [readonly]="true" [max]="5"></ngb-rating>
+    </div>
+    
+    <button class="btn btn-outline-secondary"><i class="far fa-bookmark"></i></button>
+  </div>
+  <div class="row mb-3">
     <ofr-route-details-map></ofr-route-details-map>
   </div>
-  <div class="row">
+  <div class="row mb-5">
     <ofr-route-elevation-chart></ofr-route-elevation-chart>
+  </div>
+  <div class="row">
+    <ofr-route-leaderboard></ofr-route-leaderboard>
   </div>
 </div>
