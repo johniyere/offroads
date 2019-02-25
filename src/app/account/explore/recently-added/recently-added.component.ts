@@ -5,13 +5,13 @@ import { Store, select } from '@ngrx/store';
 import { State } from '../../account.state';
 import { selectAllRoutes } from '../../routes/routes.selectors';
 import { ClearRoutes, RetrieveRoutes } from '../../routes/routes.actions';
-
+import { RouteOrderByInput } from 'src/app/generated/graphql';
 @Component({
-  selector: 'ofr-all-trails',
-  templateUrl: './all-trails.component.html',
-  styleUrls: ['./all-trails.component.scss']
+  selector: 'ofr-recently-added',
+  templateUrl: './recently-added.component.html',
+  styleUrls: ['./recently-added.component.scss']
 })
-export class AllTrailsComponent implements OnInit, OnDestroy {
+export class RecentlyAddedComponent implements OnInit, OnDestroy {
 
   routes$: Observable<Route[]>;
 
@@ -24,7 +24,7 @@ export class AllTrailsComponent implements OnInit, OnDestroy {
       select(selectAllRoutes)
     );
 
-    this.store.dispatch(new RetrieveRoutes({}));
+    this.store.dispatch(new RetrieveRoutes({orderBy: RouteOrderByInput.CreatedAtDesc}));
   }
 
   ngOnDestroy() {

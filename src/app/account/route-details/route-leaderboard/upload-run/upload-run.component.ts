@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { State } from '../account.state';
+import { State } from '../../../account.state';
 import { FormBuilder } from '@angular/forms';
-import { UploadRun } from '../routes/routes.actions';
+import { UploadRun } from '../../../routes/routes.actions';
 
 export interface Timer {
   hour: number;

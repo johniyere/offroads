@@ -12,7 +12,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { RoutesEffects } from './routes/routes.effects';
 import { reducers } from './account.state';
 import { RouteDetailsComponent } from './route-details/route-details.component';
-import { UploadRunComponent } from './upload-run/upload-run.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouteDetailsMapComponent } from './route-details/route-details-map/route-details-map.component';
 import { RouteElevationChartComponent } from './route-details/route-elevation-chart/route-elevation-chart.component';
@@ -31,6 +30,10 @@ import { DisplayRoutesComponent } from './explore/shared/display-routes/display-
 import { PopularComponent } from './explore/popular/popular.component';
 import { TopRatedComponent } from './explore/top-rated/top-rated.component';
 import { RouteLeaderboardComponent } from './route-details/route-leaderboard/route-leaderboard.component';
+import { RecentlyAddedComponent } from './explore/recently-added/recently-added.component';
+import { RouteReviewsComponent } from './route-details/route-reviews/route-reviews.component';
+import { UploadRunComponent } from './route-details/route-leaderboard/upload-run/upload-run.component';
+import { AddAReviewComponent } from './route-details/route-reviews/add-a-review/add-a-review.component';
 
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -61,8 +64,11 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     DisplayRoutesComponent,
     PopularComponent,
     TopRatedComponent,
-    RouteLeaderboardComponent
+    RouteLeaderboardComponent,
+    RecentlyAddedComponent,
+    RouteReviewsComponent,
+    AddAReviewComponent
   ],
-  entryComponents: [UploadRunComponent]
+  entryComponents: [UploadRunComponent, AddAReviewComponent]
 })
 export class AccountModule { }

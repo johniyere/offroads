@@ -1,0 +1,5 @@
+mutation addAReview($routeId: ID!, $rating: Float!, $comment: String) {
+  addAReview(routeId: $routeId, comment: $comment, rating: $rating) {
+    id
+  }
+}

@@ -10,6 +10,7 @@ import { RecommendedComponent } from './explore/recommended/recommended.componen
 import { AllTrailsComponent } from './explore/all-trails/all-trails.component';
 import { PopularComponent } from './explore/popular/popular.component';
 import { TopRatedComponent } from './explore/top-rated/top-rated.component';
+import { RecentlyAddedComponent } from './explore/recently-added/recently-added.component';
 
 const accountRoutes: Routes = [
   {
@@ -53,6 +54,10 @@ const accountRoutes: Routes = [
           {
             path: 'top-rated-trails',
             component: TopRatedComponent
+          },
+          {
+            path: 'recently-added',
+            component: RecentlyAddedComponent
           }
         ]
       },

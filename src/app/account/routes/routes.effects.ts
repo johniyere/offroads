@@ -3,10 +3,10 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import {
   RouteActionTypes, LoadRoutes, RetrieveDashboardRoutes, RetrieveDashboardRoutesFailure,
-  RetrieveExploreRoutes, RetrieveExploreRoutesFailure, RetrieveRoute,
-  RetrieveRouteSuccess, RetrieveRouteFailure, UploadRun, UploadRunSuccess,
+  RetrieveRoute, RetrieveRouteSuccess, RetrieveRouteFailure, UploadRun, UploadRunSuccess,
   UploadRunFailure, RetrieveRecommendedUserRoutes, RetrieveRecommendedUserRoutesFailure,
-  RetrievePopularRoutes, RetrievePopularRoutesFailure, RetrieveTopRatedRoutes, RetrieveTopRatedRoutesFailure
+  RetrievePopularRoutes, RetrievePopularRoutesFailure, RetrieveTopRatedRoutes,
+  RetrieveTopRatedRoutesFailure, RetrieveRoutes, RetrieveRoutesFailure, AddReview, AddReviewSuccess, AddReviewFailure,
 } from './routes.actions';
 import { mergeMap, map, catchError, tap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -15,7 +15,8 @@ import { State } from '../account.state';
 import { ExploreService } from '../explore/shared/explore.service';
 import { selectSelectedRouteId } from './routes.selectors';
 import { RouteDetailsService } from '../route-details/shared/route-details.service';
-import { UploadRunService } from '../upload-run/shared/upload-run.service';
+import { UploadRunService } from '../route-details/route-leaderboard/upload-run/shared/upload-run.service';
+import { AddAReviewService } from '../route-details/route-reviews/add-a-review/shared/add-a-review.service';
 
 @Injectable()
 export class RoutesEffects {
@@ -25,7 +26,8 @@ export class RoutesEffects {
     private dashboardService: DashboardService,
     private exploreService: ExploreService,
     private routeDetailsService: RouteDetailsService,
-    private uploadRunService: UploadRunService
+    private uploadRunService: UploadRunService,
+    private addReviewService: AddAReviewService
   ) {}
 
   @Effect()
@@ -46,19 +48,19 @@ export class RoutesEffects {
   );
 
   @Effect()
-  retrieveExploreRoutes$ = this.actions$.pipe(
-    ofType<RetrieveExploreRoutes>(RouteActionTypes.RETRIEVE_EXPLORE_ROUTES),
+  retrieveRoutes$ = this.actions$.pipe(
+    ofType<RetrieveRoutes>(RouteActionTypes.RETRIEVE_ROUTES),
     mergeMap((action) =>
       this.exploreService.routes().pipe(
         map((routes) => new LoadRoutes({ routes })),
-        catchError((err) => of(new RetrieveExploreRoutesFailure({err}))
+        catchError((err) => of(new RetrieveRoutesFailure({err}))
       )
     )
   ));
 
   @Effect({ dispatch: false })
-  retrieveExploreRoutesFailure$ = this.actions$.pipe(
-    ofType<RetrieveExploreRoutesFailure>(RouteActionTypes.RETRIEVE_EXPLORE_ROUTES_FAILURE),
+  retrieveRoutesFailure$ = this.actions$.pipe(
+    ofType<RetrieveRoutesFailure>(RouteActionTypes.RETRIEVE_ROUTES_FAILURE),
     tap((action) => console.log(action.payload.err))
   );
 
@@ -101,6 +103,30 @@ export class RoutesEffects {
   @Effect({ dispatch: false })
   uploadRunFailure$ = this.actions$.pipe(
     ofType<UploadRunFailure>(RouteActionTypes.UPLOAD_RUN_FAILURE),
+    tap((action) => console.log(action.payload.err))
+  );
+
+  @Effect()
+  addReview$ = this.actions$.pipe(
+    ofType<AddReview>(RouteActionTypes.ADD_REVIEW),
+    withLatestFrom(this.store.select(selectSelectedRouteId)),
+    mergeMap(([action, routeId]) =>
+      this.addReviewService.addReview(routeId, action.payload.rating, action.payload.comment).pipe(
+        map((review) => new AddReviewSuccess({review})),
+        catchError((err) => of(new AddReviewFailure({err})))
+      )
+    )
+  );
+
+  @Effect({ dispatch: false })
+  addReviewSuccess$ = this.actions$.pipe(
+    ofType<AddReviewSuccess>(RouteActionTypes.ADD_REVIEW_SUCCESS),
+    tap((action) => console.log(action.payload.review))
+  );
+
+  @Effect({ dispatch: false })
+  addReviewFailure$ = this.actions$.pipe(
+    ofType<AddReviewFailure>(RouteActionTypes.ADD_REVIEW_FAILURE),
     tap((action) => console.log(action.payload.err))
   );
 

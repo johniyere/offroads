@@ -22,11 +22,46 @@ export interface LinePointInput {
   elevation: number;
 }
 
+export enum RouteOrderByInput {
+  IdAsc = "id_ASC",
+  IdDesc = "id_DESC",
+  NameAsc = "name_ASC",
+  NameDesc = "name_DESC",
+  DescriptionAsc = "description_ASC",
+  DescriptionDesc = "description_DESC",
+  CreatedAtAsc = "createdAt_ASC",
+  CreatedAtDesc = "createdAt_DESC",
+  UpdatedAtAsc = "updatedAt_ASC",
+  UpdatedAtDesc = "updatedAt_DESC",
+  AvgRatingAsc = "avgRating_ASC",
+  AvgRatingDesc = "avgRating_DESC"
+}
+
 export type DateTime = any;
 
 // ====================================================
 // Documents
 // ====================================================
+
+export namespace AddAReview {
+  export type Variables = {
+    routeId: string;
+    rating: number;
+    comment?: string | null;
+  };
+
+  export type Mutation = {
+    __typename?: "Mutation";
+
+    addAReview: AddAReview;
+  };
+
+  export type AddAReview = {
+    __typename?: "Review";
+
+    id: string;
+  };
+}
 
 export namespace CreateRoute {
   export type Variables = {
@@ -177,38 +212,6 @@ export namespace CurrentUserRoutes {
   };
 }
 
-export namespace ExploreRoutes {
-  export type Variables = {};
-
-  export type Query = {
-    __typename?: "Query";
-
-    routes: Routes[];
-  };
-
-  export type Routes = {
-    __typename?: "Route";
-
-    id: string;
-
-    name: string;
-
-    creator: Creator;
-
-    createdAt: DateTime;
-
-    avgRating: number | null;
-  };
-
-  export type Creator = {
-    __typename?: "User";
-
-    id: string;
-
-    name: string;
-  };
-}
-
 export namespace PopularRoutes {
   export type Variables = {};
 
@@ -341,6 +344,40 @@ export namespace RouteDetails {
   export type _Coordinates = CoordinatesFields.Fragment;
 }
 
+export namespace Routes {
+  export type Variables = {
+    orderBy?: RouteOrderByInput | null;
+  };
+
+  export type Query = {
+    __typename?: "Query";
+
+    routes: Routes[];
+  };
+
+  export type Routes = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+
+    creator: Creator;
+
+    createdAt: DateTime;
+
+    avgRating: number | null;
+  };
+
+  export type Creator = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
+}
+
 export namespace TopRatedRoutes {
   export type Variables = {};
 
@@ -407,6 +444,21 @@ export const CoordinatesFieldsFragment = gql`
 // Apollo Services
 // ====================================================
 
+@Injectable({
+  providedIn: "root"
+})
+export class AddAReviewGQL extends Apollo.Mutation<
+  AddAReview.Mutation,
+  AddAReview.Variables
+> {
+  document: any = gql`
+    mutation addAReview($routeId: ID!, $rating: Float!, $comment: String) {
+      addAReview(routeId: $routeId, comment: $comment, rating: $rating) {
+        id
+      }
+    }
+  `;
+}
 @Injectable({
   providedIn: "root"
 })
@@ -515,28 +567,6 @@ export class CurrentUserRoutesGQL extends Apollo.Query<
 @Injectable({
   providedIn: "root"
 })
-export class ExploreRoutesGQL extends Apollo.Query<
-  ExploreRoutes.Query,
-  ExploreRoutes.Variables
-> {
-  document: any = gql`
-    query exploreRoutes {
-      routes {
-        id
-        name
-        creator {
-          id
-          name
-        }
-        createdAt
-        avgRating
-      }
-    }
-  `;
-}
-@Injectable({
-  providedIn: "root"
-})
 export class PopularRoutesGQL extends Apollo.Query<
   PopularRoutes.Query,
   PopularRoutes.Variables
@@ -616,6 +646,25 @@ export class RouteDetailsGQL extends Apollo.Query<
     }
 
     ${CoordinatesFieldsFragment}
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
+export class RoutesGQL extends Apollo.Query<Routes.Query, Routes.Variables> {
+  document: any = gql`
+    query routes($orderBy: RouteOrderByInput) {
+      routes(orderBy: $orderBy) {
+        id
+        name
+        creator {
+          id
+          name
+        }
+        createdAt
+        avgRating
+      }
+    }
   `;
 }
 @Injectable({

@@ -1,13 +1,14 @@
 import { Action } from '@ngrx/store';
 import { Route } from './routes.state';
+import { RouteOrderByInput } from 'src/app/generated/graphql';
 
 export enum RouteActionTypes {
   LOAD_ROUTES = '[Routes] Load Routes',
   DELETE_ROUTE = '[Routes] Delete Route',
   RETRIEVE_DASHBOARD_ROUTES = '[Routes] Retrieve Dashboard Routes',
   RETRIEVE_DASHBOARD_ROUTES_FAILURE = '[Routes] Retrieve Dashboard Routes Failure',
-  RETRIEVE_EXPLORE_ROUTES = '[Routes] Retrieve Explore Routes',
-  RETRIEVE_EXPLORE_ROUTES_FAILURE = '[Routes] Retrieve Explore Routes Failure',
+  RETRIEVE_ROUTES = '[Routes] Retrieve Routes',
+  RETRIEVE_ROUTES_FAILURE = '[Routes] Retrieve Routes Failure',
   RETRIEVE_ROUTE = '[Route] Retrieve Route',
   RETRIEVE_ROUTE_SUCCESS = '[Route] Retrieve Route Success',
   RETRIEVE_ROUTE_FAILURE = '[Route] Retrieve Route Failure',
@@ -21,7 +22,10 @@ export enum RouteActionTypes {
   RETRIEVE_POPULAR_ROUTES = '[Routes] Retrieve Popular Routes',
   RETRIEVE_POPULAR_ROUTES_FAILURE = '[Routes] Retrieve Popular Routes Failure',
   RETRIEVE_TOP_RATED_ROUTES = '[Routes] Retrieve Top Rated Routes',
-  RETRIEVE_TOP_RATED_ROUTES_FAILURE = '[Routes] Retrieve Top Rated Routes Failure'
+  RETRIEVE_TOP_RATED_ROUTES_FAILURE = '[Routes] Retrieve Top Rated Routes Failure',
+  ADD_REVIEW = '[Routes] Add Review',
+  ADD_REVIEW_SUCCESS = '[Routes] Add Review Success',
+  ADD_REVIEW_FAILURE = '[Routes]  Add Review Failure'
 }
 
 export class LoadRoutes implements Action {
@@ -47,12 +51,14 @@ export class RetrieveDashboardRoutesFailure implements Action {
   constructor (public payload: { err: any }) {}
 }
 
-export class RetrieveExploreRoutes implements Action {
-  readonly type = RouteActionTypes.RETRIEVE_EXPLORE_ROUTES;
+export class RetrieveRoutes implements Action {
+  readonly type = RouteActionTypes.RETRIEVE_ROUTES;
+
+  constructor (public payload: { orderBy?: RouteOrderByInput }) {}
 }
 
-export class RetrieveExploreRoutesFailure implements Action {
-  readonly type = RouteActionTypes.RETRIEVE_EXPLORE_ROUTES_FAILURE;
+export class RetrieveRoutesFailure implements Action {
+  readonly type = RouteActionTypes.RETRIEVE_ROUTES_FAILURE;
 
   constructor (public payload: { err: any }) {}
 }
@@ -129,14 +135,31 @@ export class RetrieveTopRatedRoutesFailure implements Action {
   constructor (public payload: { err: any }) {}
 }
 
+export class AddReview implements Action {
+  readonly type = RouteActionTypes.ADD_REVIEW;
+
+  constructor(public payload: { rating: number, comment?: string}) {}
+}
+
+export class AddReviewSuccess implements Action {
+  readonly type = RouteActionTypes.ADD_REVIEW_SUCCESS;
+
+  constructor(public payload: {review: any}) {}
+}
+
+export class AddReviewFailure implements Action {
+  readonly type = RouteActionTypes.ADD_REVIEW_FAILURE;
+
+  constructor(public payload: { err: any}) {}
+}
 
 export type RouteActions
   = LoadRoutes
   | DeleteRoute
   | RetrieveDashboardRoutes
   | RetrieveDashboardRoutesFailure
-  | RetrieveExploreRoutes
-  | RetrieveExploreRoutesFailure
+  | RetrieveRoutes
+  | RetrieveRoutesFailure
   | RetrieveRoute
   | RetrieveRouteSuccess
   | RetrieveRouteFailure
@@ -151,4 +174,7 @@ export type RouteActions
   | RetrievePopularRoutesFailure
   | RetrieveTopRatedRoutes
   | RetrieveTopRatedRoutesFailure
+  | AddReview
+  | AddReviewSuccess
+  | AddReviewFailure
 ;

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ExploreRoutesGQL, RecommendedUserRoutesGQL, PopularRoutesGQL, TopRatedRoutesGQL } from 'src/app/generated/graphql';
+import { RecommendedUserRoutesGQL, PopularRoutesGQL, TopRatedRoutesGQL, RoutesGQL, RouteOrderByInput } from 'src/app/generated/graphql';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -8,14 +8,14 @@ import { map } from 'rxjs/operators';
 export class ExploreService {
 
   constructor(
-    private exploreRoutesGQL: ExploreRoutesGQL,
     private recommendedUserRoutesGQL: RecommendedUserRoutesGQL,
     private popularRoutesGQL: PopularRoutesGQL,
-    private topRatedRoutesGQL: TopRatedRoutesGQL
+    private topRatedRoutesGQL: TopRatedRoutesGQL,
+    private routesGQL: RoutesGQL
   ) { }
 
-  routes() {
-    return this.exploreRoutesGQL.watch({}).valueChanges.pipe(
+  routes(orderBy?: RouteOrderByInput) {
+    return this.routesGQL.watch({orderBy}).valueChanges.pipe(
       map(({data, loading}) => data.routes)
     );
   }
