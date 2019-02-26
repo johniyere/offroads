@@ -1,0 +1,12 @@
+query topRatedRoutes {
+  topRatedRoutes {
+    id,
+    name,
+    creator {
+      id,
+      name,
+    },
+    createdAt,
+    avgRating
+  }
+}

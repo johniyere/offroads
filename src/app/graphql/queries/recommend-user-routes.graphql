@@ -1,0 +1,12 @@
+query recommendedUserRoutes {
+  recommendedUserRoutes {
+    id,
+    name,
+    creator {
+      id,
+      name,
+    },
+    createdAt,
+    avgRating
+  }
+}

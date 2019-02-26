@@ -7,10 +7,14 @@ export enum EditorActionTypes {
   AddPoint = '[Editor] Add point',
   AddNextPointWithLine = '[Editor] Add Next Point With Line',
   SetRouteName = '[Editor] Set Route Name',
+  SetElevationGain = '[Editor] Set Elevation Gain',
   ClearRoute = '[Editor] Clear Route',
   CreateNewRoute = '[Editor] Create New Route',
   CreateNewRouteSuccess = '[Editor] Create New Route Success',
-  CreateNewRouteFailure = '[Editor] Create New Route Failure'
+  CreateNewRouteFailure = '[Editor] Create New Route Failure',
+  SetDescription = '[Editor] Set Description',
+  SetDifficulty = '[Editor] Set Difficulty',
+  SetScenary = '[Editor] Set Scenary'
 }
 
 export class GetPointElevation implements Action {
@@ -63,6 +67,30 @@ export class CreateNewRouteFailure implements Action {
   constructor (public payload: any) {}
 }
 
+export class SetElevationGain implements Action {
+  readonly type = EditorActionTypes.SetElevationGain;
+
+  constructor (public payload: { elevationGain: number }) {}
+}
+
+export class SetDescription implements Action {
+  readonly type = EditorActionTypes.SetDescription;
+
+  constructor (public payload: { description: string }) {}
+}
+
+export class SetDifficulty implements Action {
+  readonly type = EditorActionTypes.SetDifficulty;
+
+  constructor (public payload: { difficulty: number }) {}
+}
+
+export class SetScenary implements Action {
+  readonly type = EditorActionTypes.SetScenary;
+
+  constructor (public payload: { scenary: number }) {}
+}
+
 export type EditorAction
  = GetPointElevation
  | GetLineToPoint
@@ -73,4 +101,8 @@ export type EditorAction
  | CreateNewRoute
  | CreateNewRouteSuccess
  | CreateNewRouteFailure
+ | SetElevationGain
+ | SetDescription
+ | SetScenary
+ | SetDifficulty
 ;

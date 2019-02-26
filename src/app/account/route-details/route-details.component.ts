@@ -5,17 +5,18 @@ import { Store, select } from '@ngrx/store';
 import { State } from '../account.state';
 import { selectSelectedRoute } from '../routes/routes.selectors';
 import { RetrieveRoute, ClearSelectedRoute } from '../routes/routes.actions';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ofr-route-details',
   templateUrl: './route-details.component.html',
-  styleUrls: ['./route-details.component.css']
+  styleUrls: ['./route-details.component.scss']
 })
 export class RouteDetailsComponent implements OnInit, OnDestroy {
 
   selectedRoute$: Observable<Route>;
   constructor(
-    private store: Store<State>
+    private store: Store<State>,
   ) { }
 
   ngOnInit() {
@@ -28,5 +29,4 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.store.dispatch(new ClearSelectedRoute);
   }
-
 }

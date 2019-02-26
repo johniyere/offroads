@@ -1,17 +1,29 @@
-<div id="prop-layout">
+<div id="prop-layout" class="shadow-lg p-2">
   <i class="fas fa-times" (click)="exit()" id="exit"></i>
-  <div id="path-overview">
-    <div>
-      <input type="text" class="form-control" placeholder="Basic Route #1" [formControl]="name" (blur)="setRouteName()">
-    </div>
-    
-    <h5>Points</h5>
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let point of points$ | async">{{ point | json }}</li>
-    </ul>
-  </div>
-  <div>
-    <ofr-chart></ofr-chart>
-    <button class="btn btn-success btn-sm" (click)="createRoute()" id="save">SAVE</button>
-  </div>
+  <input type="text" class="form-control mb-2" placeholder="Basic Route #1" [formControl]="name" (blur)="setRouteName()">
+  <ngb-tabset justify="justified" type="pills">
+    <ngb-tab>
+      <ng-template ngbTabTitle>Path</ng-template>
+      <ng-template ngbTabContent>
+        <div id="path-overview" class="mt-2">
+          <ul class="list-group">
+            <li class="list-group-item d-flex flex-row align-items-center" *ngFor="let point of points$ | async; index as i">
+              <div class="wayPointCircle mr-3"></div>
+              <span>Point #{{i}}</span>
+            </li>
+          </ul>
+          <div id="chart-container">
+            <ofr-chart></ofr-chart>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab>
+      <ng-template ngbTabTitle>Details</ng-template>
+      <ng-template ngbTabContent>
+        <ofr-details></ofr-details>
+      </ng-template>
+    </ngb-tab>
+
+  </ngb-tabset>
 </div>

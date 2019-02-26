@@ -12,16 +12,63 @@ import { EffectsModule } from '@ngrx/effects';
 import { RoutesEffects } from './routes/routes.effects';
 import { reducers } from './account.state';
 import { RouteDetailsComponent } from './route-details/route-details.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouteDetailsMapComponent } from './route-details/route-details-map/route-details-map.component';
+import { RouteElevationChartComponent } from './route-details/route-elevation-chart/route-elevation-chart.component';
+import { FusionChartsModule } from 'angular-fusioncharts';
+
+// Import FusionCharts library
+import * as FusionCharts from 'fusioncharts';
+
+// Load FusionCharts Individual Charts
+import * as Charts from 'fusioncharts/fusioncharts.charts';
+
+import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+import { RecommendedComponent } from './explore/recommended/recommended.component';
+import { AllTrailsComponent } from './explore/all-trails/all-trails.component';
+import { DisplayRoutesComponent } from './explore/shared/display-routes/display-routes.component';
+import { PopularComponent } from './explore/popular/popular.component';
+import { TopRatedComponent } from './explore/top-rated/top-rated.component';
+import { RouteLeaderboardComponent } from './route-details/route-leaderboard/route-leaderboard.component';
+import { RecentlyAddedComponent } from './explore/recently-added/recently-added.component';
+import { RouteReviewsComponent } from './route-details/route-reviews/route-reviews.component';
+import { UploadRunComponent } from './route-details/route-leaderboard/upload-run/upload-run.component';
+import { AddAReviewComponent } from './route-details/route-reviews/add-a-review/add-a-review.component';
+
+// Use fcRoot function to inject FusionCharts library, and the modules you want to use
+FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
 
 @NgModule({
   imports: [
     CommonModule,
     AccountRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FusionChartsModule,
     RouterModule,
     SharedModule,
     StoreModule.forFeature('account', reducers),
     EffectsModule.forFeature([RoutesEffects])
   ],
-  declarations: [AccountComponent, FeedComponent, ExploreComponent, DashboardComponent, RouteDetailsComponent]
+  declarations: [
+    AccountComponent,
+    FeedComponent,
+    ExploreComponent,
+    DashboardComponent,
+    RouteDetailsComponent,
+    UploadRunComponent,
+    RouteDetailsMapComponent,
+    RouteElevationChartComponent,
+    RecommendedComponent,
+    AllTrailsComponent,
+    DisplayRoutesComponent,
+    PopularComponent,
+    TopRatedComponent,
+    RouteLeaderboardComponent,
+    RecentlyAddedComponent,
+    RouteReviewsComponent,
+    AddAReviewComponent
+  ],
+  entryComponents: [UploadRunComponent, AddAReviewComponent]
 })
 export class AccountModule { }

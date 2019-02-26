@@ -16,12 +16,16 @@
       </li>
     </ul>
   </div>
-  <div ngbDropdown class="d-inline-block" placement="bottom-right">
-    <img src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png" height="30" width="30" ngbDropdownToggle>
-    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-      <button class="dropdown-item">Settings</button>
-      <button class="dropdown-item" (click)="logout()">Logout</button>
+  <div class="d-flex align-items-center">
+    <i class="fas fa-search mr-3 text-secondary" style="font-size: 20px"></i>
+    <div ngbDropdown class="d-inline-block" placement="bottom-right">
+      <img src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png" height="30" width="30" ngbDropdownToggle>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button class="dropdown-item">Settings</button>
+        <button class="dropdown-item" (click)="logout()">Logout</button>
+      </div>
     </div>
   </div>
+  
 </nav>
 <router-outlet></router-outlet>

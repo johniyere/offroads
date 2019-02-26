@@ -1,0 +1,12 @@
+query routes($orderBy: RouteOrderByInput) {
+  routes(orderBy: $orderBy ) {
+    id,
+    name,
+    creator {
+      id,
+      name,
+    },
+    createdAt,
+    avgRating
+  }
+}

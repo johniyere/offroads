@@ -1,0 +1,26 @@
+<form [formGroup]="detailsForm">
+  <div class="form-group">
+    <label for="formControlRange">Difficulty</label>
+    <input type="range" class="form-control-range" id="formControlRange" [min]="difficultyRange.min" [max]="difficultyRange.max" formControlName="difficulty" (change)="onDifficultyInputChange()">
+  </div>
+  <div class="form-group">
+    <label for="formControlRange">Scenary</label>
+    <input type="range" class="form-control-range" id="formControlRange" [min]="scenaryRange.min" [max]="scenaryRange.max" formControlName="scenary" step="1" (change)="onScenaryInputChange()"> 
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Route Properties</label>
+    <div id="pill-selectors">
+      <button>Hilly</button>
+      <button>Steep</button>
+      <button>Rocky</button>
+      <button>Flat</button>
+      <button>Gravel</button>
+      <button>Forested</button>
+       
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Description</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="description" (blur)="onDescriptionInputBlur()"></textarea>
+  </div>
+</form>

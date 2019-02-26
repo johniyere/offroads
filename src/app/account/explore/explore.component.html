@@ -1,5 +1,22 @@
-<ul *ngFor="let route of routes$ | async" class="list-group">
-  <li class="list-group-item" [routerLink]="['/routes', route.id]" >
-    {{route.name}}
-  </li>
-</ul>
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['recommended']" routerLinkActive="active">Recommended for you</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['all-trails']" routerLinkActive="active">All Trails</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['popular-trails']" routerLinkActive="active">Popular Trails</a>
+      </li>
+      <li class="nav-item" >
+        <a class="nav-link" [routerLink]="['top-rated-trails']" routerLinkActive="active">Top Rated Trails</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['recently-added']" routerLinkActive="active">Recently Added</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<router-outlet></router-outlet>

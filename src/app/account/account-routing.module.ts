@@ -6,6 +6,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountComponent } from './account.component';
 import { AuthGuard } from '../core/auth/auth.guard';
 import { RouteDetailsComponent } from './route-details/route-details.component';
+import { RecommendedComponent } from './explore/recommended/recommended.component';
+import { AllTrailsComponent } from './explore/all-trails/all-trails.component';
+import { PopularComponent } from './explore/popular/popular.component';
+import { TopRatedComponent } from './explore/top-rated/top-rated.component';
+import { RecentlyAddedComponent } from './explore/recently-added/recently-added.component';
 
 const accountRoutes: Routes = [
   {
@@ -28,6 +33,33 @@ const accountRoutes: Routes = [
         path: 'explore',
         component: ExploreComponent,
         canActivateChild: [AuthGuard],
+        children: [
+          {
+            path: '',
+            redirectTo: 'recommended',
+            pathMatch: 'full'
+          },
+          {
+            path: 'recommended',
+            component: RecommendedComponent
+          },
+          {
+            path: 'all-trails',
+            component: AllTrailsComponent
+          },
+          {
+            path: 'popular-trails',
+            component: PopularComponent
+          },
+          {
+            path: 'top-rated-trails',
+            component: TopRatedComponent
+          },
+          {
+            path: 'recently-added',
+            component: RecentlyAddedComponent
+          }
+        ]
       },
       {
         path: 'dashboard',

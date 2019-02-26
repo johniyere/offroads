@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h4 class="modal-title">Hi there!</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="reviewForm">
+    <div class="form-group">
+      <ngb-rating [(rate)]="rating" [max]="5"></ngb-rating>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Comment</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="comment"></textarea>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-success" (click)="onSubmit()">Submit</button>
+</div>

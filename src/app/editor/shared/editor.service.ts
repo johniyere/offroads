@@ -6,6 +6,7 @@ import { ElevationResult } from './ElevationResult';
 import { HttpClient } from '@angular/common/http';
 import { Directions } from './Directions';
 import { environment } from 'src/environments/environment';
+import { Line } from '../editor.model';
 
 declare var google: any;
 
@@ -67,5 +68,9 @@ export class EditorService {
         observer.complete();
       });
     });
+  }
+
+  calculateElevationGain(lines: Line[]) {
+    return 57;
   }
 }

@@ -1,5 +1,5 @@
-query exploreRoutes {
-  routes {
+query RouteDetails($id: ID!) {
+  route(id: $id) {
     id,
     name,
     creator {
@@ -21,12 +21,8 @@ query exploreRoutes {
         },
         elevation
       }
-    }
+    },
+    createdAt,
+    avgRating
   }
 }
-
-fragment coordinatesFields on Coordinates {
-  lat
-  lng
-}
-

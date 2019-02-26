@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ExploreRoutesGQL } from 'src/app/generated/graphql';
+import { RecommendedUserRoutesGQL, PopularRoutesGQL, TopRatedRoutesGQL, RoutesGQL, RouteOrderByInput } from 'src/app/generated/graphql';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -7,11 +7,34 @@ import { map } from 'rxjs/operators';
 })
 export class ExploreService {
 
-  constructor(private exploreRoutesGQL: ExploreRoutesGQL) { }
+  constructor(
+    private recommendedUserRoutesGQL: RecommendedUserRoutesGQL,
+    private popularRoutesGQL: PopularRoutesGQL,
+    private topRatedRoutesGQL: TopRatedRoutesGQL,
+    private routesGQL: RoutesGQL
+  ) { }
 
-  routes() {
-    return this.exploreRoutesGQL.watch({}).valueChanges.pipe(
+  routes(orderBy?: RouteOrderByInput) {
+    return this.routesGQL.watch({orderBy}).valueChanges.pipe(
       map(({data, loading}) => data.routes)
+    );
+  }
+
+  recommendedUserRoutes() {
+    return this.recommendedUserRoutesGQL.watch({}).valueChanges.pipe(
+      map(({data, loading}) => data.recommendedUserRoutes)
+    );
+  }
+
+  popularRoutes() {
+    return this.popularRoutesGQL.watch({}).valueChanges.pipe(
+      map(({data, loading}) => data.popularRoutes)
+    );
+  }
+
+  topRatedRoutes() {
+    return this.topRatedRoutesGQL.watch({}).valueChanges.pipe(
+      map(({data, loading}) => data.topRatedRoutes)
     );
   }
 }

@@ -1,0 +1,12 @@
+query popularRoutes {
+  popularRoutes {
+    id,
+    name,
+    creator {
+      id,
+      name,
+    },
+    createdAt,
+    avgRating
+  }
+}

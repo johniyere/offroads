@@ -12,13 +12,13 @@ import { map, switchMap } from 'rxjs/operators';
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit, AfterViewInit {
-  width = 500;
-  height = 300;
+  width = '100%';
+  height = 150;
   type = 'area2d';
   dataFormat = 'json';
   dataSource = {
     'chart': {
-      'caption': 'Elevation Gain',
+      'caption': 'Elevation',
       'legendposition': 'Right',
       'drawanchors': '0',
       'showvalues': '0',
