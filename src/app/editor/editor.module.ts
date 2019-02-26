@@ -21,6 +21,8 @@ import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { DetailsComponent } from './prop-panel/details/details.component';
+import { ControlPanelComponent } from './control-panel/control-panel.component';
+import { WaypointPipe } from './shared/waypoint.pipe';
 
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -41,7 +43,9 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     MapComponent,
     PropPanelComponent,
     ChartComponent,
-    DetailsComponent
+    DetailsComponent,
+    ControlPanelComponent,
+    WaypointPipe
   ]
 })
 export class EditorModule { }
