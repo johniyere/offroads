@@ -1,7 +1,49 @@
-<ul *ngFor="let route of currentUserRoutes$ | async" class="list-group">
+<!-- <ul *ngFor="let route of currentUserRoutes$ | async" class="list-group">
     <li class="list-group-item">
       {{route | json}}
     </li>
   </ul>
 
-<button type="button" class="btn btn-success" (click)="createRoute()">Create Route</button>
+<button type="button" class="btn btn-success" (click)="createRoute()">Create Route</button> -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>    
+    </div>
+    <div class="col col-8">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" [routerLink]="['my-activities']" routerLinkActive="router-link-active" >My Activities</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Bookmarked Trails</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Created Trails</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <router-outlet></router-outlet>
+    </div>
+    <div class="col">
+      <div class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

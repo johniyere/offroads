@@ -11,6 +11,7 @@ import { AllTrailsComponent } from './explore/all-trails/all-trails.component';
 import { PopularComponent } from './explore/popular/popular.component';
 import { TopRatedComponent } from './explore/top-rated/top-rated.component';
 import { RecentlyAddedComponent } from './explore/recently-added/recently-added.component';
+import { MyActivitiesComponent } from './dashboard/my-activities/my-activities.component';
 
 const accountRoutes: Routes = [
   {
@@ -64,7 +65,18 @@ const accountRoutes: Routes = [
       {
         path: 'dashboard',
         canActivateChild: [AuthGuard],
-        component: DashboardComponent
+        component: DashboardComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'my-activities',
+            pathMatch: 'full'
+          },
+          {
+            path: 'my-activities',
+            component: MyActivitiesComponent
+          }
+        ]
       },
       {
         path: 'routes/:id',
