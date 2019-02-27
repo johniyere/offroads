@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CurrentUserRoutesGQL } from 'src/app/generated/graphql';
+import { CurrentUserRoutesGQL, ActivitiesGQL } from 'src/app/generated/graphql';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -7,7 +7,9 @@ import { map } from 'rxjs/operators';
 })
 export class DashboardService {
 
-  constructor(private currentUserRoutesGQL: CurrentUserRoutesGQL) { }
+  constructor(
+    private currentUserRoutesGQL: CurrentUserRoutesGQL,
+  ) { }
 
   currentUserRoutes() {
     return this.currentUserRoutesGQL.watch({}).valueChanges.pipe(

@@ -188,6 +188,48 @@ export namespace UploadRun {
   };
 }
 
+export namespace Activities {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: "Query";
+
+    activities: Activities[];
+  };
+
+  export type Activities = {
+    __typename?: "Run";
+
+    id: string;
+
+    title: string | null;
+
+    comment: string | null;
+
+    route: Route;
+
+    uploader: Uploader;
+
+    time: number | null;
+  };
+
+  export type Route = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+  };
+
+  export type Uploader = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
+}
+
 export namespace CurrentUserRoutes {
   export type Variables = {};
 
@@ -537,6 +579,32 @@ export class UploadRunGQL extends Apollo.Mutation<
         time: $time
       ) {
         id
+        uploader {
+          id
+          name
+        }
+        time
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
+export class ActivitiesGQL extends Apollo.Query<
+  Activities.Query,
+  Activities.Variables
+> {
+  document: any = gql`
+    query activities {
+      activities {
+        id
+        title
+        comment
+        route {
+          id
+          name
+        }
         uploader {
           id
           name

@@ -13,6 +13,7 @@ import { TopRatedComponent } from './explore/top-rated/top-rated.component';
 import { RecentlyAddedComponent } from './explore/recently-added/recently-added.component';
 import { MyActivitiesComponent } from './dashboard/my-activities/my-activities.component';
 import { SearchComponent } from './search/search.component';
+import { CreatorComponent } from './creator/creator.component';
 
 const accountRoutes: Routes = [
   {
@@ -86,6 +87,10 @@ const accountRoutes: Routes = [
       {
         path: 'search',
         component: SearchComponent
+      },
+      {
+        path: 'creators/:id',
+        component: CreatorComponent
       }
     ]
   }

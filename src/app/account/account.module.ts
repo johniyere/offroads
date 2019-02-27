@@ -36,6 +36,7 @@ import { UploadRunComponent } from './route-details/route-leaderboard/upload-run
 import { AddAReviewComponent } from './route-details/route-reviews/add-a-review/add-a-review.component';
 import { MyActivitiesComponent } from './dashboard/my-activities/my-activities.component';
 import { SearchComponent } from './search/search.component';
+import { CreatorComponent } from './creator/creator.component';
 
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -71,7 +72,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     RouteReviewsComponent,
     AddAReviewComponent,
     MyActivitiesComponent,
-    SearchComponent
+    SearchComponent,
+    CreatorComponent
   ],
   entryComponents: [UploadRunComponent, AddAReviewComponent]
 })

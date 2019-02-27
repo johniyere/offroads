@@ -1,0 +1,16 @@
+query activities {
+  activities {
+    id,
+    title,
+    comment,
+    route {
+      id,
+      name
+    },
+    uploader {
+      id,
+      name
+    },
+    time
+  }
+}
