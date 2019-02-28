@@ -4,19 +4,18 @@ import { Dashboard } from 'src/app/generated/graphql';
 import { DashboardService } from '../shared/dashboard.service';
 
 @Component({
-  selector: 'ofr-my-activities',
-  templateUrl: './my-activities.component.html',
-  styleUrls: ['./my-activities.component.css']
+  selector: 'ofr-followers',
+  templateUrl: './followers.component.html',
+  styleUrls: ['./followers.component.css']
 })
-export class MyActivitiesComponent implements OnInit {
+export class FollowersComponent implements OnInit {
 
-  activities$: Observable<Dashboard.Runs[]>;
+  followers$: Observable<Dashboard.Followers[]>;
   constructor(
     private dashboardService: DashboardService
   ) { }
 
   ngOnInit() {
-    this.activities$ = this.dashboardService.activities();
+    this.followers$ = this.dashboardService.followers();
   }
-
 }

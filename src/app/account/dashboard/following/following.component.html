@@ -1,0 +1,5 @@
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let user of following$ | async">
+    {{user.name}}
+  </li>
+</ul>

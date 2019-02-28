@@ -254,6 +254,92 @@ export namespace CurrentUserRoutes {
   };
 }
 
+export namespace Dashboard {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: "Query";
+
+    me: Me | null;
+  };
+
+  export type Me = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+
+    createdRoutes: CreatedRoutes[];
+
+    followers: Followers[];
+
+    following: Following[];
+
+    bookmarkedTrails: BookmarkedTrails[];
+
+    runs: Runs[];
+  };
+
+  export type CreatedRoutes = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+
+    createdAt: DateTime;
+  };
+
+  export type Followers = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
+
+  export type Following = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
+
+  export type BookmarkedTrails = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+  };
+
+  export type Runs = {
+    __typename?: "Run";
+
+    id: string;
+
+    title: string | null;
+
+    comment: string | null;
+
+    route: Route;
+
+    time: number | null;
+
+    createdAt: DateTime;
+  };
+
+  export type Route = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+  };
+}
+
 export namespace PopularRoutes {
   export type Variables = {};
 
@@ -645,6 +731,50 @@ export class CurrentUserRoutesGQL extends Apollo.Query<
         createdRoutes {
           id
           name
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
+export class DashboardGQL extends Apollo.Query<
+  Dashboard.Query,
+  Dashboard.Variables
+> {
+  document: any = gql`
+    query dashboard {
+      me {
+        id
+        name
+        createdRoutes {
+          id
+          name
+          createdAt
+        }
+        followers {
+          id
+          name
+        }
+        following {
+          id
+          name
+        }
+        bookmarkedTrails {
+          id
+          name
+        }
+        runs {
+          id
+          title
+          comment
+          route {
+            id
+            name
+          }
+          time
+          createdAt
         }
       }
     }

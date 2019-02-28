@@ -7,6 +7,8 @@ import { State } from '../account.state';
 import { selectAllRoutes } from '../routes/routes.selectors';
 import { Route } from '../routes/routes.state';
 import { RetrieveDashboardRoutes, ClearRoutes } from '../routes/routes.actions';
+import { Dashboard, DashboardGQL } from 'src/app/generated/graphql';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'ofr-dashboard',
@@ -15,18 +17,13 @@ import { RetrieveDashboardRoutes, ClearRoutes } from '../routes/routes.actions';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-  currentUserRoutes$: Observable<Route[]>;
   constructor(
     private router: Router,
-    private store: Store<State>
+    private store: Store<State>,
+    private dashboardGQL: DashboardGQL
   ) { }
 
   ngOnInit() {
-    this.currentUserRoutes$ = this.store.pipe(
-      select(selectAllRoutes)
-    );
-
-    this.store.dispatch(new RetrieveDashboardRoutes);
   }
 
   createRoute() {
@@ -34,6 +31,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new ClearRoutes);
   }
 }

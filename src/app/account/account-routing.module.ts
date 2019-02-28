@@ -14,6 +14,10 @@ import { RecentlyAddedComponent } from './explore/recently-added/recently-added.
 import { MyActivitiesComponent } from './dashboard/my-activities/my-activities.component';
 import { SearchComponent } from './search/search.component';
 import { CreatorComponent } from './creator/creator.component';
+import { BookmarkedTrailsComponent } from './dashboard/bookmarked-trails/bookmarked-trails.component';
+import { CreatedTrailsComponent } from './dashboard/created-trails/created-trails.component';
+import { FollowersComponent } from './dashboard/followers/followers.component';
+import { FollowingComponent } from './dashboard/following/following.component';
 
 const accountRoutes: Routes = [
   {
@@ -77,6 +81,22 @@ const accountRoutes: Routes = [
           {
             path: 'my-activities',
             component: MyActivitiesComponent
+          },
+          {
+            path: 'bookmarked-trails',
+            component: BookmarkedTrailsComponent
+          },
+          {
+            path: 'created-trails',
+            component: CreatedTrailsComponent
+          },
+          {
+            path: 'followers',
+            component: FollowersComponent
+          },
+          {
+            path: 'following',
+            component: FollowingComponent
           }
         ]
       },

@@ -1,0 +1,33 @@
+query dashboard {
+  me {,
+    id,
+    name,
+    createdRoutes {
+      id
+      name,
+      createdAt
+    },
+    followers {
+      id,
+      name
+    },
+    following {
+      id,
+      name
+    },
+    bookmarkedTrails {
+      id,
+      name
+    },
+    runs {
+      id,
+      title,
+      comment,
+      route {
+        id, name
+      },
+      time,
+      createdAt
+    }
+  }
+}

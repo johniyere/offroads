@@ -2,7 +2,7 @@
   <ul class="list-group">
     <li class=list-group-item *ngFor="let activity of activites$ | async">
       <pre>
-        {{activity.id}}
+        {{activity | json}}
       </pre>
     </li>
   </ul>
