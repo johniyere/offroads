@@ -11,7 +11,7 @@ import { Logout } from '../core/auth/auth.actions';
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private authService: AuthService, private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
   }

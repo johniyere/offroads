@@ -51,7 +51,7 @@ export class RoutesEffects {
   retrieveRoutes$ = this.actions$.pipe(
     ofType<RetrieveRoutes>(RouteActionTypes.RETRIEVE_ROUTES),
     mergeMap((action) =>
-      this.exploreService.routes().pipe(
+      this.exploreService.routes(action.payload.orderBy).pipe(
         map((routes) => new LoadRoutes({ routes })),
         catchError((err) => of(new RetrieveRoutesFailure({err}))
       )

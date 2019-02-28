@@ -452,6 +452,24 @@ export namespace TopRatedRoutes {
   };
 }
 
+export namespace Users {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: "Query";
+
+    users: Users[];
+  };
+
+  export type Users = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
+}
+
 export namespace CoordinatesFields {
   export type Fragment = {
     __typename?: "Coordinates";
@@ -753,6 +771,19 @@ export class TopRatedRoutesGQL extends Apollo.Query<
         }
         createdAt
         avgRating
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
+export class UsersGQL extends Apollo.Query<Users.Query, Users.Variables> {
+  document: any = gql`
+    query users {
+      users {
+        id
+        name
       }
     }
   `;

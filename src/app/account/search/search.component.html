@@ -7,10 +7,20 @@
   </div>
   <div class="row">
     <div class="col col-8">
-      Trails
+      <h6>Trails</h6>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let route of routes$ | async">
+          {{route.name}}
+        </li>
+      </ul>
     </div>
     <div class="col col-4">
-      Creators
+      <h6>Athletes</h6>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let user of users$ | async">
+          {{user.name}}
+        </li>
+      </ul>
     </div>
   </div>
 </div>
