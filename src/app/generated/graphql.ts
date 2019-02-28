@@ -63,6 +63,32 @@ export namespace AddAReview {
   };
 }
 
+export namespace BookmarkTrail {
+  export type Variables = {
+    routeIdToBookmark: string;
+  };
+
+  export type Mutation = {
+    __typename?: "Mutation";
+
+    bookmarkTrail: BookmarkTrail;
+  };
+
+  export type BookmarkTrail = {
+    __typename?: "User";
+
+    bookmarkedTrails: BookmarkedTrails[];
+  };
+
+  export type BookmarkedTrails = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+  };
+}
+
 export namespace CreateRoute {
   export type Variables = {
     name: string;
@@ -601,6 +627,24 @@ export class AddAReviewGQL extends Apollo.Mutation<
     mutation addAReview($routeId: ID!, $rating: Float!, $comment: String) {
       addAReview(routeId: $routeId, comment: $comment, rating: $rating) {
         id
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
+export class BookmarkTrailGQL extends Apollo.Mutation<
+  BookmarkTrail.Mutation,
+  BookmarkTrail.Variables
+> {
+  document: any = gql`
+    mutation bookmarkTrail($routeIdToBookmark: ID!) {
+      bookmarkTrail(routeIdToBookmark: $routeIdToBookmark) {
+        bookmarkedTrails {
+          id
+          name
+        }
       }
     }
   `;

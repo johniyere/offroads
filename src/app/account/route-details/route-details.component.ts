@@ -6,6 +6,8 @@ import { State } from '../account.state';
 import { selectSelectedRoute } from '../routes/routes.selectors';
 import { RetrieveRoute, ClearSelectedRoute } from '../routes/routes.actions';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BookmarkTrailGQL } from 'src/app/generated/graphql';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'ofr-route-details',
@@ -17,6 +19,7 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
   selectedRoute$: Observable<Route>;
   constructor(
     private store: Store<State>,
+    private bookmartTrailGQL: BookmarkTrailGQL
   ) { }
 
   ngOnInit() {
@@ -28,5 +31,10 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.store.dispatch(new ClearSelectedRoute);
+  }
+
+  bookmarkTrail(routeIdToBookmark: string) {
+    this.bookmartTrailGQL.mutate({ routeIdToBookmark })
+      .subscribe((result) => console.log(result));
   }
 }

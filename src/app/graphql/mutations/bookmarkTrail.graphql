@@ -1,0 +1,8 @@
+mutation bookmarkTrail($routeIdToBookmark: ID!) {
+  bookmarkTrail(routeIdToBookmark: $routeIdToBookmark) {
+    bookmarkedTrails {
+      id,
+      name
+    }
+  }
+}

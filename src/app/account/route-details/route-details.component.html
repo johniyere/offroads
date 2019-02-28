@@ -8,7 +8,7 @@
       <ngb-rating [rate]="route.avgRating" [readonly]="true" [max]="5"></ngb-rating>
     </div>
     
-    <button class="btn btn-outline-secondary"><i class="far fa-bookmark"></i></button>
+    <button class="btn btn-outline-secondary" (click)="bookmarkTrail(route.id)"><i class="far fa-bookmark"></i></button>
   </div>
   <div class="row mb-3">
     <ofr-route-details-map></ofr-route-details-map>
