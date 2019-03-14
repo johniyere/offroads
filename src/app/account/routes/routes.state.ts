@@ -28,6 +28,7 @@ export interface Route {
   createdAt?: Date;
   avgRating?: number;
   runs?: Run[];
+  reviews?: Review[];
 }
 
 export interface User {
@@ -43,6 +44,7 @@ export interface Run {
   route?: Route;
   uploader?: User;
   createdAt?: Date;
+  time?: number;
 }
 
 export interface Review {

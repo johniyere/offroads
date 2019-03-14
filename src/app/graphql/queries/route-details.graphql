@@ -23,6 +23,26 @@ query RouteDetails($id: ID!) {
       }
     },
     createdAt,
-    avgRating
+    avgRating,
+    reviews {
+      id,
+      createdAt,
+      rating,
+      reviewer {
+        id,
+        name
+      },
+      comment
+    },
+    runs {
+      id,
+      createdAt,
+      time,
+      uploader {
+        id,
+        name
+      },
+      comment
+    }
   }
 }

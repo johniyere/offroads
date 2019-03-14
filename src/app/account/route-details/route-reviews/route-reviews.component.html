@@ -1,13 +1,17 @@
-<div class="row justify-content-between mb-2">
+<div class="d-flex justify-content-between mb-2 w-100">
   <h4>Reviews</h4>
   <button class="btn btn-outline-success btn-sm" (click)="open()">Add a Review</button>
 </div>
-<div class="row">
-  <div class="media">
-    <img src="..." class="mr-3" alt="...">
-    <div class="media-body">
-      <h5 class="mt-0">Media heading</h5>
-      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+<div class="mb-3" *ngFor="let review of reviews$ | async">
+  <div class="d-flex flex-row">
+    <img src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png" class="mr-3" height="50" width="50">
+    <div class="d-flex flex-column" >
+      <h6 class="mb-0">{{review.reviewer.name}}</h6>
+      <ngb-rating [rate]="review.rating" [readonly]="true" [max]="5"></ngb-rating>
     </div>
   </div>
+  <p>
+    {{review.comment}}
+  </p>
+  
 </div>

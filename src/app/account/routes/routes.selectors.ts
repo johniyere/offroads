@@ -29,3 +29,13 @@ export const selectSelectedRoute = createSelector(
   selectRoutes,
   (routes) => routes.selectedRoute
 );
+
+export const selectSelectedRouteRuns = createSelector(
+  selectSelectedRoute,
+  (route) => route.runs
+);
+
+export const selectSelectedRouteReviews = createSelector(
+  selectSelectedRoute,
+  (route) => route.reviews
+);

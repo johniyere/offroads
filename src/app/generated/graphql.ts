@@ -366,6 +366,66 @@ export namespace Dashboard {
   };
 }
 
+export namespace Feed {
+  export type Variables = {};
+
+  export type Query = {
+    __typename?: "Query";
+
+    me: Me | null;
+  };
+
+  export type Me = {
+    __typename?: "User";
+
+    following: Following[];
+  };
+
+  export type Following = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+
+    runs: Runs[];
+
+    createdRoutes: CreatedRoutes[];
+  };
+
+  export type Runs = {
+    __typename?: "Run";
+
+    id: string;
+
+    title: string | null;
+
+    comment: string | null;
+
+    createdAt: DateTime;
+
+    route: Route;
+  };
+
+  export type Route = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+  };
+
+  export type CreatedRoutes = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+
+    createdAt: DateTime;
+  };
+}
+
 export namespace PopularRoutes {
   export type Variables = {};
 
@@ -457,6 +517,10 @@ export namespace RouteDetails {
     createdAt: DateTime;
 
     avgRating: number | null;
+
+    reviews: Reviews[];
+
+    runs: Runs[];
   };
 
   export type Creator = {
@@ -496,6 +560,50 @@ export namespace RouteDetails {
   };
 
   export type _Coordinates = CoordinatesFields.Fragment;
+
+  export type Reviews = {
+    __typename?: "Review";
+
+    id: string;
+
+    createdAt: DateTime;
+
+    rating: number;
+
+    reviewer: Reviewer;
+
+    comment: string | null;
+  };
+
+  export type Reviewer = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
+
+  export type Runs = {
+    __typename?: "Run";
+
+    id: string;
+
+    createdAt: DateTime;
+
+    time: number | null;
+
+    uploader: Uploader;
+
+    comment: string | null;
+  };
+
+  export type Uploader = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
 }
 
 export namespace Routes {
@@ -827,6 +935,36 @@ export class DashboardGQL extends Apollo.Query<
 @Injectable({
   providedIn: "root"
 })
+export class FeedGQL extends Apollo.Query<Feed.Query, Feed.Variables> {
+  document: any = gql`
+    query feed {
+      me {
+        following {
+          id
+          name
+          runs {
+            id
+            title
+            comment
+            createdAt
+            route {
+              id
+              name
+            }
+          }
+          createdRoutes {
+            id
+            name
+            createdAt
+          }
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
 export class PopularRoutesGQL extends Apollo.Query<
   PopularRoutes.Query,
   PopularRoutes.Variables
@@ -902,6 +1040,26 @@ export class RouteDetailsGQL extends Apollo.Query<
         }
         createdAt
         avgRating
+        reviews {
+          id
+          createdAt
+          rating
+          reviewer {
+            id
+            name
+          }
+          comment
+        }
+        runs {
+          id
+          createdAt
+          time
+          uploader {
+            id
+            name
+          }
+          comment
+        }
       }
     }
 

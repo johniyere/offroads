@@ -2,14 +2,38 @@
   <div class="row">
     <div class="col">
       <div class="card mt-3">
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="card-body d-flex flex-column align-items-center">
+          <img src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png" height="60" width="60">
+          <div class="counts d-flex flex-row mt-3">
+            <div class="d-flex flex-column align-items-center">
+              <span class="col-label">
+                Activities
+              </span>
+              <span>
+                20
+              </span>
+            </div>
+            <div class="ml-2 mr-2 d-flex flex-column align-items-center">
+              <span class="col-label">
+                Followers
+              </span>
+              <span>
+                20
+              </span>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+              <span class="col-label">
+                Following
+              </span>
+              <span>
+                20
+              </span>
+            </div>
+          </div>
         </div>
       </div>    
     </div>
-    <div class="col col-8">
+    <div class="col col-7">
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
@@ -36,7 +60,7 @@
     <div class="col">
       <div class="card mt-3">
           <div class="card-body">
-            <button class="btn btn-primary" (click)="createRoute()">Create Route</button>
+            <button class="btn btn-primary btn-block" (click)="createRoute()">Create Route</button>
           </div>
       </div>
     </div>

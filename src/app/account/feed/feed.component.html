@@ -1,9 +1,17 @@
 <div class="container mt-4">
-  <ul class="list-group">
-    <li class=list-group-item *ngFor="let activity of activites$ | async">
-      <pre>
-        {{activity | json}}
-      </pre>
-    </li>
-  </ul>
+  <div class="card mb-3 shadow" *ngFor="let feed of feed$ | async">
+    <div class="card-body">
+      <h5 class="card-title">{{feed.createdBy.name}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{feed.createdAt | date}}</h6>
+      <p class="card-text" *ngIf="feedService.isFeedRun(feed);else feedCreatedRoute">
+        Run
+      </p>
+      <ng-template #feedCreatedRoute>
+        <p class="card-text">
+          Route
+        </p>
+      </ng-template>
+    </div>
+  </div>
+
 </div>

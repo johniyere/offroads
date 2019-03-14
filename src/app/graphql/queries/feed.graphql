@@ -1,0 +1,23 @@
+query feed {
+  me {
+    following {
+      id,
+      name,
+      runs {
+        id,
+        title,
+        comment,
+        createdAt
+        route {
+          id,
+          name,
+        }
+      },
+      createdRoutes {
+        id,
+        name,
+        createdAt
+      }
+    }
+  }
+}
