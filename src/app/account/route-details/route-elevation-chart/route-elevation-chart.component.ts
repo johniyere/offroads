@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { State } from '../../account.state';
+import { Observable } from 'rxjs';
+import { Route, Point, Line } from '../../routes/routes.state';
+import { selectSelectedRoute, selectSelectedRoutePointsAndLines } from '../../routes/routes.selectors';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'ofr-route-elevation-chart',
@@ -7,6 +13,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RouteElevationChartComponent implements OnInit {
 
+  pointsLines$: Observable<[Point[], Line[]]>;
   width = '1140';
   height = '300';
   type = 'area2d';
@@ -23,52 +30,46 @@ export class RouteElevationChartComponent implements OnInit {
       'numberSuffix': 'm'
     },
     'data': [
-      {
-        'label': '2007',
-        'value': '1380000'
-      },
-      {
-        'label': '2008',
-        'value': '1450000'
-      },
-      {
-        'label': '2009',
-        'value': '1610000'
-      },
-      {
-        'label': '2010',
-        'value': '1540000'
-      },
-      {
-        'label': '2011',
-        'value': '1480000'
-      },
-      {
-        'label': '2012',
-        'value': '1573000'
-      },
-      {
-        'label': '2013',
-        'value': '2232000'
-      },
-      {
-        'label': '2014',
-        'value': '2476000'
-      },
-      {
-        'label': '2015',
-        'value': '2832000'
-      },
-      {
-        'label': '2016',
-        'value': '3808000'
-      }
     ]
   };
 
-  constructor() { }
+  constructor(
+    private store: Store<State>
+  ) { }
 
   ngOnInit() {
+    this.pointsLines$ = this.store.pipe(
+      select(selectSelectedRoutePointsAndLines),
+      map((val) => val as [Point[], Line[]])
+    );
+
+    this.loadChartData();
+  }
+
+  loadChartData() {
+    this.pointsLines$.subscribe(([points, lines]) => {
+      let data = [];
+      let distance = 0;
+      points.forEach((point, index) => {
+        const elevation = Math.round(point.elevation);
+        distance += Math.round(point.distanceFromPreviousPoint);
+
+        if (lines.length > 0) {
+          const lineIndex = index - 1;
+          if (lineIndex > 0 && lines[lineIndex]) {
+            const linePoints = lines[lineIndex].points.map((linePoint) => {
+            const ele = Math.round(linePoint.elevation);
+              return { label: '', value: ele.toString()};
+            });
+            data = [...data, ...linePoints];
+          }
+        }
+        data = [...data, { label: distance.toString(), value: elevation.toString()}];
+      });
+      const dataSource = {...this.dataSource, data: data};
+      this.dataSource = dataSource;
+      console.log(this.dataSource);
+    });
   }
 
 }

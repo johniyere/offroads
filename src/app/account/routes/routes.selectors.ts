@@ -39,3 +39,8 @@ export const selectSelectedRouteReviews = createSelector(
   selectSelectedRoute,
   (route) => route.reviews
 );
+
+export const selectSelectedRoutePointsAndLines = createSelector(
+  selectSelectedRoute,
+  (route) => [ route.points, route.lines]
+);

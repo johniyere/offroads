@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between mb-2 w-100">
   <h4>Reviews</h4>
-  <button class="btn btn-outline-success btn-sm" (click)="open()">Add a Review</button>
+  <button class="btn btn-outline-success btn-sm" (click)="open()">Add a Review <i class="fas fa-plus-square"></i></button>
 </div>
 <div class="mb-3" *ngFor="let review of reviews$ | async">
   <div class="d-flex flex-row">
