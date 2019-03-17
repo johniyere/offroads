@@ -40,6 +40,7 @@ export class RouteElevationChartComponent implements OnInit {
   ngOnInit() {
     this.pointsLines$ = this.store.pipe(
       select(selectSelectedRoutePointsAndLines),
+      filter((val) => val != null),
       map((val) => val as [Point[], Line[]])
     );
 

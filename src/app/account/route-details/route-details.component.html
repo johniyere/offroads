@@ -10,8 +10,13 @@
     
     <button class="btn btn-outline-secondary" (click)="bookmarkTrail(route.id)"><i class="far fa-bookmark"></i></button>
   </div>
-  <div class="row mb-3">
-    <ofr-route-details-map></ofr-route-details-map>
+  <div class="row mb-3 d-flex justify-content-between">
+    <div>
+      <ofr-route-details-map></ofr-route-details-map>
+    </div>
+    <div>
+      <ofr-route-information></ofr-route-information>
+    </div>
   </div>
   <div class="row mb-5">
     <ofr-route-elevation-chart></ofr-route-elevation-chart>
