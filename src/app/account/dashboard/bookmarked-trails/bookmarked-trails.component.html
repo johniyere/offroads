@@ -1,5 +1,1 @@
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let trail of bookmarkedTrails$ | async">
-    {{trail.name}}
-  </li>
-</ul>
+<ofr-route-display *ngFor="let route of bookmarkedTrails$ | async" [route]="route" [bookmarkable]="false"></ofr-route-display>

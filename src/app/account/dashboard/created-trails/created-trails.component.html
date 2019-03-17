@@ -1,5 +1,1 @@
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let route of routes$ | async">
-    {{route.name}}
-  </li>
-</ul>
+<ofr-route-display *ngFor="let route of routes$ | async" [route]="route" [bookmarkable]="false"></ofr-route-display>

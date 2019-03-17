@@ -42,6 +42,9 @@ import { CreatedTrailsComponent } from './dashboard/created-trails/created-trail
 import { FollowersComponent } from './dashboard/followers/followers.component';
 import { FollowingComponent } from './dashboard/following/following.component';
 import { RouteInformationComponent } from './route-details/route-information/route-information.component';
+import { FeedTitlePipe } from './feed/shared/feed-title.pipe';
+import { FeedDisplayComponent } from './shared/feed-display/feed-display.component';
+import { RouteDisplayComponent } from './shared/route-display/route-display.component';
 
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -83,7 +86,10 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     CreatedTrailsComponent,
     FollowersComponent,
     FollowingComponent,
-    RouteInformationComponent
+    RouteInformationComponent,
+    FeedTitlePipe,
+    FeedDisplayComponent,
+    RouteDisplayComponent
   ],
   entryComponents: [UploadRunComponent, AddAReviewComponent]
 })

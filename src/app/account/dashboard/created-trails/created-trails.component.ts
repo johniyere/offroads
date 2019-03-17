@@ -6,7 +6,7 @@ import { DashboardService } from '../shared/dashboard.service';
 @Component({
   selector: 'ofr-created-trails',
   templateUrl: './created-trails.component.html',
-  styleUrls: ['./created-trails.component.css']
+  styleUrls: ['./created-trails.component.scss']
 })
 export class CreatedTrailsComponent implements OnInit {
 

@@ -315,6 +315,16 @@ export namespace Dashboard {
     name: string;
 
     createdAt: DateTime;
+
+    creator: Creator;
+  };
+
+  export type Creator = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
   };
 
   export type Followers = {
@@ -335,6 +345,18 @@ export namespace Dashboard {
 
   export type BookmarkedTrails = {
     __typename?: "Route";
+
+    id: string;
+
+    name: string;
+
+    createdAt: DateTime;
+
+    creator: _Creator;
+  };
+
+  export type _Creator = {
+    __typename?: "User";
 
     id: string;
 
@@ -904,6 +926,10 @@ export class DashboardGQL extends Apollo.Query<
           id
           name
           createdAt
+          creator {
+            id
+            name
+          }
         }
         followers {
           id
@@ -916,6 +942,11 @@ export class DashboardGQL extends Apollo.Query<
         bookmarkedTrails {
           id
           name
+          createdAt
+          creator {
+            id
+            name
+          }
         }
         runs {
           id

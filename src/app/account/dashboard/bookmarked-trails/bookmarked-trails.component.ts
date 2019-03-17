@@ -6,7 +6,7 @@ import { Dashboard } from 'src/app/generated/graphql';
 @Component({
   selector: 'ofr-bookmarked-trails',
   templateUrl: './bookmarked-trails.component.html',
-  styleUrls: ['./bookmarked-trails.component.css']
+  styleUrls: ['./bookmarked-trails.component.scss']
 })
 export class BookmarkedTrailsComponent implements OnInit {
 

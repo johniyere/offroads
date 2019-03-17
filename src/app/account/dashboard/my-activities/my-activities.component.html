@@ -1,7 +1,1 @@
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let activity of activities$ | async">
-    <pre>
-      {{activity | json}}
-    </pre>
-  </li>
-</ul>
+<ofr-feed-display *ngFor="let run of activities$ | async" [feed]="run"></ofr-feed-display>

@@ -5,7 +5,11 @@ query dashboard {
     createdRoutes {
       id
       name,
-      createdAt
+      createdAt,
+      creator {
+        id,
+        name
+      }
     },
     followers {
       id,
@@ -17,7 +21,12 @@ query dashboard {
     },
     bookmarkedTrails {
       id,
-      name
+      name,
+      createdAt,
+      creator {
+        id,
+        name
+      }
     },
     runs {
       id,

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CurrentUserRoutesGQL, ActivitiesGQL, DashboardGQL } from 'src/app/generated/graphql';
 import { map } from 'rxjs/operators';
+import { Feeds } from '../../feed/shared/feed.service';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +51,23 @@ export class DashboardService {
 
   activities() {
     return this.me().pipe(
-      map((me) => me.runs)
+      map((me) => {
+        let feed: Feeds[] = [];
+
+        me.runs.forEach((run) => {
+          feed = [
+            ...feed,
+            {
+              ...run,
+              createdBy: {
+                id: me.id,
+                name: me.name
+              }
+            }
+          ];
+        });
+        return feed;
+      })
     );
   }
 }

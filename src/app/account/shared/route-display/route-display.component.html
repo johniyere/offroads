@@ -1,0 +1,15 @@
+<div class="card mb-3  rounded" *ngIf="route">
+  <div class="card-body d-flex flex-row mb-2 justify-content-between">
+    <div class="media">
+      <img src="https://www.bso2018.event.cam.ac.uk/images/cambridgetoheathrowmap/image" class="mr-3 route-image rounded" alt="..." height="70" width="70">
+      <div class="media-body d-flex flex-column">
+        <h5 class="mt-0 mb-0" [routerLink]="['/routes', route.id]">{{route.name}}</h5>
+        <small class="text-muted" [routerLink]="['/creators', route.creator.id]">{{route.creator.name}}</small>
+        <ngb-rating [readonly]="true" [rate]="route.avgRating" [max]="5"></ngb-rating>
+      </div>
+    </div>
+    <button class="btn btn-outline-secondary" *ngIf="bookmarkable">
+      <i class="far fa-bookmark"></i>
+    </button>
+  </div>
+</div>
