@@ -400,6 +400,8 @@ export namespace Feed {
   export type Me = {
     __typename?: "User";
 
+    id: string;
+
     following: Following[];
   };
 
@@ -1006,6 +1008,7 @@ export class FeedGQL extends Apollo.Query<Feed.Query, Feed.Variables> {
   document: any = gql`
     query feed {
       me {
+        id
         following {
           id
           name

@@ -111,7 +111,6 @@ export class RouteDetailsMapComponent implements OnInit {
       });
 
       this.points$.subscribe((points) => {
-        console.log(points);
         (this.map.getSource('point') as any).setData(points);
       });
 

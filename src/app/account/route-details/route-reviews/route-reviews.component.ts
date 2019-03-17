@@ -22,9 +22,7 @@ export class RouteReviewsComponent implements OnInit {
     this.reviews$ = this.store.pipe(
       select(selectSelectedRouteReviews)
     );
-
-
-  }
+   }
 
   open() {
     const modalRef = this.modalService.open(AddAReviewComponent);

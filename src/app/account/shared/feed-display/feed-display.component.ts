@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Feeds } from '../../feed/shared/feed.service';
+import { Feeds, FeedService } from '../../feed/shared/feed.service';
 
 @Component({
   selector: 'ofr-feed-display',
@@ -10,7 +10,9 @@ export class FeedDisplayComponent implements OnInit {
 
   @Input()
   feed: Feeds;
-  constructor() { }
+  constructor(
+    public feedService: FeedService
+  ) { }
 
   ngOnInit() {
   }

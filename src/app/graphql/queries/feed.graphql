@@ -1,5 +1,6 @@
 query feed {
   me {
+    id,
     following {
       id,
       name,

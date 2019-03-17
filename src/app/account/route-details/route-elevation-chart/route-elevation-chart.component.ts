@@ -69,7 +69,6 @@ export class RouteElevationChartComponent implements OnInit {
       });
       const dataSource = {...this.dataSource, data: data};
       this.dataSource = dataSource;
-      console.log(this.dataSource);
     });
   }
 

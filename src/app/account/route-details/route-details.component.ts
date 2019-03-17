@@ -27,10 +27,6 @@ export class RouteDetailsComponent implements OnInit, OnDestroy {
     this.selectedRoute$ = this.store.pipe(
       select(selectSelectedRoute)
     );
-
-    this.selectedRoute$.subscribe((route) => {
-      console.log(route);
-    });
   }
 
   ngOnDestroy() {
