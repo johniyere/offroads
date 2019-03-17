@@ -1,0 +1,12 @@
+query search($filter: String!) {
+  search(filter: $filter) {
+    routes {
+      id,
+      name
+    },
+    users {
+      id,
+      name
+    }
+  }
+}

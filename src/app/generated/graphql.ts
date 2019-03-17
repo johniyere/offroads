@@ -662,6 +662,42 @@ export namespace Routes {
   };
 }
 
+export namespace Search {
+  export type Variables = {
+    filter: string;
+  };
+
+  export type Query = {
+    __typename?: "Query";
+
+    search: Search;
+  };
+
+  export type Search = {
+    __typename?: "SearchPayload";
+
+    routes: Routes[];
+
+    users: Users[];
+  };
+
+  export type Routes = {
+    __typename?: "Route";
+
+    id: string;
+
+    name: string;
+  };
+
+  export type Users = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
+}
+
 export namespace TopRatedRoutes {
   export type Variables = {};
 
@@ -1112,6 +1148,25 @@ export class RoutesGQL extends Apollo.Query<Routes.Query, Routes.Variables> {
         }
         createdAt
         avgRating
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
+export class SearchGQL extends Apollo.Query<Search.Query, Search.Variables> {
+  document: any = gql`
+    query search($filter: String!) {
+      search(filter: $filter) {
+        routes {
+          id
+          name
+        }
+        users {
+          id
+          name
+        }
       }
     }
   `;

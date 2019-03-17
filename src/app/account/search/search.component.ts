@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersGQL, Users, RoutesGQL, Routes } from 'src/app/generated/graphql';
-import { Observable } from 'rxjs';
+import { UsersGQL, Users, RoutesGQL, Routes, Search } from 'src/app/generated/graphql';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SearchService } from './shared/search.service';
 
 @Component({
   selector: 'ofr-search',
@@ -10,21 +11,28 @@ import { map } from 'rxjs/operators';
 })
 export class SearchComponent implements OnInit {
 
-  users$: Observable<Users.Users[]>;
-  routes$: Observable<Routes.Routes[]>;
+  users$: Observable<Search.Users[]>;
+  routes$: Observable<Search.Routes[]>;
+
+
+  searchResults: Observable<Search.Search>;
+  searchTerm$ = new BehaviorSubject<string>('');
   constructor(
     private usersGQL: UsersGQL,
-    private routesGQL: RoutesGQL
-  ) { }
+    private routesGQL: RoutesGQL,
+    private searchService: SearchService
+  ) {
+    this.users$ = this.searchService.search(this.searchTerm$).pipe(
+      map((search) => search.users)
+    );
+
+    this.routes$ = this.searchService.search(this.searchTerm$).pipe(
+      map((search) => search.routes)
+    );
+  }
 
   ngOnInit() {
-    this.users$ = this.usersGQL.watch({}).valueChanges.pipe(
-      map(({data, loading}) => data.users)
-    );
 
-    this.routes$ = this.routesGQL.watch({}).valueChanges.pipe(
-      map(({data, loading}) => data.routes)
-    );
   }
 
 }
