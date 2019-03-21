@@ -1,3 +1,7 @@
+/**
+ * Apollo graphql adapted from tutorial:
+ * https://www.apollographql.com/docs/angular/basics/setup.html
+ */
 import {NgModule} from '@angular/core';
 import { ApolloModule, Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';

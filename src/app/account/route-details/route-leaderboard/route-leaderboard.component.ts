@@ -6,6 +6,7 @@ import { Route, Run } from '../../routes/routes.state';
 import { Store, select } from '@ngrx/store';
 import { State } from '../../account.state';
 import { selectSelectedRouteRuns } from '../../routes/routes.selectors';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'ofr-route-leaderboard',
@@ -23,7 +24,9 @@ export class RouteLeaderboardComponent implements OnInit {
 
   ngOnInit() {
     this.runs$ = this.store.pipe(
-      select(selectSelectedRouteRuns)
+      select(selectSelectedRouteRuns),
+      filter((runs) => runs !== null),
+      map((runs) => runs.slice().sort((a, b) => a.time - b.time))
     );
   }
 

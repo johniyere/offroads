@@ -45,6 +45,7 @@ import { RouteInformationComponent } from './route-details/route-information/rou
 import { FeedTitlePipe } from './feed/shared/feed-title.pipe';
 import { FeedDisplayComponent } from './shared/feed-display/feed-display.component';
 import { RouteDisplayComponent } from './shared/route-display/route-display.component';
+import { TimeViewPipe } from './shared/time-view.pipe';
 
 // Use fcRoot function to inject FusionCharts library, and the modules you want to use
 FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
@@ -89,7 +90,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme);
     RouteInformationComponent,
     FeedTitlePipe,
     FeedDisplayComponent,
-    RouteDisplayComponent
+    RouteDisplayComponent,
+    TimeViewPipe
   ],
   entryComponents: [UploadRunComponent, AddAReviewComponent]
 })

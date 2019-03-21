@@ -12,12 +12,14 @@ query feed {
         route {
           id,
           name,
-        }
+        },
+        time
       },
       createdRoutes {
         id,
         name,
-        createdAt
+        createdAt,
+        description
       }
     }
   }

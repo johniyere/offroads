@@ -35,4 +35,9 @@ export class SearchComponent implements OnInit {
 
   }
 
+  follow(userToFollowId: string) {
+    this.searchService.follow(userToFollowId).subscribe((val) => {
+      console.log(val);
+    });
+  }
 }

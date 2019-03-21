@@ -9,16 +9,15 @@
     </div>
     <ng-container *ngIf="this.feedService.isFeedRun(feed);else routeFeed">
       <p>
-        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, 
-        or randomised words which don't look even slightly believable. 
+        {{feed['comment']}}
       </p>
       <hr>
-      <h5 class="font-weight-bold">Time: 1h 12m</h5>
+      <h5 class="font-weight-bold">Time: {{feed['time'] | timeView}}</h5>
       <img src="http://www.outdoorblueprint.com/outdoors-101/plan-a-road-trip-route-with-google-maps/step6.png" height="300" width="100%">
     </ng-container>
     <ng-template  #routeFeed>
       <hr>
-      <h5>Excelent Route</h5>
+      <h5>{{feed['name']}}</h5>
       <img src="https://www.sygic.com/content/7-developers/3-maps-api-services/4-routing-api/directions-route2.gif" height="300" width="100%">
     </ng-template>
   </div>

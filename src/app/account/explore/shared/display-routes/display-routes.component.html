@@ -16,7 +16,7 @@
     <ul class="list-group border-0">
       <li class="list-group-item d-flex flex-row mb-2 justify-content-between rounded" *ngFor="let route of routes$ | async" >
         <div class="media">
-          <img src="assets/img/placeholder.jpg" class="mr-3 route-image rounded" alt="...">
+          <img src="https://i.pinimg.com/originals/f9/76/3b/f9763b1bbe0194bda0430d650ea26f7b.jpg" class="mr-3 route-image rounded" alt="...">
           <div class="media-body d-flex flex-column">
             <h5 class="mt-0 mb-0" [routerLink]="['/routes', route.id]">{{route.name}}</h5>
             <small class="text-muted" [routerLink]="['/creators', route.creator.id]">{{route.creator.name}}</small>

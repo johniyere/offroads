@@ -11,6 +11,13 @@ import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { EditorService } from '../shared/editor.service';
 
+/**
+ * Based on Mapbox tutorials
+ * https://docs.mapbox.com/mapbox-gl-js/example/simple-map/
+ * https://docs.mapbox.com/mapbox-gl-js/example/geojson-markers/
+ * https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
+ * https://docs.mapbox.com/mapbox-gl-js/example/geojson-line/
+ */
 @Component({
   selector: 'ofr-map',
   templateUrl: './map.component.html',

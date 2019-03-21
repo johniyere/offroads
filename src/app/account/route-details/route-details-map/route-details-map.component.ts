@@ -10,6 +10,13 @@ import { selectSelectedRoute } from '../../routes/routes.selectors';
 import { Feature, Point, FeatureCollection, LineString } from 'geojson';
 import { map, filter } from 'rxjs/operators';
 
+/**
+ * Based on Mapbox tutorials
+ * https://docs.mapbox.com/mapbox-gl-js/example/simple-map/
+ * https://docs.mapbox.com/mapbox-gl-js/example/geojson-markers/
+ * https://docs.mapbox.com/mapbox-gl-js/example/mouse-position/
+ * https://docs.mapbox.com/mapbox-gl-js/example/geojson-line/
+ */
 @Component({
   selector: 'ofr-route-details-map',
   templateUrl: './route-details-map.component.html',

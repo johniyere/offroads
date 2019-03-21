@@ -2,16 +2,17 @@
   <h4>Reviews</h4>
   <button class="btn btn-outline-success btn-sm" (click)="open()">Add a Review <i class="fas fa-plus-square"></i></button>
 </div>
-<div class="mb-3" *ngFor="let review of reviews$ | async">
-  <div class="d-flex flex-row">
+<div class="mb-4" *ngFor="let review of reviews$ | async">
+  <hr>
+  <div class="d-flex flex-row mb-2">
     <img src="https://cdn.iconscout.com/icon/free/png-256/avatar-375-456327.png" class="mr-3" height="50" width="50">
     <div class="d-flex flex-column" >
       <h6 class="mb-0">{{review.reviewer.name}}</h6>
       <ngb-rating [rate]="review.rating" [readonly]="true" [max]="5"></ngb-rating>
     </div>
   </div>
-  <p>
+  <p class="font-weight-bold">
     {{review.comment}}
   </p>
-  
 </div>
+

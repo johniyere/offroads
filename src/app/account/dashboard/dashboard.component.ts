@@ -17,13 +17,16 @@ import { map } from 'rxjs/operators';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
+  me$: Observable<Dashboard.Me>;
   constructor(
     private router: Router,
     private store: Store<State>,
-    private dashboardGQL: DashboardGQL
+    private dashboardGQL: DashboardGQL,
+    private dashboardService: DashboardService
   ) { }
 
   ngOnInit() {
+    this.me$ = this.dashboardService.me();
   }
 
   createRoute() {

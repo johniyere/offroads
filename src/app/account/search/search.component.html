@@ -10,15 +10,16 @@
       <h6>Trails</h6>
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let route of routes$ | async">
-          {{route.name}}
+          <span [routerLink]="['/routes', route.id]">{{route.name}}</span>
         </li>
       </ul>
     </div>
     <div class="col col-4">
       <h6>Athletes</h6>
       <ul class="list-group">
-        <li class="list-group-item" *ngFor="let user of users$ | async">
+        <li class="list-group-item d-flex align-items-center justify-content-between" *ngFor="let user of users$ | async">
           {{user.name}}
+          <button class="btn btn-outline-warning btn-sm" (click)="follow(user.id)">Follow</button>
         </li>
       </ul>
     </div>

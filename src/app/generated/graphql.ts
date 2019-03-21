@@ -153,6 +153,34 @@ export namespace CreateRoute {
   };
 }
 
+export namespace Follow {
+  export type Variables = {
+    userToFollowId: string;
+  };
+
+  export type Mutation = {
+    __typename?: "Mutation";
+
+    follow: Follow;
+  };
+
+  export type Follow = {
+    __typename?: "User";
+
+    id: string;
+
+    following: Following[];
+  };
+
+  export type Following = {
+    __typename?: "User";
+
+    id: string;
+
+    name: string;
+  };
+}
+
 export namespace Login {
   export type Variables = {
     email: string;
@@ -317,6 +345,8 @@ export namespace Dashboard {
     createdAt: DateTime;
 
     creator: Creator;
+
+    avgRating: number | null;
   };
 
   export type Creator = {
@@ -353,6 +383,8 @@ export namespace Dashboard {
     createdAt: DateTime;
 
     creator: _Creator;
+
+    avgRating: number | null;
   };
 
   export type _Creator = {
@@ -429,6 +461,8 @@ export namespace Feed {
     createdAt: DateTime;
 
     route: Route;
+
+    time: number | null;
   };
 
   export type Route = {
@@ -447,6 +481,8 @@ export namespace Feed {
     name: string;
 
     createdAt: DateTime;
+
+    description: string | null;
   };
 }
 
@@ -861,6 +897,25 @@ export class CreateRouteGQL extends Apollo.Mutation<
 @Injectable({
   providedIn: "root"
 })
+export class FollowGQL extends Apollo.Mutation<
+  Follow.Mutation,
+  Follow.Variables
+> {
+  document: any = gql`
+    mutation follow($userToFollowId: ID!) {
+      follow(userToFollowId: $userToFollowId) {
+        id
+        following {
+          id
+          name
+        }
+      }
+    }
+  `;
+}
+@Injectable({
+  providedIn: "root"
+})
 export class LoginGQL extends Apollo.Mutation<Login.Mutation, Login.Variables> {
   document: any = gql`
     mutation login($email: String!) {
@@ -968,6 +1023,7 @@ export class DashboardGQL extends Apollo.Query<
             id
             name
           }
+          avgRating
         }
         followers {
           id
@@ -985,6 +1041,7 @@ export class DashboardGQL extends Apollo.Query<
             id
             name
           }
+          avgRating
         }
         runs {
           id
@@ -1021,11 +1078,13 @@ export class FeedGQL extends Apollo.Query<Feed.Query, Feed.Variables> {
               id
               name
             }
+            time
           }
           createdRoutes {
             id
             name
             createdAt
+            description
           }
         }
       }
